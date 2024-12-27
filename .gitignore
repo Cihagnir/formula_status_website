@@ -1,0 +1,5 @@
+
+# Ignoring folder list for the git - I hope to don't forget add any key in there -
+
+formulaWebpageKeyPair.pem
+/env
