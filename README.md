@@ -1,46 +1,67 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Frontend Project - Formula One Timing Data
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This is the frontend of the Formula One Timing Data website, built using React and TypeScript. The website features several pages, including Home, About, and Graph, offering users access to Formula One timing data in a graphical interface. The frontend will be deployed on Amazon AWS.
 
-### `npm start`
+## Basic Code Rules
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+These parts explain the code standards to follow. While not conventional, they aim to be as clear as possible.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **Snake Case for Main Usage**:
 
-### `npm test`
+   - External libraries should remain distinct.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Use 2-Space Tabs**:
 
-### `npm run build`
+   - To accommodate varying screen widths.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Descriptive Variable Names**:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   - Variable names should be clear and self-explanatory, without being overly verbose.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. **User Type Indications**:
 
-### `npm run eject`
+   - Example: `status_controller_interface`, `xxx_xxx_struct`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+5. **Variable Type Indications**:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   - Example: `default_input_json`, `session_year_int`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+6. **Function Naming**:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   - Function names should start with a capital letter.
+   - Example: `Sql_Data_Retriever`, `User_Selection_Handler`
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Installation
+
+To get started with the project, follow these steps:
+
+1. Clone the repository:
+
+  ```bash
+  git clone https://github.com/your-username/formula-one-timing-data-frontend.git
+  cd formula-one-timing-data-frontend
+  ```
+
+2. Install dependencies:
+
+  ```bash
+  npm install
+  ```
+
+3. Run the development server:
+
+  ```bash
+  npm start
+  ```
+
+The app will be available at http://localhost:3000.
+
+## Deployment
+
+This project will be deployed on Amazon AWS Amplify. Amplify handle the most of the issue for us and make the 
+deployment as easy as could be possible. You can check the AWS documentation for Amplify.  

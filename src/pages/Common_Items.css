@@ -1,0 +1,85 @@
+/* Control Panel CSS */
+
+.Control_Div{
+ 
+  position: fixed;
+  z-index: 2;
+
+}
+
+.Control_Panel_Icon_Button{
+  
+  background-image: url(./img/control_panel_24_1.png);
+  background-color: transparent;
+  border-width: 0px;
+  border-radius: 1.4mm;
+  
+  width:  24px;
+  height: 24px;
+
+  position: fixed;
+  z-index: 4;
+
+  margin-top: 3vh;
+  margin-left: 2vh;
+
+}
+
+.Panel_Pop{
+  background-image: url(./img/control_panel.png);
+}
+
+
+
+.Control_Panel_Div{
+  
+  background-color: #CED4DA ;
+  border-radius:4mm;
+  
+  margin-left: 0.5vh;
+  margin-top: 1vh;
+
+  width: 16vw;
+  height: 92vh;
+
+  position: absolute;
+  
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+
+}
+
+.Is_Passive_Panel{
+
+  width: 0vw;
+  margin-left: 0vh;
+
+  visibility: hidden ;
+
+}
+
+.Control_Panel_Text_Div{
+
+  color: #212529 !important ;
+
+  margin-left: 6%;
+  margin-top: 20%;
+
+  visibility: visible;
+  transition-delay: 0.2s;
+  
+}
+
+.Control_Panel_Text_Span{
+
+  color: #212529 !important ;
+  text-decoration: none;
+
+}
+
+.Is_Passive_Text{
+  visibility: hidden;
+  transition-delay: 0s;
+
+}
+

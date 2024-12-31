@@ -1,0 +1,112 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+
+.About_Page_Main_Div{
+
+  display: flex;
+  flex-direction: row;
+
+}
+
+.Info_Div{
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+.Info_Text_Div{
+
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 4vh;
+  padding-left: 2vw;
+  padding-right: 4vw;
+  padding-bottom: 6vh;
+  
+  margin-top: 6vh;
+  margin-left: 4vw;
+
+  color: #E9ECEF;
+  border-radius: 4mm;
+  background-color: #30353A;
+
+  width: 52vw;
+  height: 50vh; 
+
+  box-shadow:  
+  -6px  6px 4px #090A0B,
+  -6px -6px 4px #090A0B;
+}
+
+.Info_Text_Span{
+
+  font-size: 18px;
+  padding-top: 4vh;
+}
+
+.Info_Link_Div{
+  display: flex;
+  flex-direction: column;
+
+  width: 30vw;
+  height: 20vh;
+
+  padding-top: 3vh;
+  padding-left: 2vw;
+  padding-right: 4vw;
+  padding-bottom: 6vh;
+  
+  margin-top: 2vh;
+  margin-left: 26vw;
+
+  border-radius: 4mm;
+  background-color: #30353A;
+
+  box-shadow:  
+  -4px  4px 4px #090A0B,
+  -4px -4px 4px #090A0B;
+
+}
+
+
+.Link_Div{
+  margin-top: 1vh;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.GitHub_Icon_Img{
+  width: 10%;
+}
+
+.Mail_Icon_Img{
+  width: 10%;
+}
+
+.Link_Text{
+  
+  margin-top: 1vh;
+  margin-left: 1vw;
+  color: #E9ECEF !important ;
+  text-decoration: none ;
+}
+
+
+
+
+.Animation_Div{
+
+  width: 35vw;
+
+  margin-top: 20vh;
+  margin-left: 3vw;
+}
+
+
+
+
+

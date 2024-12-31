@@ -1,0 +1,13 @@
+
+#090A0B -> Shadowing
+#212529 -> General Background
+#30353A -> General Inner Div
+#5B636A
+#CED4DA -> Nav-Bar Control Panel   
+#E9ECEF -> Text Color
+#
+
+
+
+
+
