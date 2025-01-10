@@ -1,7 +1,6 @@
 
 // Imports 
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import React, {useState, useEffect} from 'react';
+import {  Routes, Route } from 'react-router-dom';
 
 // Bootstrap Imports 
 import Nav from 'react-bootstrap/Nav';
@@ -10,7 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 // Hand Made Import 
 import Home_Page from './pages/home_page/Home_Page';
 import Lap_Time_Page from './pages/lap_time/Lap_Time_Page';
-import Tyre_Stint_Page from './pages/Tyre_stint/Tyre_Stint_Page';
+import Tyre_Stint_Page from './pages/tyre_stint/Tyre_Stint_Page';
 import About_Page from './pages/about_page/About_Page';
 
 // CSS Import 
@@ -18,17 +17,10 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
-import { 
-  LineChart, Line, XAxis, YAxis, 
-  CartesianGrid, Legend, Tooltip 
-} from 'recharts';
-
-
-
 
 function App() {
 
-  const [navbar_status_state,  set_navbar_status_state] = useState({link_one : true, link_two : false })
+  // const [navbar_status_state,  set_navbar_status_state] = useState({link_one : true, link_two : false })
 
 
   return (

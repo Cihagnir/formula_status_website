@@ -186,6 +186,8 @@
 
 .Lap_Time_Page_Main_Div > .Graph_Area_Div >.Graph_Div{
   padding-left: 2vw;
+  color: #E9ECEF !important;
+  
 }
 
 .plot-container{

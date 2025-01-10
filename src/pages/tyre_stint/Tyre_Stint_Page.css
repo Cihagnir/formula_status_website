@@ -191,11 +191,23 @@
 
 .Tyre_Stint_Page_Main_Div > .Graph_Area_Div > .Graph_Div{
 
-  padding-top: 6vh;
-  padding-left: 2vw;
-  
-  width: 52vw;
+  margin-top: 10vh;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
 }
+
+.Tyre_Stint_Page_Main_Div > .Graph_Area_Div > .Graph_Div > .Graph_Legend_Div{
+  
+  width: 100% ;
+  display: flex;
+
+  margin-bottom: 1vh;
+  font-size: 14px;
+  color: #E9ECEF ;
+  justify-content: right;
+}
+
 
 .plot-container{
 

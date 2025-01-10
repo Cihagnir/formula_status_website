@@ -1,30 +1,21 @@
 
 // Import 
-import Plot from 'react-plotly.js'
-import React, {useState, useEffect} from 'react';
-
-
-
+import axios from 'axios';
+import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { Control_Bar } from '../Common_Items';
-
+import { Control_Bar, BASE_URL} from '../Common_Items';
+import {Lap_Time_Graph, graph_data_interface }from './Graph_Obj';
 
 // CSS Import 
 import './Lap_Time_Page.css' ;
 
 
-
-
-
-
 function Lap_Time_Page (){
 
-  // Control Panel 
-  // const [control_panel_status_state, set_control_panel_status_state] = useState(false) ;
-  
+
   // Dropdown Box Selection and Data 
-  const [selected_race_state, set_selected_race_state] = useState('')
+  const [selected_race_state, set_selected_race_state] = useState("")
   const [selected_season_state, set_selected_season_state] = useState('2024')
      
   // Graph Control 
@@ -33,61 +24,46 @@ function Lap_Time_Page (){
   const [graph_divider_parameter_state, set_graph_divider_parameter_state ] = useState("driver");
   
   // Plotly Graph Data 
-  const [graph_data_state, set_graph_data_state ] = useState({data: [], layout: {}})
+  const [graph_data_state, set_graph_data_state ] = useState<Array<graph_data_interface> | null>(null)
   
   // Dropdown Box Datas
-  const [seassion_array_state, set_seassion_array_state] =useState<Array<string>>( ["Select Seassion"] ) ;
-  const [track_name_array_state, set_track_name_array_state] = useState<Array<string>>( [ ] ) ;
+  const [seassion_array_state, set_seassion_array_state] =useState( ["Select Seassion"] ) ;
+  const [track_name_array_state, set_track_name_array_state] = useState( ["Select Race" ] ) ;
   
 
+
+  // Api Fetch Function
+  const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
+
+    const api_response = await axios.get(BASE_URL + sub_url)
+    console.log(api_response.data.api_response);
+    state_setter(api_response.data.api_response) ;
+  }
 
   // Fetch the Track Name Data 
   useEffect(() => {
    
-    const backend_input_string : string = `/ui/${selected_season_state}/`
-
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json())
-      .then(
-        backend_response => {
-          
-        let track_name_array: Array<string> = backend_response.query_return;
-
-        set_track_name_array_state(track_name_array);
-    
-      }
-    )
+    let backend_input_string  = `/ui/year/${selected_season_state}/`
+    api_fetch_func(backend_input_string, set_track_name_array_state); 
   }, [selected_season_state ] )
 
   // Fetch the Seassion Year Data
   useEffect( () => {
     
-    const backend_input_string : string = '/ui/seassion/' 
-
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json() )
-      .then( backend_data => {
-        
-        let seassion_list : Array<string> = backend_data.query_return ;
-        set_seassion_array_state(seassion_list);
-
-      } )
-
+    let backend_input_string = '/ui/seassion/' 
+    api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
 
   // Fetch the Graph Data 
   useEffect( () => {
 
-    const backend_input_string : string = `/graph/Lap_Time/Race/${selected_season_state}/${selected_race_state}/${graph_divider_parameter_state}` ;
-
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json() )
-      .then( backend_data => set_graph_data_state(backend_data) )
-
+    if (! (selected_race_state === '') ) {
+      let backend_input_string  = `/graph/Lap_Time/Race/${selected_season_state}/${selected_race_state}/` ;
+      api_fetch_func(backend_input_string, set_graph_data_state)
+    }
   }, [selected_race_state, graph_divider_parameter_state] )
 
-
-
+  
   return (
     
 
@@ -120,7 +96,7 @@ function Lap_Time_Page (){
 
             <p className= 'Select_Title_Span'> Season : </p>
             <select className= 'Season_Select_Box' id='Season_Select_Box' 
-            onChange={() => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) }} >
+            onChange={() => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement).value ) }} >
               {
                 seassion_array_state.map(
                   (track_name, index) => (
@@ -137,7 +113,7 @@ function Lap_Time_Page (){
             
             <p className= 'Select_Title_Span'> Races : </p>
             <select className= 'Race_Select_Box' id='Race_Select_Box' 
-            onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) }}>
+            onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>
               {
                 track_name_array_state.map(
                   (track_name, index) => (
@@ -164,7 +140,7 @@ function Lap_Time_Page (){
                     set_track_sector_selection_state(!track_sector_selection_state);
 
                   if ( tyre_stint_selection_state )
-                    set_graph_divider_parameter_state("driver")
+                    set_graph_divider_parameter_state("driver_name")
 
                 }
               }
@@ -196,11 +172,9 @@ function Lap_Time_Page (){
 
 
       <div className= 'Graph_Area_Div'>
-        
-        <div className= 'Graph_Div' >
-          <Plot data={graph_data_state.data} layout={graph_data_state.layout} />
-        </div>
-        
+        {
+          (graph_data_state !== null) ? (<Lap_Time_Graph  graph_data={graph_data_state} />) : (null)
+        }
       </div>
 
     </div>
@@ -210,3 +184,4 @@ function Lap_Time_Page (){
 }
 
 export default Lap_Time_Page;
+

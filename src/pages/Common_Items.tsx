@@ -1,11 +1,12 @@
 
 // Import 
-import React, {useState, useEffect} from 'react';
-
-
+import React, {useState} from 'react';
 
 // CSS Import
 import './Common_Items.css'; 
+
+
+export var BASE_URL = "http://localhost:8080" ;
 
 
 export function Control_Bar (){
@@ -49,11 +50,8 @@ export function Control_Bar (){
 
   );
 
-  
+
 }
-
-
-
 
 
 

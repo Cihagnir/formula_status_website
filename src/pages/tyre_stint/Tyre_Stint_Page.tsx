@@ -1,16 +1,14 @@
 
 // General Import 
-import Plot from 'react-plotly.js'
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 
-
 // Hand Made Import 
-import { Control_Bar } from '../Common_Items';
-
+import { Control_Bar, BASE_URL } from '../Common_Items';
+import { Tyre_Stint_Graph } from './Graph_Obj';
 
 // CSS Import 
 import './Tyre_Stint_Page.css'
-
 
 
 
@@ -19,61 +17,50 @@ function Tyre_Stint_Page(){
 
   // Dropdown Box Selection and Data 
   const [selected_race_state, set_selected_race_state] = useState('')
-  const [selected_season_state, set_selected_season_state] = useState('2024')
+  const [selected_season_state, set_selected_season_state] = useState('')
 
   // Dropdown Box Datas
-  const [seassion_array_state, set_seassion_array_state] =useState<Array<string>>( ["Select Seassion"] ) ;
+  const [seassion_array_state, set_seassion_array_state] =useState<Array<string>>( [] ) ;
   const [track_name_array_state, set_track_name_array_state] = useState<Array<string>>( [ ] ) ;
 
   // Plotly Graph Data 
-  const [graph_data_state, set_graph_data_state ] = useState({data: [], layout: {}})
+  const [graph_data_state, set_graph_data_state ] = useState<Array<any> | null>( null);
 
+  
+  // Api Fetch Function
+  const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
+
+    console.log(BASE_URL + sub_url) ; 
+    const api_response = await axios.get(BASE_URL + sub_url) ;
+    state_setter(api_response.data.api_response) ;
+  }
 
 
   // Fetch the Track Name Data 
   useEffect(() => {
     
-    const backend_input_string : string = `/ui/${selected_season_state}/`
+    if (! (selected_season_state === '') ) {
 
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json())
-      .then(
-        backend_response => {
-          
-        let track_name_array: Array<string> = backend_response.query_return;
-
-        set_track_name_array_state(track_name_array);
+      let backend_input_string  = `/ui/year/${selected_season_state}/`
+      api_fetch_func(backend_input_string, set_track_name_array_state); 
+    }
     
-      }
-    )
   }, [selected_season_state ] )
 
   // Fetch the Seassion Year Data
   useEffect( () => {
     
-    const backend_input_string : string = '/ui/seassion/' 
-
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json() )
-      .then( backend_data => {
-        
-        let seassion_list : Array<string> = backend_data.query_return ;
-        set_seassion_array_state(seassion_list);
-
-      } )
-
+    let backend_input_string = '/ui/seassion/' 
+    api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
 
   // Fetch the Graph Data 
   useEffect( () => {
-
-    const backend_input_string : string = `/graph/Tyre_Stint/Race/${selected_season_state}/${selected_race_state}/` ;
-    console.log(backend_input_string);
-
-    fetch(backend_input_string)
-      .then( backend_response => backend_response.json() )
-      .then( backend_data => set_graph_data_state(backend_data) )
-
+    
+    if (! (selected_race_state === '') ) {
+      let backend_input_string : string = `/graph/Tyre_Stint/Race/${selected_season_state}/${selected_race_state}/` ;
+      api_fetch_func(backend_input_string, set_graph_data_state)      
+    }
   }, [selected_race_state] )
 
 
@@ -108,6 +95,7 @@ function Tyre_Stint_Page(){
             <p className= 'Select_Title_Span'> Season : </p>
             <select className= 'Season_Select_Box' id='Season_Select_Box' 
             onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
+              <option value={''} > {'Select the Seassion'} </option> ; 
               {
                 seassion_array_state.map(
                   (track_name, index) => (
@@ -143,11 +131,9 @@ function Tyre_Stint_Page(){
       </div>
 
       <div className= 'Graph_Area_Div'>
-        
-        <div className= 'Graph_Div' >
-          <Plot data={graph_data_state.data} layout={graph_data_state.layout} />
-        </div>
-        
+        {
+           (graph_data_state !== null) ? (<Tyre_Stint_Graph  graph_data={graph_data_state} />) : (null)
+        }
       </div>
 
     </div>
