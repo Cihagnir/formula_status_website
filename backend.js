@@ -1,8 +1,10 @@
 
 // Import Lib's
+require("dotenv").config();
+const cors = require('cors');
 const mysql   = require('mysql');
 const express = require('express') ;
-const cors = require('cors');
+const { Console } = require("console");
 
 const cors_conf_json = {
   origin : "http://localhost:3000",
@@ -11,12 +13,14 @@ const cors_conf_json = {
 const backend_app = express();
 backend_app.use(cors(cors_conf_json));
 
+
 // RDS Connection Config
 var rds_connection = mysql.createConnection({
-  user     : 'root',
-  password : 'Cg//1234',
-  host     : 'localhost',
-  database : 'formula_one'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port : process.env.DB_PORT, 
 })
 
 rds_connection.connect( 
@@ -251,8 +255,8 @@ backend_app.get(
 
 // Backend Start function
 backend_app.listen( 
-  8080, () => {
-    console.log("Backend server started : Port => 8080");
+  () => {
+    console.log("Backend server started ");
   }
 )
 

@@ -1,9 +1,8 @@
 
-> Version 0.0.2 
+> Version 0.0.2.5
 
-  . Backend updated into Express , Node.js 
-  . Backend start supling data instead of graph ( Plotly not usefull for js.  )
-  . Every sub-function return with standart """ { api_response : api_result } """ json 
+  . .emnv file is added for AWS RDS
+  
 
 
 
