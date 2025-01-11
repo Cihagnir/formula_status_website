@@ -17,7 +17,7 @@
     "lottie-react": "latest",
     "react" : "^17.0.0-0",
     "react-bootstrap": "latest",
-    "react-dom": "latest",
+    "react-dom": "^17.0.0",
     "react-router-dom": "latest",
     "web-vitals": "latest"
   },
