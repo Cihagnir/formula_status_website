@@ -255,11 +255,10 @@ backend_app.get(
 
 // Backend Start function
 backend_app.listen( 
-  () => {
-    console.log("Backend server started ");
+  8080, () => {
+    console.log("Backend server started : Port => 8080");
   }
 )
-
 
 
 

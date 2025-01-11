@@ -1,8 +1,8 @@
 
-> Version 0.0.2.5
+> Version 0.0.2.6
 
-  . .emnv file is added for AWS RDS
-  
+  . Reassigment of the port 
+
 
 
 
