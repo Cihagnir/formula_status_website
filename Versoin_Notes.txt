@@ -1,7 +1,6 @@
 
 
-> Version 0.0.2 
+> Version 0.0.2.5
 
-  . Frontend data fetch logis was changed 
-  . Frontend graph library switch into visx 
+  . Common_Items > BASE_URL (Backend Url) update for Render
 

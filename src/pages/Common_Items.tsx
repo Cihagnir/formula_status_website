@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import './Common_Items.css'; 
 
 
-export var BASE_URL = "http://localhost:8080" ;
+export var BASE_URL = "https://formulatics.onrender.com" ;
 
 
 export function Control_Bar (){
