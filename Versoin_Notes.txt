@@ -1,7 +1,5 @@
 
 
-> Version 0.0.2.6
+> Version 0.0.2.7
 
-  . Common_Items > BASE_URL (Backend Url) update for Render
-  . " npm run deploy " commend added for Render
-
+  .  Package fixes ...
