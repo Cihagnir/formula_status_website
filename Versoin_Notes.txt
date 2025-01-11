@@ -1,8 +1,5 @@
 
 
-> Version 0.0.2.9
+> Version 0.0.2.9.1
 
   . Package fixes for the Render Deploy 
-  . Classes and CSS properties to return the page how it was . - I do note have any fucking idea why it happened .
-
-  

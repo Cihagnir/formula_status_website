@@ -20,7 +20,7 @@
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-router-dom": "latest",
     "react-scripts": "5.0.1",
-    "typescript": "^5.0.4",
+    "typescript": "^3.2.1 || ^4",
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
