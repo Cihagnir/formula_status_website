@@ -24,13 +24,10 @@
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "lottie-react": "^2.4.0",
-    "react": ">=18.0.0",
     "react-bootstrap": "^2.10.6",
     "react-dom": "^19.0.0",
-    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "^5.0.1",
-    "react-use-measure": "^2.1.1",
     "stream": "^0.0.3",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -47,9 +44,6 @@
       "react-app",
       "react-app/jest"
     ]
-  },
-  "engines": {
-    "node": ">=20.0.0"
   },
   "browserslist": {
     "production": [
