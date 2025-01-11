@@ -95,17 +95,16 @@
 }
 
 
-.Select_Title_Span{
+.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Select_Div > .Select_Title_Span{
 
   width: 30%;
   font-size: 18px;
 
-  margin-left: 2%;
-
-
+  margin-left: 5%;
 
 }
 
+/*
 .Season_Select_Box{
 
   text-align: center;
@@ -134,47 +133,16 @@
   margin-right: 3%;
 
 }
+*/
 
 
-.Options_Area_Div{
+
+.Tyre_Stint_Page_Main_Div > .Graph_Control_Div >.Options_Area_Div{
   width: 97vw;
   height: 8vh;
 
   margin-top: 1vh;
   padding-left: 20vw;
-
-}
-
-
-.Tyre_Stint_Button{
-
-  border-radius: 3mm;
-  border-style: solid;
-  border-color: #30353A;
-
-  background-color: #212529;
-
-  color: #E9ECEF;
-
-  width: 12% ;
-  height: 45%;
-  margin-left: 15% ;
-
-}
-
-.Track_Sector_Button{
-
-  border-radius: 3mm;
-  border-style: solid;
-  border-color: #30353A;
-
-  background-color: #212529;
-
-  color: #E9ECEF;
-
-  width: 12% ;
-  height: 45%;
-  margin-left: 3vh ;
 
 }
 

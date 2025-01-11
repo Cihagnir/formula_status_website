@@ -1,32 +1,30 @@
 
 
-.App_Div{
-
-  padding-top: 1vh;
-  padding-left: 0.5vw;
-  padding-right: 0.5vw;
-
-  background-color: #212529;
-  height: 100vh;
-  width: 100vw;
-
-}
-
 
 .Nav_Bar{
-  background-color: #CED4DA;
-  border-radius: 3mm;
+  
+  display: flex;
+  flex-direction: row;
 
   width: 99vw;
   height: 5vh;
-
+  
+  border-radius: 3mm;
+  background-color: #CED4DA;
 
 }
 
-.nav-item{
+.Nav_Bar_Item{
 
-  color: #212529;;
+  color: #212529;
+  margin-top: 1.5vh;
+  padding-left: 1vw;
+  margin-bottom: 0.5vh;
+  text-decoration: none;
+}
 
+.Nav_Bar_Item:hover{
+  text-decoration: underline ;
 }
 
 

@@ -14,12 +14,10 @@ import About_Page from './pages/about_page/About_Page';
 
 // CSS Import 
 import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 
 function App() {
-
   // const [navbar_status_state,  set_navbar_status_state] = useState({link_one : true, link_two : false })
 
 
@@ -28,21 +26,21 @@ function App() {
     <div className='App_Div' > 
 
 
-      <Nav className='Nav_Bar' defaultActiveKey="/">
+      <div className='Nav_Bar'>
           
-        <Nav.Item>
-          <Nav.Link className= "nav-item"  href="/" > Home </Nav.Link>
-        </Nav.Item>
+        <a className='Nav_Bar_Item' href='/'>
+        Home
+        </a>
         
-        <Nav.Item>
-          <Nav.Link className= "nav-item" href="/Graph/Lap_Time" >Graph</Nav.Link>
-        </Nav.Item>
+        <a className='Nav_Bar_Item' href="/Graph/Lap_Time">
+          Graph
+        </a>
 
-        <Nav.Item>
-          <Nav.Link className= "nav-item" href="/About" >About</Nav.Link>
-        </Nav.Item>
+        <a className='Nav_Bar_Item' href="/About">
+          About
+        </a>
 
-      </Nav>
+      </div>
 
 
       <Routes>

@@ -15,12 +15,17 @@
     "@visx/stats": "latest",
     "axios": "latest",
     "lottie-react": "latest",
-    "react" : "^18.0.0-0",
-    "react-scripts": "5.0.1",
+    "react": "^18.0.0",
     "react-bootstrap": "latest",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-router-dom": "latest",
-    "web-vitals": "latest"
+    "react-scripts": "5.0.1",
+    "typescript": "^5.0.4",
+    "web-vitals": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "ajv": "^7.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
