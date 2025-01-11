@@ -15,6 +15,7 @@
     "@visx/stats": "latest",
     "axios": "latest",
     "lottie-react": "latest",
+    "react" : "^17.0.0-0",
     "react-bootstrap": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
