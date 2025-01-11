@@ -1,7 +1,7 @@
 
-> Version 0.0.2.6
+> Version 0.0.2.7
 
-  . Reassigment of the port 
+  . Cors update for aws and Render
 
 
 

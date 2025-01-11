@@ -7,7 +7,7 @@ const express = require('express') ;
 const { Console } = require("console");
 
 const cors_conf_json = {
-  origin : "http://localhost:3000",
+  origin : ["https://main-frontend.d3rpgxvzsb1xs7.amplifyapp.com", "https://formulatics.onrender.com", "http://localhost:3000",],
 }
 
 const backend_app = express();
