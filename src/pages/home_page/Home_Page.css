@@ -1,57 +1,200 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Electrolize&display=swap');
 
+.HP_Main_Div{
 
-.Home_Page_Main_Div{
-
-  color: #E9ECEF;
+  width: 90vw;
+  height: 85vh;
+  
+  padding-top: 8vh;
+  padding-left: 9vw;
 }
 
-.Page_Info_Div{
+
+.HP_Sub_Div{
+
+  width: 80vw;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+  
+  border-width: 1px;
+  border-style: solid;
+  border-color: #CED4DA;
+  
+  background-color: #212529;
+
+}
+
+
+.HP_First_Row_Div{
+
+  min-height: 15%;
+  width: 100%;
 
   display: flex;
   flex-direction: row;
 
-  padding-top: 4vh;
-  padding-left: 4vw;
-  padding-right: 3vw;
-  padding-bottom: 6vh;
-  
-  margin-top: 4vh;
-  margin-left: 2vw;
-  margin-right: 4vw;
+  border-width: 0px;
+  border-bottom-width: 4px;
+  border-style: solid;
+  border-color: #212529;
 
-
-  border-radius: 4mm;
-  background-color: #30353A;
-
-  width: 50vw;
-  height: 30vh; 
-  
-  box-shadow: 10px -10px 10px #090A0B;
 }
 
-.Page_Information_Span{
+.HP_Title_Span{
 
-  font-size: 18px;
-  padding-top: 6vh;
+  background-color: #CED4DA;
+  
+  margin: 0;
+  min-width: 40%;
 
-  font-weight: 400;
+  padding-top: 3%;
+  padding-left: 5%;
+
+  font-weight: 1000;
+  font-size: xx-large;
   font-style: normal;
-  font-family: "Electrolize", sans-serif;
+  font-family: "Audiowide", serif;
 
-
-}
-
-.Home_Page_Img{
-
-  width: 704px;
-  height: 396px;
-  margin-left: 58vw;
-  margin-top: 4vh;
-  border-radius: 6mm;
-
-  box-shadow: 10px -10px 10px #090A0B;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
 
 }
 
+.HP_Title_Span:hover{
+  min-width: 51%;
+  
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+.HP_Second_Row_Div{
+
+  min-height: 25%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  border-width: 0px;
+  border-bottom-width: 4px;
+  border-style: solid;
+  border-color: #212529;
+}
+
+.HP_Second_Row_Space_Div{  
+  
+  width:60%;
+}
+
+.HP_Info_Text_One_Span{
+
+  max-width: 40%;
+  min-height: 80%;
+
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background-color: #CED4DA;
+  
+  font-weight: 800;
+  font-size: large;
+  font-style: normal;
+  text-align: justify;
+  font-family: "Electrolize", serif;
+
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+.HP_Info_Text_One_Span:hover{
+  max-width: 51%;
+  
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+
+.HP_Third_Row_Div{
+
+  min-height: 20%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  border-width: 0px;
+  border-bottom-width: 4px;
+  border-style: solid;
+  border-color: #212529;
+
+}
+
+.HP_Info_Text_Two_Span{
+
+  max-width:  41%;
+
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  
+  background-color: #CED4DA;
+
+  font-weight: 800;
+  font-size: large;
+  font-style: normal;
+  text-align: justify;
+  font-family: "Electrolize", serif;
+
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+
+}
+
+.HP_Info_Text_Two_Span:hover{
+  max-width: 52%;
+  
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+
+}
+
+.HP_Third_Row_Space_Div{
+  min-width: 25%;
+}
+
+
+.HP_Fourth_Row_Div{
+
+  min-height: 36%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.HP_Fourth_Row_Space_Div{
+  min-width: 54%;
+}
+
+.HP_Img{
+  width: 506px;
+  height: 286px;
+}
+
+.HP_Img_Info_Span{
+
+  padding-top: 2%;
+  padding-right: 1%;
+
+  color: #CED4DA;
+  
+  font-weight: 800;
+  font-size: large;
+  font-style: normal;
+  text-align: right;
+  font-family: "Electrolize", serif;
+
+}

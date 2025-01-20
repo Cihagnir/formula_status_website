@@ -66,20 +66,20 @@ function Tyre_Stint_Page(){
 
   return (
 
-    <div className= 'Tyre_Stint_Page_Main_Div' >
+    <div className= 'TS_Main_Div' >
 
       <Control_Bar/>
 
-      <div className= 'Graph_Control_Div'>
+      <div className= 'TS_Control_Div'>
 
 
-        <div className= 'Title_Area_Div' >
+        <div className= 'TS_Info_Area_Div' >
           
           <h3>
             Tyre Stints Graph
           </h3>
           
-          <p className= 'Title_Area_Text_Div'>
+          <p className= 'TS_Info_Div'>
           This page lets you explore the tyre stints of drivers across different races. 
           Use the dropdowns to select a specific year and race, and the graph will 
           show how long each driver ran on their tyres during the event. It's a simple 
@@ -88,12 +88,12 @@ function Tyre_Stint_Page(){
           
         </div>
 
-        <div className= 'Selection_Area_Div' >
+        <div className= 'TS_Selection_Area_Div' >
 
-          <div className= 'Season Select_Div'>
+          <div className= 'TS_Season TS_Select_Div'>
 
-            <p className= 'Select_Title_Span'> Season : </p>
-            <select className= 'Season_Select_Box' id='Season_Select_Box' 
+            <p className= 'TS_Select_Title_Span'> Season : </p>
+            <select className= 'TS_Season_Select_Box' id='Season_Select_Box' 
             onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
               <option value={''} > {'Select the Seassion'} </option> ; 
               {
@@ -108,10 +108,10 @@ function Tyre_Stint_Page(){
 
           </div>
 
-          <div className= 'Race Select_Div'>
+          <div className= 'TS_Race TS_Select_Div'>
             
-            <p className= 'Select_Title_Span'> Races : </p>
-            <select className= 'Race_Select_Box' id='Race_Select_Box' 
+            <p className= 'TS_Select_Title_Span'> Races : </p>
+            <select className= 'TS_Race_Select_Box' id='Race_Select_Box' 
             onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
               {
                 track_name_array_state.map(
@@ -130,7 +130,7 @@ function Tyre_Stint_Page(){
 
       </div>
 
-      <div className= 'Graph_Area_Div'>
+      <div className= 'TS_Graph_Area_Div'>
         {
            (graph_data_state !== null) ? (<Tyre_Stint_Graph  graph_data={graph_data_state} />) : (null)
         }

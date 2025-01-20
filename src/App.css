@@ -1,6 +1,4 @@
 
-
-
 .Nav_Bar{
   
   display: flex;
@@ -26,7 +24,6 @@
 .Nav_Bar_Item:hover{
   text-decoration: underline ;
 }
-
 
 
 .Is_Active{

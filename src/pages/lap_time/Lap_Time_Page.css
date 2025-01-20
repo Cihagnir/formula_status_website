@@ -4,31 +4,27 @@
 
 /* Page CSS */
 
-.Lap_Time_Page_Main_Div{
+.LT_Main_Div{
 
   background-color: #212529;
 
   display: flex;
   flex-direction: column;
 
-  width: 99vw;
-  height: 94vh;
-
 }
 
 /* Graph Control CSS */
 
-.Graph_Control_Div{
+.LT_Control_Div{
 
-  padding-top: 6vh;
+  padding-top: 4vh;
 }
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div > .Title_Area_Div{
+.LT_Title_Area_Div{
 
   padding-left: 5vw;
   margin-bottom: 3vh;
 
-  width: 97vw;
   height: 15vh;
 
   color: #CED4DA;
@@ -38,12 +34,13 @@
   font-family: "Electrolize", sans-serif;
 }
 
-.Title_Area_Text_Div{
+.LT_Info_Text_Div{
   margin-left: 2vw;
+  max-width: 70vw;
 }
 
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div{
+.LT_Selection_Area_Div{
 
   width: 60vw;
   height: 8vh;
@@ -62,7 +59,7 @@
 }
 
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div >.Select_Div{
+.LT_ComboBox_Div{
   
   font-size: 18px;
 
@@ -83,16 +80,16 @@
 
 }
 
-.Season{
+.LT_Season{
   margin-left: 15%;
 }
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Race{
+.LT_Race{
   width: 30%;
 }
 
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Select_Div > .Select_Title_Span{
+.LT_Select_Title_Span{
 
   width: 30%;
   font-size: 18px;
@@ -101,7 +98,7 @@
 
 }
 
-.Season_Select_Box{
+.LT_Season_Select_Box{
 
   text-align: center;
   text-align-last: center; 
@@ -117,7 +114,7 @@
 
 }
 
-.Race_Select_Box{
+.LT_Race_Select_Box{
 
   color: #E9ECEF;
   border-color: #30353A ;
@@ -138,60 +135,17 @@
 
 
 
-.Lap_Time_Page_Main_Div > .Graph_Control_Div >.Options_Area_Div{
-  width: 60vw;
-  height: 8vh;
-
-  margin-top: 1vh;
-  padding-left: 20vw;
-
-}
-
-
-.Tyre_Stint_Button{
-
-  border-radius: 3mm;
-  border-style: solid;
-  border-color: #30353A;
-
-  background-color: #212529;
-
-  color: #E9ECEF;
-
-  width: 12% ;
-  height: 45%;
-  margin-left: 15% ;
-
-}
-
-.Track_Sector_Button{
-
-  border-radius: 3mm;
-  border-style: solid;
-  border-color: #30353A;
-
-  background-color: #212529;
-
-  color: #E9ECEF;
-
-  width: 12% ;
-  height: 45%;
-  margin-left: 3vh ;
-
-}
-
-
-.Selected{
-
-  background-color: #30353A;
-
-}
 
 
 /* Graph Area CSS */
 
+.LT_Graph_Area_Div{
+  padding-top: 2vh;
+}
 
-.Lap_Time_Page_Main_Div > .Graph_Area_Div >.Graph_Div{
+
+.LT_Graph_Area_Div >.Graph_Div{
+
   padding-left: 2vw;
   color: #E9ECEF !important;
   

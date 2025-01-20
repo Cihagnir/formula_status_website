@@ -80,7 +80,7 @@ export function  Lap_Time_Graph( {
   // Set the bounderies 
 
   let grpah_width = window_width * 0.90 ;
-  let graph_height = window_height * 0.50 ;
+  let graph_height = window_height * 0.56 ;
   let element_space_width = window_width  * 0.05;
   let element_space_height = window_height * 0.1 ;
 

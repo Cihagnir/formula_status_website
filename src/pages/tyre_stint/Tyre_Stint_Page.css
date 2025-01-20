@@ -4,27 +4,24 @@
 
 /* Page CSS */
 
-.Tyre_Stint_Page_Main_Div{
+.TS_Main_Div{
 
   background-color: #212529;
 
   display: flex;
   flex-direction: row;
 
-  width: 99vw;
-  height: 94vh;
-
 }
 
 /* Graph Control CSS */
 
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div{
+.TS_Control_Div{
 
   padding-top: 6vh;
 }
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Title_Area_Div{
+.TS_Info_Area_Div{
 
   padding-top: 1vh;
   padding-left: 4vw;
@@ -39,7 +36,7 @@
   font-family: "Electrolize", sans-serif;
 }
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Title_Area_Div > .Title_Area_Text_Div{
+.TS_Info_Div{
   margin-top: 4vh;
   margin-left: 2vw;
   
@@ -48,7 +45,7 @@
 }
 
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div{
+.TS_Selection_Area_Div{
 
   width: 44vw;
   height: 8vh;
@@ -66,7 +63,7 @@
 }
 
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Select_Div{
+.TS_Select_Div{
   
   font-size: 18px;
 
@@ -86,16 +83,16 @@
 
 }
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Season{
+.TS_Season{
   margin-left: 15%;
 }
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Race{
+.TS_Race{
   width: 45%;
 }
 
 
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div > .Selection_Area_Div > .Select_Div > .Select_Title_Span{
+.TS_Select_Title_Span{
 
   width: 30%;
   font-size: 18px;
@@ -104,60 +101,47 @@
 
 }
 
-/*
-.Season_Select_Box{
+.TS_Season_Select_Box{
 
   text-align: center;
   text-align-last: center; 
+  font-size: large;
 
   color: #E9ECEF;
   border-color: #30353A ;
   background-color: #30353A;
   
-
-  width: 60%;
+  width: 50%;
   height: 80%;
+  margin-top: 1%;
 
 }
 
-.Race_Select_Box{
+.TS_Race_Select_Box{
 
   color: #E9ECEF;
   border-color: #30353A ;
   background-color: #30353A;
 
+  text-align: center;
+  text-align-last: center; 
+  font-size: large;
 
   width: 90%;
   height: 80%;
 
   margin-right: 3%;
+  margin-top: 1%;
 
-}
-*/
-
-
-
-.Tyre_Stint_Page_Main_Div > .Graph_Control_Div >.Options_Area_Div{
-  width: 97vw;
-  height: 8vh;
-
-  margin-top: 1vh;
-  padding-left: 20vw;
 
 }
 
-
-.Selected{
-
-  background-color: #30353A;
-
-}
 
 
 /* Graph Area CSS */
 
 
-.Tyre_Stint_Page_Main_Div > .Graph_Area_Div > .Graph_Div{
+.TS_Graph_Area_Div{
 
   margin-top: 10vh;
   width: 45vw;
@@ -165,7 +149,7 @@
   flex-direction: column;
 }
 
-.Tyre_Stint_Page_Main_Div > .Graph_Area_Div > .Graph_Div > .Graph_Legend_Div{
+.TS_Graph_Area_Div > .Graph_Legend_Div{
   
   width: 100% ;
   display: flex;
