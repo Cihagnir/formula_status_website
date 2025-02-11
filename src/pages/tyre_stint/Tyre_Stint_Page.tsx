@@ -68,73 +68,59 @@ function Tyre_Stint_Page(){
 
     <div className= 'TS_Main_Div' >
 
-      <Control_Bar/>
+      <div className='TS_Info_Div'>
+        
+        <h3 className='TS_Info_Title'>
+          Tyre Stint
+        </h3>
 
-      <div className= 'TS_Control_Div'>
-
-
-        <div className= 'TS_Info_Area_Div' >
-          
-          <h3>
-            Tyre Stints Graph
-          </h3>
-          
-          <p className= 'TS_Info_Div'>
+        <span className='TS_Info_Text'>
           This page lets you explore the tyre stints of drivers across different races. 
           Use the dropdowns to select a specific year and race, and the graph will 
-          show how long each driver ran on their tyres during the event. It's a simple 
+          show how long each driver ran on their tyres during the race. It's a simple 
           way to dive into tyre strategies and see how they impacted the race!
-          </p>
-          
-        </div>
-
-        <div className= 'TS_Selection_Area_Div' >
-
-          <div className= 'TS_Season TS_Select_Div'>
-
-            <p className= 'TS_Select_Title_Span'> Season : </p>
-            <select className= 'TS_Season_Select_Box' id='Season_Select_Box' 
-            onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
-              <option value={''} > {'Select the Seassion'} </option> ; 
-              {
-                seassion_array_state.map(
-                  (track_name, index) => (
-                    <option value={track_name} > {track_name} </option>
-                  ) 
-                )
-              } 
-
-            </select>    
-
-          </div>
-
-          <div className= 'TS_Race TS_Select_Div'>
-            
-            <p className= 'TS_Select_Title_Span'> Races : </p>
-            <select className= 'TS_Race_Select_Box' id='Race_Select_Box' 
-            onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
-              {
-                track_name_array_state.map(
-                  (track_name, index) => (
-                    <option value={track_name} > {track_name} </option>
-                  ) 
-                )
-              }  
-
-            </select>   
-
-          </div>
-
-        </div>
-
+        </span>
 
       </div>
 
-      <div className= 'TS_Graph_Area_Div'>
+
+      <div className= 'TS_ComboBox_Div'>
+        
+        <p className= 'TS_Select_Title_Span'> Season : </p>
+        <select className= 'LT_Select_Box' id='Season_Select_Box' 
+        onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
+          <option value={''} > {'Select the Seassion'} </option> ; 
+          {
+            seassion_array_state.map(
+              (track_name, index) => (
+                <option value={track_name} > {track_name} </option>
+              ) 
+            )
+          } 
+
+        </select>  
+
+        <p className= 'TS_Select_Title_Span TS_Race'> Races : </p>
+        <select className= 'TS_Select_Box TS_Race_Box' id='Race_Select_Box' 
+        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
+          {
+            track_name_array_state.map(
+              (track_name, index) => (
+                <option value={track_name} > {track_name} </option>
+              ) 
+            )
+          }  
+
+        </select>   
+
+      </div>
+
+      <div className= 'TS_Graph_Div'>
         {
            (graph_data_state !== null) ? (<Tyre_Stint_Graph  graph_data={graph_data_state} />) : (null)
         }
       </div>
+
 
     </div>
 
@@ -145,3 +131,44 @@ function Tyre_Stint_Page(){
 
 export default Tyre_Stint_Page ;
 
+
+/*
+<div className= 'TS_Selection_Area_Div' >
+
+<div className= 'TS_Season TS_Select_Div'>
+
+  <p className= 'TS_Select_Title_Span'> Season : </p>
+  <select className= 'TS_Season_Select_Box' id='Season_Select_Box' 
+  onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
+    <option value={''} > {'Select the Seassion'} </option> ; 
+    {
+      seassion_array_state.map(
+        (track_name, index) => (
+          <option value={track_name} > {track_name} </option>
+        ) 
+      )
+    } 
+
+  </select>    
+
+</div>
+
+<div className= 'TS_Race TS_Select_Div'>
+  
+  <p className= 'TS_Select_Title_Span'> Races : </p>
+  <select className= 'TS_Race_Select_Box' id='Race_Select_Box' 
+  onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
+    {
+      track_name_array_state.map(
+        (track_name, index) => (
+          <option value={track_name} > {track_name} </option>
+        ) 
+      )
+    }  
+
+  </select>   
+
+</div>
+
+
+*/

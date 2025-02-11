@@ -16,7 +16,7 @@ function Lap_Time_Page (){
 
   // Dropdown Box Selection and Data 
   const [selected_race_state, set_selected_race_state] = useState("")
-  const [selected_season_state, set_selected_season_state] = useState('2024')
+  const [selected_season_state, set_selected_season_state] = useState('')
   
   // Plotly Graph Data 
   const [graph_data_state, set_graph_data_state ] = useState<Array<graph_data_interface> | null>(null)
@@ -38,8 +38,11 @@ function Lap_Time_Page (){
   // Fetch the Track Name Data 
   useEffect(() => {
    
-    let backend_input_string  = `/ui/year/${selected_season_state}/`
-    api_fetch_func(backend_input_string, set_track_name_array_state); 
+    if (! (selected_season_state === '') ) {
+
+      let backend_input_string  = `/ui/year/${selected_season_state}/`
+      api_fetch_func(backend_input_string, set_track_name_array_state); 
+    }
   }, [selected_season_state ] )
 
   // Fetch the Seassion Year Data
@@ -61,72 +64,54 @@ function Lap_Time_Page (){
   
   return (
     
-
     <div className='LT_Main_Div'>
-      
-      <Control_Bar/>
-    
-      <div className= 'LT_Control_Div'>
+
+      <div className='LT_Info_Div'>
         
+        <h3 className='LT_Info_Title'>
+          Lap Time Distrubation
+        </h3>
 
-        <div className= 'LT_Title_Area_Div' >
-          
-          <h3>
-            Lap Time Graph
-          </h3>
-          
-          <p className= 'LT_Info_Text_Div'>
-          This page provides a detailed look at the lap time distribution of drivers for a selected race. By using the dropdown menus, you can {<br/>}
-          choose a specific year and race to explore. The box plot visualizes how consistent or varied the lap times were for each driver, {<br/>} 
-          highlighting their overall pace and any outliers that occurred during the event. It’s a useful way to understand performance trends, identify {<br/>} 
-          key moments, and compare how drivers managed their speed over the course of the race. Dive in and see how the numbers tell the story!
-
-          </p>
-          
-        </div>
-
-        <div className= 'LT_Selection_Area_Div' >
-
-          <div className= 'LT_Season LT_ComboBox_Div'>
-
-            <p className= 'LT_Select_Title_Span'> Season : </p>
-            <select className= 'LT_Season_Select_Box' id='Season_Select_Box' 
-            onChange={() => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement).value ) }} >
-              {
-                seassion_array_state.map(
-                  (track_name, index) => (
-                    <option value={track_name} > {track_name} </option>
-                  ) 
-                )
-              } 
-
-            </select>    
-
-          </div>
-
-          <div className= 'LT_Race LT_ComboBox_Div'>
-            
-            <p className= 'LT_Select_Title_Span'> Races : </p>
-            <select className= 'LT_Race_Select_Box' id='Race_Select_Box' 
-            onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>
-              {
-                track_name_array_state.map(
-                  (track_name, index) => (
-                    <option value={track_name} > {track_name} </option>
-                  ) 
-                )
-              }  
-
-            </select>   
-
-          </div>
-
-        </div>
+        <span className='LT_Info_Text'>
+        Explore lap time distribution for each races. The graph reveals 
+        drivers' consistency, pace variations, and outliers,  helping you 
+        analyze performance trends and key race moments. Dive in and see 
+        the story behind the numbers !
+        </span>
 
       </div>
 
+      <div className= 'LT_ComboBox_Div'>
+        
+        <p className= 'LT_Select_Title_Span'> Season : </p>
+        <select className= 'LT_Select_Box' id='Season_Select_Box' 
+        onChange={() => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement).value ) }} >
+          <option value={''} > {'Select the Seassion'} </option> ;
+          {
+            seassion_array_state.map(
+              (track_name, index) => (
+                <option value={track_name} > {track_name} </option>
+              ) 
+            )
+          } 
+        </select>    
 
-      <div className= 'LT_Graph_Area_Div'>
+        <p className= 'LT_Select_Title_Span LT_Race'> Races : </p>
+        <select className= 'LT_Select_Box LT_Race_Box' id='Race_Select_Box' 
+        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>
+          {
+            track_name_array_state.map(
+              (track_name, index) => (
+                <option value={track_name} > {track_name} </option>
+              ) 
+            )
+          }  
+
+        </select>   
+
+      </div>
+
+      <div className= 'LT_Graph_Div'>
         {
           (graph_data_state !== null) ? (<Lap_Time_Graph  graph_data={graph_data_state} />) : (null)
         }

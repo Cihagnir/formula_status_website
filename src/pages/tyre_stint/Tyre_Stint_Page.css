@@ -2,179 +2,152 @@
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
 
-/* Page CSS */
 
-.TS_Main_Div{
 
-  background-color: #212529;
-
-  display: flex;
-  flex-direction: row;
-
+.TS_Main_Div {
+  width: 100vw;
+  height: 100vh;
+  
+  background: linear-gradient(135deg, 
+    rgba(71, 199, 252, 0.85) 5%,
+    rgba(255, 128, 0, 0.9) 25%,
+    rgba(0, 0, 0, 0.8) 80%
+  );
+  
+  backdrop-filter: blur(10px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  position: relative;
+  overflow: hidden;
 }
 
-/* Graph Control CSS */
 
-
-.TS_Control_Div{
-
-  padding-top: 6vh;
+.TS_Main_Div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
-.TS_Info_Area_Div{
-
-  padding-top: 1vh;
-  padding-left: 4vw;
-
-  width: 44vw;
-  height: 24vh;
-
-  color: #CED4DA;
-  font-size: 18px;
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Electrolize", sans-serif;
-}
 
 .TS_Info_Div{
-  margin-top: 4vh;
-  margin-left: 2vw;
+  position: absolute;
+
+  top: 8%;
+  left: 4%;
+  padding: 30px;
+  max-width: 400px;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
   
-  padding-right: 3vw;
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
 
 }
 
-
-.TS_Selection_Area_Div{
-
-  width: 44vw;
-  height: 8vh;
-
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-
+.TS_ComboBox_Div {
+  padding: 20px;
+  min-width: 600px;
+  height: fit-content;
+  
+  top: 36%;
+  left: 4%;
+  position: absolute;
+  
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  gap: 15px;
 
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Electrolize", sans-serif;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
 
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
 }
 
-
-.TS_Select_Div{
-  
-  font-size: 18px;
-
-  width: 30%;
-  height: 80%;
-
-  padding-top: 0.5% ;
+.TS_Select_Title_Span {
   margin-left: 3%;
-
-  display: flex;
-  flex-direction: row;
-
-  color: #E9ECEF;
-  background-color: #30353A;
-  border-radius: 4mm;
-
-
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
-.TS_Season{
-  margin-left: 15%;
+.TS_Race {
+  margin-left: 20px;
 }
 
-.TS_Race{
-  width: 45%;
-}
+.TS_Select_Box {
+  padding: 8px;
+  min-width: 120px;
+  height: 40px;
 
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background-color:rgba(245, 245, 245, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-.TS_Select_Title_Span{
-
-  width: 30%;
-  font-size: 18px;
-
-  margin-left: 5%;
-
-}
-
-.TS_Season_Select_Box{
-
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
   text-align: center;
-  text-align-last: center; 
-  font-size: large;
+  text-align-last: center;
 
-  color: #E9ECEF;
-  border-color: #30353A ;
-  background-color: #30353A;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.TS_Select_Box:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.TS_Race_Box {
+  min-width: 200px;
+}
+
+.TS_Graph_Div {
+
+  position: absolute;
+  left: 45%;
+  top: 8%;
+
+  padding-top: 25px;
+  padding-right: 30px;
   
-  width: 50%;
-  height: 80%;
-  margin-top: 1%;
-
+  border-radius: 15px;
+  background-color: rgba(245, 245, 245, 0.85);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  
+  transition: all 0.3s ease;
 }
 
-.TS_Race_Select_Box{
-
-  color: #E9ECEF;
-  border-color: #30353A ;
-  background-color: #30353A;
-
-  text-align: center;
-  text-align-last: center; 
-  font-size: large;
-
-  width: 90%;
-  height: 80%;
-
-  margin-right: 3%;
-  margin-top: 1%;
-
-
+.TS_Graph_Div:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.TS_Graph_Div > .Graph_Div {
+  transition: all 0.3s ease;
 
-
-/* Graph Area CSS */
-
-
-.TS_Graph_Area_Div{
-
-  margin-top: 10vh;
-  width: 45vw;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-}
-
-.TS_Graph_Area_Div > .Graph_Legend_Div{
-  
-  width: 100% ;
-  display: flex;
-
-  margin-bottom: 1vh;
-  font-size: 14px;
-  color: #E9ECEF ;
-  justify-content: right;
-}
-
-
-.plot-container{
-
-  border-radius: 8mm;
-  background-color: #30353A;
-  box-shadow: 8px 8px 8px #090A0B;
-
-}
-
-.main-svg{
-  background-color: transparent !important ;
-}
-
-
-.xtick{
-  fill: #E9ECEF !important ; 
-  
+  justify-content: center;
+  align-items: center;
 }

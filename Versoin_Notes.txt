@@ -1,8 +1,10 @@
 
 
-> Version 0.0.2.9.1
+> Version 0.0.3.1
 
-  . Pages scroll problem fixed 
-  . Page Tab title and icon updated 
-  . Home Page UI updated more reasonable design
-  . Tyre Stint and Lap Time pages duplicated CSS class name problem fixed 
+  . Home Page design updated 
+  . About Page design updated into real webpage 
+  . Navigation Bar update for the graph connection
+  . Lap Time Page desing updated ' Better now I guess '
+  . Tyre Stint Page desing updated ' Better now I guess '
+  . Backend connection link changed

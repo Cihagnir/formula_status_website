@@ -1,13 +1,14 @@
 
-#090A0B -> Shadowing
-#212529 -> General Background
-#30353A -> General Inner Div
-#5B636A
-#CED4DA -> Nav-Bar Control Panel   
-#E9ECEF -> Text Color
-#
+## Graph Page Design 
+
+#000000 -> box shadow for the general div   | Opacity 0.3       | Shadow 0 4px 8px 
+#F5F5F5 -> background color for general div | Opacity 0.8 - 0.9 
+
+## Graph Page Background 
+
+> Each page include different team collor pallette. Just choose the good one for the page. 
 
 
+# Text color 
 
-
-
+> Geniuanly black or white. Could be change depending on the background

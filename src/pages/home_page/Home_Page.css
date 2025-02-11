@@ -1,200 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Electrolize&family=Sriracha&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Electrolize&display=swap');
 
 .HP_Main_Div{
-
-  width: 90vw;
-  height: 85vh;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
   
-  padding-top: 8vh;
-  padding-left: 9vw;
-}
-
-
-.HP_Sub_Div{
-
-  width: 80vw;
-  height: 80vh;
-
-  display: flex;
-  flex-direction: column;
-  
-  border-width: 1px;
-  border-style: solid;
-  border-color: #CED4DA;
-  
-  background-color: #212529;
-
-}
-
-
-.HP_First_Row_Div{
-
-  min-height: 15%;
-  width: 100%;
-
   display: flex;
   flex-direction: row;
 
-  border-width: 0px;
-  border-bottom-width: 4px;
-  border-style: solid;
-  border-color: #212529;
-
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
 }
 
-.HP_Title_Span{
 
-  background-color: #CED4DA;
+.HP_Background_Image{
   
-  margin: 0;
-  min-width: 40%;
+  width: 100vw;
+  height: 100vh;
+  
+  z-index: -1;
+  left: 0;
+  top: 0;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
-  padding-top: 3%;
-  padding-left: 5%;
+.HP_Blur_Div {
 
+  width: 30%;
+  height: 100%;
+  padding-top: 23%;
+  padding-right: 0.1%;
+
+  backdrop-filter: blur(40px);
+
+  -webkit-mask: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
+  -webkit-mask-clip: text, padding-box;
+  -webkit-mask-composite: xor; 
+  -webgit-mask-composite: exclude;
+  background: rgb(0 0 0/12%);
+  
+  font-size: 10rem;
   font-weight: 1000;
-  font-size: xx-large;
-  font-style: normal;
+  font-variant: normal;
   font-family: "Audiowide", serif;
-
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-
-}
-
-.HP_Title_Span:hover{
-  min-width: 51%;
-  
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-}
-
-.HP_Second_Row_Div{
-
-  min-height: 25%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-
-  border-width: 0px;
-  border-bottom-width: 4px;
-  border-style: solid;
-  border-color: #212529;
-}
-
-.HP_Second_Row_Space_Div{  
-  
-  width:60%;
-}
-
-.HP_Info_Text_One_Span{
-
-  max-width: 40%;
-  min-height: 80%;
-
-  padding-top: 2%;
-  padding-left: 2%;
-  padding-right: 2%;
-  background-color: #CED4DA;
-  
-  font-weight: 800;
-  font-size: large;
-  font-style: normal;
-  text-align: justify;
-  font-family: "Electrolize", serif;
-
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-}
-
-.HP_Info_Text_One_Span:hover{
-  max-width: 51%;
-  
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-}
-
-
-.HP_Third_Row_Div{
-
-  min-height: 20%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-
-  border-width: 0px;
-  border-bottom-width: 4px;
-  border-style: solid;
-  border-color: #212529;
-
-}
-
-.HP_Info_Text_Two_Span{
-
-  max-width:  41%;
-
-  padding-top: 2%;
-  padding-left: 2%;
-  padding-right: 2%;
-  
-  background-color: #CED4DA;
-
-  font-weight: 800;
-  font-size: large;
-  font-style: normal;
-  text-align: justify;
-  font-family: "Electrolize", serif;
-
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-
-}
-
-.HP_Info_Text_Two_Span:hover{
-  max-width: 52%;
-  
-  transition-duration: 0.5s;
-  transition-timing-function: ease-out;
-
-}
-
-.HP_Third_Row_Space_Div{
-  min-width: 25%;
-}
-
-
-.HP_Fourth_Row_Div{
-
-  min-height: 36%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-}
-
-.HP_Fourth_Row_Space_Div{
-  min-width: 54%;
-}
-
-.HP_Img{
-  width: 506px;
-  height: 286px;
-}
-
-.HP_Img_Info_Span{
-
-  padding-top: 2%;
-  padding-right: 1%;
-
-  color: #CED4DA;
-  
-  font-weight: 800;
-  font-size: large;
-  font-style: normal;
   text-align: right;
-  font-family: "Electrolize", serif;
+}
 
+.HP_Righ_Div{
+
+  padding-top: 28%;
+  padding-left: 0.1%;
+  
+  color: #fff;
+  font-size: 10rem;
+  font-weight: 1000;
+  font-variant: normal;
+  font-family: "Audiowide", serif;
 }

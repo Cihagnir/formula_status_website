@@ -1,170 +1,151 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
-
-/* Page CSS */
-
-.LT_Main_Div{
-
-  background-color: #212529;
-
-  display: flex;
-  flex-direction: column;
-
-}
-
-/* Graph Control CSS */
-
-.LT_Control_Div{
-
-  padding-top: 4vh;
-}
-
-.LT_Title_Area_Div{
-
-  padding-left: 5vw;
-  margin-bottom: 3vh;
-
-  height: 15vh;
-
-  color: #CED4DA;
-  font-size: 18px;
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Electrolize", sans-serif;
-}
-
-.LT_Info_Text_Div{
-  margin-left: 2vw;
-  max-width: 70vw;
-}
-
-
-.LT_Selection_Area_Div{
-
-  width: 60vw;
-  height: 8vh;
-
-  padding-top: 1vh;
-  padding-left: 19vw;
-  padding-bottom: 1vh;
-
-  display: flex;
-  flex-direction: row;
-
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Electrolize", sans-serif;
-
-}
-
-
-.LT_ComboBox_Div{
+.LT_Main_Div {
+  width: 100vw;
+  height: 100vh;
   
-  font-size: 18px;
+  background: linear-gradient(135deg, 
+    rgba(206, 220, 0, 0.9) 0%,
+    rgba(0, 89, 79, 0.85) 50%,
+    rgba(0, 53, 47, 0.8) 100%
+  );
+  
+  backdrop-filter: blur(10px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  position: relative;
+  overflow: hidden;
+}
 
-  width: 25%;
-  height: 80%;
+.LT_Main_Div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
 
-  padding-top: 0.5% ;
+
+.LT_Info_Div{
+  position: absolute;
+
+  top: 10%;
+  left: 4%;
+  padding: 30px;
+  max-width: 400px;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
+  
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+
+}
+
+
+.LT_ComboBox_Div {
+  padding: 20px;
+  min-width: 600px;
+  height: fit-content;
+  
+  top: 10%;
+  left: 40%;
+  position: absolute;
+  
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
+
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
+}
+
+.LT_Select_Title_Span {
   margin-left: 3%;
-
-
-  display: flex;
-  flex-direction: row;
-
-  color: #E9ECEF;
-  background-color: #30353A;
-  border-radius: 4mm;
-
-
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
-.LT_Season{
-  margin-left: 15%;
+.LT_Race {
+  margin-left: 20px;
 }
 
-.LT_Race{
-  width: 30%;
-}
+.LT_Select_Box {
+  padding: 8px;
+  min-width: 120px;
+  height: 40px;
 
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background-color:rgba(245, 245, 245, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-.LT_Select_Title_Span{
-
-  width: 30%;
-  font-size: 18px;
-
-  margin-left: 8%;
-
-}
-
-.LT_Season_Select_Box{
-
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
   text-align: center;
-  text-align-last: center; 
-  font-size: large;
+  text-align-last: center;
 
-  color: #E9ECEF;
-  border-color: #30353A ;
-  background-color: #30353A;
-  
-  width: 50%;
-  height: 80%;
-  margin-top: 1%;
-
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.LT_Race_Select_Box{
+.LT_Select_Box:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
-  color: #E9ECEF;
-  border-color: #30353A ;
-  background-color: #30353A;
+.LT_Race_Box {
+  min-width: 200px;
+}
 
-  text-align: center;
-  text-align-last: center; 
-  font-size: large;
 
+
+.LT_Graph_Div {
+
+  position: absolute;
+  left: 4%;
+  top: 36%;
   width: 90%;
-  height: 80%;
-
-  margin-right: 3%;
-  margin-top: 1%;
-
-
-}
-
-
-
-
-
-/* Graph Area CSS */
-
-.LT_Graph_Area_Div{
-  padding-top: 2vh;
-}
-
-
-.LT_Graph_Area_Div >.Graph_Div{
-
-  padding-left: 2vw;
-  color: #E9ECEF !important;
   
-}
-
-.plot-container{
-
-  border-radius: 8mm;
-  background-color: #30353A;
-  box-shadow: 8px 8px 8px #090A0B;
-
-}
-
-.main-svg{
-  background-color: transparent !important ;
-}
-
-
-.xtick{
-  fill: #E9ECEF !important ; 
+  padding-top: 25px;
+  padding-right: 30px;
   
+  border-radius: 15px;
+  background-color: rgba(245, 245, 245, 0.95);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  
+  transition: all 0.3s ease;
+}
+
+.LT_Graph_Div:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.LT_Graph_Div > .Graph_Div {
+  transition: all 0.3s ease;
+
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

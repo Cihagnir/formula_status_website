@@ -6,73 +6,43 @@ import Lottie from "lottie-react"
 import "./About_Page.css"
 
 // External Imports 
-import github_icon from "../img/github-brands-solid.svg"
-import mail_icon from "../img/envelope-solid.svg"
-import animation_json from "../img/about_page_animation.json"
+import AP_Background from "../img/about_page_backl.png"
+
 
 
 function About_Page () {
 
-
   return(
 
-    <div className= 'About_Page_Main_Div' >
+    <div className= 'AP_Main_Div' >
       
-      <div className= 'Info_Div'>
+      <img src={AP_Background} alt="Formula 1 Background" className="AP_Background_Img" />
 
-        <div className= 'Info_Text_Div'>
-          
-          <h1 className= 'Info_Title_Heading'>
-            Hello there ...
-          </h1>
+      <svg className="AP_Back_Svg">
+        <rect x="-400" y="400" width='2400' height="750" transform=" rotate(-30 -700 500)" fill="#A6051A" opacity="0.7"/>
+      </svg>
 
-          <span className= 'Info_Text_Span ' >
-          If you’ve surfed through most of the pages and ended up here, it means we’ve either done something really well 
-          or terribly wrong! The Formulatics website started—and continues to grow—as one of my hobby projects. My goal 
-          is to create an open-source, easy-to-use website for basic analytics and information about Formula One. I hope 
-          I’ve managed to achieve at least part of that goal so far.
-          </span>
+      <div className="AP_Background_Div">
+        <h3 className="AP_Info_Tittle">
+          About us ...
+        </h3>
 
-          <span className= 'Info_Text_Span ' >
-          A little technical explanation... <br/>
-          At its current state, the site probably lacks many of the features it could have. I’ve included a link to the 
-          Git repository below, so anyone willing to help improve it is welcome to contribute updates to the source code.
-          </span>
-
-        </div>
-
-        <div className= 'Info_Link_Div'>
-          
-          <div className= 'Link_Div Git'>
-
-            <img className= 'GitHub_Icon_Img'
-              src= {github_icon }>
-            </img>
-
-            <a className= 'Link_Text' href= "https://github.com/Cihagnir/formula_status_website">
-              Git-Hub
-            </a>
-          </div>
-
-          <div className= 'Link_Div Mail'>
-
-            <img className= 'Mail_Icon_Img'
-              src= {mail_icon }>
-            </img>
-
-            <a className= "Link_Text" href= "">
-              cihangiryigit.yigit@hotmail.com
-            </a>
-            </div>
-
-        </div>
-
+        <span className="AP_Info_Text">
+        This website is a passion project built for fellow Formula One fans who love diving into the numbers <br/>
+        behind the action. My goal is to create an open-source, easy-to-use platform for exploring race <br/>
+        data, analytics, and insights in a simple and accessible way. It’s not a polished, professional <br/>
+        site—just something made with care for those who enjoy the technical side of the sport.
+        <br/>
+        <br/>
+        If you’ve made it to this page, you’re either enjoying the content or wondering <br/>
+        what’s going on! Formulatics started as a hobby project and continues <br/>
+        to evolve with contributions from enthusiasts like you. If you’re <br/> 
+        interested in helping improve the site, feel free to check out <br/> 
+        the GitHub repository and contribute to the code. Whether <br/>
+        you're  here for fun, curiosity, or deep analysis, <br/>
+        I hope you find something interesting!
+        </span>
       </div>
-
-      <div className= 'Animation_Div'>
-        <Lottie animationData={animation_json} />
-      </div>
-
     </div>
 
   );

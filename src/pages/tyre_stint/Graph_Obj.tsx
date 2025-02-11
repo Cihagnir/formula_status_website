@@ -23,11 +23,11 @@ interface tyre_stint_graph_interface {
 
 const graph_cosmatic = {
   axis : {
-    line_color : '#E9ECEF',
+    line_color : '#000000',
     text_prop : {
-      fill : '#E9ECEF',
+      fill : '#000000',
       fontSize : 14,
-      fontFamily : 'sans-seif',
+      fontFamily : 'Electrolize',
     }
   }
 }

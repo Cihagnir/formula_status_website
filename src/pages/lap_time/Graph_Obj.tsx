@@ -46,21 +46,23 @@ const thirdQuartile = (data: graph_data_interface) => data.box_plot.third_quarti
 
 const graph_cosmatic = {
   violin_plot : {
-    violin_color : '#5B636A',
-    pattern_line_color : '#5B636A', 
+    violin_color : '#000000',
+    pattern_line_color : '#000000', 
+    opacity : 0.3 ,
+
   },
   box_plot : {
-    fill_color : '#E9ECEF', 
-    fill_opacity : 0.3 ,
-    stroke_color : '#E9ECEF',
-    stroke_width : 2, 
+    fill_color : '#000000', 
+    fill_opacity : 0.1 ,
+    stroke_color : '#CCCCCC',
+    stroke_width : 1, 
   },
   axis : {
-    line_color : '#E9ECEF',
+    line_color : '#000000',
     text_prop : {
-      fill : '#E9ECEF',
-      fontSize : 12,
-      fontFamily : 'sans-seif',
+      fill : '#000000',
+      fontSize : 13,
+      fontFamily : 'Electrolize',
     }
   }
 }
@@ -146,6 +148,7 @@ export function  Lap_Time_Graph( {
                 fill  = "url(#hViolinLines)"
                 valueScale = {y_axis_scale}
                 stroke = {graph_cosmatic.violin_plot.violin_color}
+                opacity={graph_cosmatic.violin_plot.opacity}
               />
               
               <BoxPlot
@@ -165,7 +168,7 @@ export function  Lap_Time_Graph( {
                 stroke = {graph_cosmatic.box_plot.stroke_color}
                 fillOpacity = {graph_cosmatic.box_plot.fill_opacity}
                 strokeWidth = {graph_cosmatic.box_plot.stroke_width}
-
+                
               />
 
 
