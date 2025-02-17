@@ -1,17 +1,15 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
+/* Page CSS */
 
-
-
-.TS_Main_Div {
+.LTL_Main_Div {
   width: 100vw;
   height: 100vh;
   
   background: linear-gradient(135deg, 
-    rgba(71, 199, 252, 0.85) 5%,
-    rgba(255, 128, 0, 0.9) 25%,
-    rgba(0, 0, 0, 0.8) 80%
+    rgba(206, 220, 0, 0.9) 0%,
+    rgba(0, 89, 79, 0.85) 50%,
+    rgba(0, 53, 47, 0.8) 100%
   );
   
   backdrop-filter: blur(10px);
@@ -23,8 +21,7 @@
   overflow: hidden;
 }
 
-
-.TS_Main_Div::before {
+.LTL_Main_Div::before {
   content: '';
   position: absolute;
   top: 0;
@@ -41,10 +38,10 @@
 }
 
 
-.TS_Info_Div{
+.LTL_Info_Div{
   position: absolute;
 
-  top: 8%;
+  top: 10%;
   left: 4%;
   padding: 30px;
   max-width: 400px;
@@ -61,13 +58,14 @@
 
 }
 
-.TS_ComboBox_Div {
+
+.LTL_ComboBox_Div {
   padding: 20px;
   min-width: 600px;
   height: fit-content;
   
-  top: 36%;
-  left: 4%;
+  top: 10%;
+  left: 40%;
   position: absolute;
   
   display: flex;
@@ -83,17 +81,17 @@
   font-family: "Electrolize", serif;
 }
 
-.TS_Select_Title_Span {
+.LTL_Select_Title_Span {
   margin-left: 3%;
   white-space: nowrap;
   min-width: fit-content;
 }
 
-.TS_Race {
+.LTL_Race {
   margin-left: 20px;
 }
 
-.TS_Select_Box {
+.LTL_Select_Box {
   padding: 8px;
   min-width: 120px;
   height: 40px;
@@ -113,41 +111,136 @@
   transition: all 0.2s ease;
 }
 
-.TS_Select_Box:hover {
+.LTL_Select_Box:hover {
   border-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.TS_Race_Box {
+.LTL_Race_Box {
   min-width: 200px;
 }
 
-.TS_Graph_Div {
+.LTL_Control_Container {
+  
+  top: 25%;
+  left: 40%;
+  min-width: 600px;
+  position: absolute;
+
+  gap: 20px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+
+  border-radius: 8px;
+  background-color: rgba(245, 245, 245, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.LTL_Filter_Button {
+  top: 25%;
+  left: 40%;
+  position: static;
+  margin-left: 15px;
+  padding: 10px 20px;
+  
+  border: none;
+  color: white;
+  border-radius: 8px;
+  background-color: rgba(0, 89, 79, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
+  transition: all 0.2s ease;
+}
+
+.LTL_Filter_Button:hover {
+  background-color: rgba(0, 89, 79, 1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.LTL_Range_Slider_Container {
+  gap: 20px;
+  padding: 15px;
+  display: flex;
+  margin-left: 35px;
+  
+  border-radius: 8px;
+  background-color: rgba(245, 245, 245, 0.5);
+
+}
+
+.LTL_Slider_Group {
+  display: flex;
+  gap: 5px;
+  
+  font-size: 0.9rem;
+  flex-direction: column;
+  font-family: "Electrolize", serif;
+}
+
+.LTL_Range_Slider {
+  height: 5px;
+  width: 150px;
+  
+  outline: none;
+  -webkit-appearance: none;
+  
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.LTL_Range_Slider::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+  
+  background: rgba(0, 89, 79, 0.9);
+}
+
+.LTL_Range_Slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: rgba(0, 89, 79, 1);
+}
+
+
+
+/* Garph CSS Area */
+
+.LTL_Graph_Div {
 
   position: absolute;
-  left: 45%;
-  top: 8%;
-
+  left: 4%;
+  top: 36%;
+  width: 90%;
+  
   padding-top: 25px;
   padding-right: 30px;
   
   border-radius: 15px;
-  background-color: rgba(245, 245, 245, 0.85);
+  background-color: rgba(245, 245, 245, 0.95);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   
   transition: all 0.3s ease;
 }
 
-.TS_Graph_Div:hover {
+.LTL_Graph_Div:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.TS_Graph_Div > .Graph_Div {
+.LTL_Graph_Div > .Graph_Div {
   transition: all 0.3s ease;
 
   padding: 10px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

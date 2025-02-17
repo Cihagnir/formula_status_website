@@ -8,10 +8,10 @@ import { Control_Bar, BASE_URL} from '../Common_Items';
 import {Lap_Time_Graph, graph_data_interface }from './Graph_Obj';
 
 // CSS Import 
-import './Lap_Time_Page.css' ;
+import './Lap_Time_Distr_Page.css' ;
 
 
-function Lap_Time_Page (){
+function Lap_Time_Distr_Page (){
 
 
   // Dropdown Box Selection and Data 
@@ -22,8 +22,8 @@ function Lap_Time_Page (){
   const [graph_data_state, set_graph_data_state ] = useState<Array<graph_data_interface> | null>(null)
   
   // Dropdown Box Datas
-  const [seassion_array_state, set_seassion_array_state] =useState( ["Select Seassion"] ) ;
-  const [track_name_array_state, set_track_name_array_state] = useState( ["Select Race" ] ) ;
+  const [seassion_array_state, set_seassion_array_state] =useState( [] ) ;
+  const [track_name_array_state, set_track_name_array_state] = useState( ['Select the Race'] ) ;
   
 
 
@@ -31,7 +31,6 @@ function Lap_Time_Page (){
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
 
     const api_response = await axios.get(BASE_URL + sub_url)
-    console.log(api_response.data.api_response);
     state_setter(api_response.data.api_response) ;
   }
 
@@ -56,7 +55,7 @@ function Lap_Time_Page (){
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Lap_Time/Race/${selected_season_state}/${selected_race_state}/` ;
+      let backend_input_string  = `/graph/Lap_Time_Distr/Race/${selected_season_state}/${selected_race_state}/` ;
       api_fetch_func(backend_input_string, set_graph_data_state)
     }
   }, [selected_race_state] )
@@ -98,7 +97,7 @@ function Lap_Time_Page (){
 
         <p className= 'LT_Select_Title_Span LT_Race'> Races : </p>
         <select className= 'LT_Select_Box LT_Race_Box' id='Race_Select_Box' 
-        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>
+        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>          
           {
             track_name_array_state.map(
               (track_name, index) => (
@@ -111,7 +110,7 @@ function Lap_Time_Page (){
 
       </div>
 
-      <div className= 'LT_Graph_Div'>
+      <div className= {` LT_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `}>
         {
           (graph_data_state !== null) ? (<Lap_Time_Graph  graph_data={graph_data_state} />) : (null)
         }
@@ -123,5 +122,5 @@ function Lap_Time_Page (){
   );
 }
 
-export default Lap_Time_Page;
+export default Lap_Time_Distr_Page;
 

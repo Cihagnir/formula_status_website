@@ -4,9 +4,10 @@ import { PatternLines } from '@visx/pattern';
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { ViolinPlot, BoxPlot } from '@visx/stats';
 import { scaleBand, scaleLinear } from '@visx/scale';
+import { useTooltip, useTooltipInPortal, defaultStyles } from '@visx/tooltip';
 
 // CSS Import 
-import "./Lap_Time_Page.css"
+import "./Lap_Time_Distr_Page.css"
 
 
 // Interface Defines 
@@ -29,6 +30,12 @@ export interface graph_data_interface {
   },
 }
 
+interface TooltipData {
+  driver: string;
+  median: number;
+  min: number;
+  max: number;
+}
 
 interface lap_time_graph_interface {
   graph_data : Array<graph_data_interface>
@@ -71,6 +78,20 @@ export function  Lap_Time_Graph( {
   graph_data,
 }: lap_time_graph_interface) {
 
+  const {
+    tooltipData,
+    tooltipLeft,
+    tooltipTop,
+    tooltipOpen,
+    showTooltip,
+    hideTooltip,
+  } = useTooltip<TooltipData>();
+
+  const { TooltipInPortal } = useTooltipInPortal({
+    scroll: true,
+    detectBounds: true,
+  });
+
   let values = graph_data.reduce( (allValues, { box_plot }) => {
     allValues.push(box_plot.min, box_plot.max);
     return allValues;
@@ -102,10 +123,10 @@ export function  Lap_Time_Graph( {
   });
 
   let y_axis_scale = scaleLinear<number>({
+    nice : false,
+    round: false,
     range: [y_axis_max, 0],
-    round: true,
-    domain: [minYValue, maxYValue],
-    nice : true,
+    domain: [minYValue - 1, maxYValue + 1],
   });
 
 
@@ -119,6 +140,24 @@ export function  Lap_Time_Graph( {
     }
   })
 
+  // Add tooltip handler
+  const handleTooltip = (
+    event: React.MouseEvent<SVGRectElement>,
+    data: graph_data_interface
+  ) => {
+    if (event) {
+      showTooltip({
+        tooltipData: {
+          driver: x(data),
+          median: median(data) ,
+          min: min(data),
+          max: max(data),
+        },
+        tooltipLeft: event.pageX, // Add small offset from cursor
+        tooltipTop: event.pageY,  // Lift slightly above cursor
+      });
+    }
+  };
 
   // Return the object if it exist 
   return (
@@ -168,10 +207,19 @@ export function  Lap_Time_Graph( {
                 stroke = {graph_cosmatic.box_plot.stroke_color}
                 fillOpacity = {graph_cosmatic.box_plot.fill_opacity}
                 strokeWidth = {graph_cosmatic.box_plot.stroke_width}
-                
+            
               />
 
-
+              {/* Add invisible rect for tooltip area */}
+              <rect
+                x={x_axis_scale(x(data))!}
+                y={0}
+                width={constrainedWidth}
+                height={y_axis_max}
+                fill="transparent"
+                onMouseMove={(e) => handleTooltip(e, data)}
+                onMouseLeave={() => hideTooltip()}
+              />
 
             </g>
           )
@@ -199,6 +247,34 @@ export function  Lap_Time_Graph( {
 
 
       </svg>
+
+      {/* Add tooltip portal */}
+      {tooltipOpen && tooltipData && (
+        <TooltipInPortal
+          key={Math.random()}
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={{
+            ...defaultStyles,
+            background: 'rgba(245, 245, 245, 0.95)',
+            padding: '0.5rem',
+            border: '1px solid black',
+            borderRadius: '5px',
+            color: 'black',
+            fontSize: '14px',
+            fontFamily: 'Electrolize',
+          }}
+        >
+          <div>
+            <strong>{tooltipData.driver}</strong>
+            <br />
+            <div>Max : {tooltipData.max.toFixed(3)}s</div>
+            <div>Med : {tooltipData.median.toFixed(3)}s</div>
+            <div>Min : {tooltipData.min.toFixed(3)}s</div>
+          </div>
+
+        </TooltipInPortal>
+      )}
     </div>
   );
 }

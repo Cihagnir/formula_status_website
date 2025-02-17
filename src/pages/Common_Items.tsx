@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import './Common_Items.css'; 
 
 
-export var BASE_URL = "https://formulatics.backend.ssoli.app" ;
+export var BASE_URL =  "http://localhost:8080" ;  //"https://formulatics.backend.ssoli.app" ;
 
 
 export function Control_Bar (){

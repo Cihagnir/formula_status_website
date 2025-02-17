@@ -21,7 +21,7 @@ function Tyre_Stint_Page(){
 
   // Dropdown Box Datas
   const [seassion_array_state, set_seassion_array_state] =useState<Array<string>>( [] ) ;
-  const [track_name_array_state, set_track_name_array_state] = useState<Array<string>>( [ ] ) ;
+  const [track_name_array_state, set_track_name_array_state] = useState<Array<string>>( ['Select the Race'] ) ;
 
   // Plotly Graph Data 
   const [graph_data_state, set_graph_data_state ] = useState<Array<any> | null>( null);
@@ -30,7 +30,6 @@ function Tyre_Stint_Page(){
   // Api Fetch Function
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
 
-    console.log(BASE_URL + sub_url) ; 
     const api_response = await axios.get(BASE_URL + sub_url) ;
     state_setter(api_response.data.api_response) ;
   }
@@ -102,7 +101,7 @@ function Tyre_Stint_Page(){
 
         <p className= 'TS_Select_Title_Span TS_Race'> Races : </p>
         <select className= 'TS_Select_Box TS_Race_Box' id='Race_Select_Box' 
-        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
+        onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>   
           {
             track_name_array_state.map(
               (track_name, index) => (
@@ -115,7 +114,7 @@ function Tyre_Stint_Page(){
 
       </div>
 
-      <div className= 'TS_Graph_Div'>
+      <div className= {` TS_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `} > 
         {
            (graph_data_state !== null) ? (<Tyre_Stint_Graph  graph_data={graph_data_state} />) : (null)
         }

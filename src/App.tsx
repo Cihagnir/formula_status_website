@@ -2,15 +2,12 @@
 // Imports 
 import {  Routes, Route } from 'react-router-dom';
 
-// Bootstrap Imports 
-import Nav from 'react-bootstrap/Nav';
-
-
 // Hand Made Import 
 import Home_Page from './pages/home_page/Home_Page';
 import About_Page from './pages/about_page/About_Page';
-import Lap_Time_Page from './pages/lap_time/Lap_Time_Page';
 import Tyre_Stint_Page from './pages/tyre_stint/Tyre_Stint_Page';
+import Lap_Time_Line_Page from './pages/lap_time_line/Lap_Time_Line_Page';
+import Lap_Time_Distr_Page from './pages/lap_time_distr/Lap_Time_Distr_Page';
 
 //Img Imoprt 
 import x_img from './pages/img/X_icon.svg'
@@ -51,8 +48,10 @@ function App() {
           </a>
 
           <div className='Sub_Nav_Bar_Graph'>
-              <a className='Sub_Nav_Bar_Item' href='/Graph/Lap_Time'   > Lap time   </a> 
-              <a className='Sub_Nav_Bar_Item' href='/Graph/Tyre_Stint' > Tyre Stint </a>           
+              <a className='Sub_Nav_Bar_Item' href='/Race/Tyre_Stint' > Tyre Stint </a>     
+              <a className='Sub_Nav_Bar_Item' href='/Race/Lap_Time_Line' > Tyre Stint Line</a>           
+              <a className='Sub_Nav_Bar_Item' href='/Race/Lap_Time_Distr'   > Lap time Distr</a> 
+
           </div>
         
         </div>
@@ -69,11 +68,15 @@ function App() {
       </Routes>
 
       <Routes>
-        <Route path="/Graph/Lap_Time" element={ <Lap_Time_Page/> }/>
+        <Route path="/Race/Lap_Time_Distr" element={ <Lap_Time_Distr_Page/> }/>
       </Routes>
 
       <Routes>
-        <Route path="/Graph/Tyre_Stint" element={ <Tyre_Stint_Page/> }/>
+        <Route path="/Race/Lap_Time_Line" element={ <Lap_Time_Line_Page/> }/>
+      </Routes>
+
+      <Routes>
+        <Route path="/Race/Tyre_Stint" element={ <Tyre_Stint_Page/> }/>
       </Routes>
 
       <Routes>

@@ -1,10 +1,11 @@
 
 
-> Version 0.0.3.1
+> Version 0.0.3.2
 
-  . Home Page design updated 
-  . About Page design updated into real webpage 
-  . Navigation Bar update for the graph connection
-  . Lap Time Page desing updated ' Better now I guess '
-  . Tyre Stint Page desing updated ' Better now I guess '
-  . Backend connection link changed
+
+  . Tyre Stint & Lap Time Page mouse infogrpah added . 
+  . Tyre Stint page stint color bug fixes .
+  . [ Lap Time  -> Lap Time Dist ] : Lap Time page renamed 
+  . Lap Time Line page added
+    . Lap Time Line : Slider for the quartile filter 
+    . Lap Time Line : Button for graph data filter 

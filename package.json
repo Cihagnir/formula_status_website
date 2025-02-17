@@ -3,16 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-spring/web": "^9.7.5",
     "@testing-library/jest-dom": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@visx/axis": "latest",
+    "@visx/event": "^3.12.0",
     "@visx/group": "latest",
     "@visx/legend": "latest",
     "@visx/pattern": "latest",
     "@visx/scale": "latest",
     "@visx/shape": "latest",
     "@visx/stats": "latest",
+    "@visx/tooltip": "^3.12.0",
+    "@visx/xychart": "^3.12.0",
     "axios": "latest",
     "lottie-react": "latest",
     "react": "^18.0.0",
@@ -31,8 +35,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "npm install && npm run start"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
