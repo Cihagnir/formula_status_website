@@ -1,7 +1,4 @@
 
-// Import Section 
-import Lottie from "lottie-react"
-
 // Css Imoprt
 import "./About_Page.css"
 

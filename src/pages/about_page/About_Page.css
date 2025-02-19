@@ -5,6 +5,34 @@
   height: 100vh;
 }
 
+.AP_Background_Img{
+
+  width: 100vw;
+  height: 100vh;
+
+  
+  z-index: -2;
+  left: 0;
+  top: 0;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.AP_Back_Svg{
+  
+  z-index: -1;
+  
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+
+}
+
 .AP_Background_Div{
 
   padding: 3%;
@@ -33,33 +61,4 @@
   font-variant: normal;
   font-weight: 500;
   font-family: "Audiowide", serif;
-}
-
-
-.AP_Background_Img{
-
-  width: 100vw;
-  height: 100vh;
-
-  
-  z-index: -2;
-  left: 0;
-  top: 0;
-  position: fixed;
-  
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.AP_Back_Svg{
-  
-  z-index: -1;
-  
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-
 }

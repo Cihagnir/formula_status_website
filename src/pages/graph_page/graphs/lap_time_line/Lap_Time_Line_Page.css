@@ -58,6 +58,7 @@
 
 }
 
+/* Combo Box CSS Area  */
 
 .LTL_ComboBox_Div {
   padding: 20px;
@@ -120,11 +121,14 @@
   min-width: 200px;
 }
 
+
+/* Constrol CSS Area */
+
 .LTL_Control_Container {
   
-  top: 25%;
+  top: 23%;
   left: 40%;
-  min-width: 600px;
+  min-width: 610px;
   position: absolute;
 
   gap: 20px;
@@ -224,7 +228,7 @@
   
   padding-top: 25px;
   padding-right: 30px;
-  
+
   border-radius: 15px;
   background-color: rgba(245, 245, 245, 0.95);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -245,6 +249,61 @@
   align-items: center;
 }
 
+.Graph_Container {
+  width: 90%;
+  display: inline-block;
+}
+
+/* Legend CSS Area   */
+
+.Graph_Legend {
+  gap: 10px;
+  width: 10%;
+  padding: 20px;
+  max-height: 400px;
+  
+  display: flex;
+  overflow-y: auto;
+}
+
+.Legend_Column {
+  flex: 1;
+  min-width: 0;
+}
+
+.Legend_Item {
+  overflow: hidden;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 10px 6px 10px 6px;
+}
+
+.Legend_Item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.Legend_Item_Inactive {
+  opacity: 0.3;
+}
+
+.Legend_Color_Box {
+  width: 8px;
+
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+.Legend_Driver_Name {
+  font-size: 0.8rem;
+}
+
+/* Define colors for each driver - you'll need to add these based on your data */
+:root {
+  --driver1-color: #FF1E1E;
+  --driver2-color: #00FF00;
+  /* Add more driver colors as needed */
+}
 
 .isPassive{
   visibility: hidden;

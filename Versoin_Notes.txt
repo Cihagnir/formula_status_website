@@ -1,11 +1,13 @@
 
 
-> Version 0.0.3.2
+> Version 0.0.3.3
 
+  !! Folder Structure Changed 
+  . Lap_Time_Line Page 
+    -> Leggend added into grpah . Also support the filtering too.  
+    -> Slider onChange page update added. 
+    -> Dynamic range added to line graph . 
 
-  . Tyre Stint & Lap Time Page mouse infogrpah added . 
-  . Tyre Stint page stint color bug fixes .
-  . [ Lap Time  -> Lap Time Dist ] : Lap Time page renamed 
-  . Lap Time Line page added
-    . Lap Time Line : Slider for the quartile filter 
-    . Lap Time Line : Button for graph data filter 
+  . Graph Page added as an intermediate UI for all the grpah 
+  . Sub_Nav Bar removed - It was for the graphs - 
+  . Routes are changed small bit. 

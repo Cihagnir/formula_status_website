@@ -229,6 +229,7 @@ export function  Lap_Time_Graph( {
         
         <Group>
           <AxisLeft 
+          label='Lap Time'
           left = {element_space_width} scale = {y_axis_scale} 
           stroke = {graph_cosmatic.axis.line_color}  tickStroke = {graph_cosmatic.axis.line_color} 
           tickLabelProps = {graph_cosmatic.axis.text_prop}
@@ -237,10 +238,12 @@ export function  Lap_Time_Graph( {
 
         <Group>
           <AxisBottom 
+          label ='Drivers'
+          labelOffset= { 20 }
           top = {y_axis_max} left = {element_space_width} scale = {x_axis_scale} 
           stroke = {graph_cosmatic.axis.line_color}  tickStroke = {graph_cosmatic.axis.line_color} 
           tickLabelProps = {graph_cosmatic.axis.text_prop} 
-          tickValues = {label_values} label ='categories'
+          tickValues = {label_values} 
           
          />
         </Group>

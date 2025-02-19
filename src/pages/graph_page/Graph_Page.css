@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Electrolize&family=Sriracha&display=swap');
+
+
+
+/* Page CSS */
+
+.GP_Main_Div{
+  width: 100vw;
+  height: 100vh;
+}
+
+.GP_Background_Img{
+
+  width: 100vw;
+  height: 100vh;
+
+  
+  z-index: -2;
+  left: 0;
+  top: 0;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.GP_Content_Container {
+  top: 50%;
+  left: 50%;
+  width: 60vw;
+  height: 80vh;
+  padding: 2rem;
+  position: fixed;
+
+  border-radius: 20px;
+  backdrop-filter: blur(3px);
+
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(200, 200, 200, 0.4);
+  transform: translate(-50%, -50%);
+}
+
+/* Text Area CSS  */
+
+.GP_Text_Area {
+  height: 30%;
+  width: 100%;
+
+}
+
+.GP_Tittle_Heading {
+  color:  white;
+  font-size: 2rem;
+  font-variant: normal;
+  font-family: "Audiowide", serif;
+}
+
+
+.GP_Text_Span{
+  text-align: left;
+  
+  font-weight: 500;
+  font-size: 1.2rem;
+  font-variant: normal;
+  font-family: "Audiowide", serif;
+}
+
+
+
+/* Flipping Card CSS */
+
+.GP_Cards_Div {
+  width: 100%;
+  height: 70%;
+  position: relative;
+  
+  gap: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.GP_Flip_Card_Div {
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+}
+
+.GP_Flip_Card_Inner_Div {
+  
+  width: 100%;
+  height: 100%;
+  min-height: 200px;  
+  position: absolute;
+
+  cursor: pointer;
+  text-align: center;
+  
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.GP_Flip_Card_Div:hover .GP_Flip_Card_Inner_Div {
+  transform: rotateY(180deg);
+}
+
+.GP_Flip_Card_Front_Div, .GP_Flip_Card_Back_Div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+  backface-visibility: hidden;
+}
+
+.GP_Flip_Card_Front_Div {
+  min-height: 200px; 
+
+  color: white;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 89, 79, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.GP_Flip_Card_Front_Div h2 {
+  font-size: 1.5rem;
+  font-family: 'Audiowide', cursive;
+}
+
+.GP_Flip_Card_Back_Div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+  transform: rotateY(180deg);
+  background-color: rgba(0, 89, 79, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.GP_Flip_Card_Back_Div a {
+  width: 100%;
+  height: auto;  /* Allow links to take natural height */
+  padding: 0.75rem 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: white;
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

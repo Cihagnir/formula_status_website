@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { BASE_URL} from '../Common_Items';
+import {BASE_URL} from '../Commen_Utils';
 import {Lap_Time_Line_Graph }from './Graph_Obj';
 
 // CSS Import 
@@ -11,31 +11,43 @@ import './Lap_Time_Line_Page.css' ;
 
 
 // Interface define section 
+interface lap_data_interface {
+  lap_number: number;
+  lap_time: number;
+}
 
 interface graph_data_interface {
-  graph_data : Array<any>,
-  graph_domain : { min : number, max : number }
+  [key : string] : Array<lap_data_interface> ;
+}
+
+
+// Interface Defines 
+interface graph_input_interface {
+  graph_data : graph_data_interface ;
 }
 
 
 function Lap_Time_Line_Page (){
 
 
-  // Dropdown Box Selection and Data 
+  // Graph State Area 
   const [selected_race_state, set_selected_race_state] = useState("")
   const [selected_season_state, set_selected_season_state] = useState('')
   const [data_filter_state, set_data_filter_state] = useState(1);
-  const [upper_bound_state, set_upper_bound_state] = useState(1.5);
-  const [lower_bound_state, set_lower_bound_state] = useState(1.5);
+  const [upper_bound_grpah_state, set_upper_bound_graph_state] = useState(1.5);
+  const [lower_bound_grpah_state, set_lower_bound_graph_state] = useState(1.5);
 
   
   // Graph Data 
-  const [graph_data_state, set_graph_data_state ] = useState<graph_data_interface | null>(null)
+  const [graph_data_state, set_graph_data_state ] = useState<graph_input_interface | null>(null)
   
   // Dropdown Box Datas
   const [seassion_array_state, set_seassion_array_state] =useState( [] ) ;
   const [track_name_array_state, set_track_name_array_state] = useState( ['Select the Race'] ) ;
   
+  // Sliders onChange Data
+  const [upper_bound_state, set_upper_bound_state] = useState(1.5);
+  const [lower_bound_state, set_lower_bound_state] = useState(1.5);
 
 
   // Api Fetch Function
@@ -66,11 +78,11 @@ function Lap_Time_Line_Page (){
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Lap_Time_Line/Race/${selected_season_state}/${selected_race_state}/${data_filter_state}/${upper_bound_state}/${lower_bound_state}` ;
+      let backend_input_string  = `/graph/Lap_Time_Line/Race/${selected_season_state}/${selected_race_state}/${data_filter_state}/${upper_bound_grpah_state}/${lower_bound_grpah_state}` ;
       api_fetch_func(backend_input_string, set_graph_data_state)
     }
   },
-  [selected_race_state, selected_season_state, data_filter_state, upper_bound_state, lower_bound_state] )
+  [selected_race_state, selected_race_state, selected_season_state, data_filter_state, upper_bound_grpah_state, lower_bound_grpah_state] )
 
   
   return (
@@ -139,7 +151,8 @@ function Lap_Time_Line_Page (){
               max="3" 
               step="0.1"
               defaultValue={lower_bound_state}
-              onMouseUp={(e) => set_lower_bound_state(Number(e.currentTarget.value))}
+              onChange={ (e) => set_lower_bound_state(Number(e.currentTarget.value)) }
+              onMouseUp={ (e) => set_lower_bound_graph_state(Number(e.currentTarget.value)) }
               className='LTL_Range_Slider'
             />
           </div>
@@ -152,7 +165,8 @@ function Lap_Time_Line_Page (){
               max="3" 
               step="0.1"
               defaultValue={upper_bound_state}
-              onMouseUp={(e) => set_upper_bound_state(Number(e.currentTarget.value))}
+              onChange={ (e) => set_upper_bound_state(Number(e.currentTarget.value)) }
+              onMouseUp={ (e) => set_upper_bound_graph_state(Number(e.currentTarget.value)) }
               className='LTL_Range_Slider'
             />
           </div>
@@ -161,7 +175,7 @@ function Lap_Time_Line_Page (){
 
       <div className= {` LTL_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `}>
         {
-          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data} graph_domain={graph_data_state.graph_domain}  />) : (null)
+          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data}  />) : (null)
         }
       </div>
 

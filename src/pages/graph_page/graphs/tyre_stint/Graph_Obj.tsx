@@ -1,8 +1,8 @@
 
 import { Group } from '@visx/group';
 import { LegendOrdinal } from '@visx/legend';
+import { BarStackHorizontal } from '@visx/shape';
 import { AxisBottom, AxisLeft } from '@visx/axis';
-import { BarStack, BarStackHorizontal } from '@visx/shape';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 import { useTooltip, useTooltipInPortal, defaultStyles } from '@visx/tooltip';
 
@@ -219,8 +219,11 @@ export function Tyre_Stint_Graph( {
 
         </Group>
 
-        <Group>
+        <Group className='Axis_Group' >
           <AxisLeft
+            label= "Drivers"
+            labelOffset= {48}
+            
             left={element_space_width}
             hideAxisLine
             hideTicks
@@ -235,6 +238,9 @@ export function Tyre_Stint_Graph( {
 
         <Group>
           <AxisBottom
+            label= 'Lap Number'
+            labelOffset= { 20 }
+
             left={element_space_width}
             top={y_axis_max}
             scale={x_axis_scale}

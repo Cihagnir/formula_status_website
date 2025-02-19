@@ -152,6 +152,14 @@
   align-items: center;
 }
 
+.visx-axis-label{
+
+
+  font-size: 1.2rem;
+
+
+}
+
 
 .isPassive{
   visibility: hidden;

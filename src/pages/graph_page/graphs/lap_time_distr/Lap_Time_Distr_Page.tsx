@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { Control_Bar, BASE_URL} from '../Common_Items';
+import { BASE_URL} from '../Commen_Utils';
 import {Lap_Time_Graph, graph_data_interface }from './Graph_Obj';
 
 // CSS Import 
@@ -58,7 +58,7 @@ function Lap_Time_Distr_Page (){
       let backend_input_string  = `/graph/Lap_Time_Distr/Race/${selected_season_state}/${selected_race_state}/` ;
       api_fetch_func(backend_input_string, set_graph_data_state)
     }
-  }, [selected_race_state] )
+  }, [selected_season_state, selected_race_state] )
 
   
   return (
