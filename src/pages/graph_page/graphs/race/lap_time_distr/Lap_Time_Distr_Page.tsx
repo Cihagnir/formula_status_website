@@ -29,6 +29,8 @@ function Lap_Time_Distr_Page (){
 
   // Api Fetch Function
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
+    
+    console.log(BASE_URL + sub_url)
 
     const api_response = await axios.get(BASE_URL + sub_url)
     state_setter(api_response.data.api_response) ;

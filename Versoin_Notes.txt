@@ -1,15 +1,6 @@
 
 
-> Version 0.0.3.4
+> Version 0.0.3.5
 
-
-  . Team colors added into Time Graphs. 
-  . Lap_Time_Line : 
-    _ Undefined key bug fixed at the useState => [ visible_series_state, graph_data ]. { When the grpah data changes, driver could be changed too, You know every race do not include same drivers }.
-    _ Tooltip box fixed and expand it's data 
-
-  . Qualification Lap_Time added 
-    _ Graph CSS Fixed 
-    _ Tooltip and & Legend added 
-  
-  . Lap times should be interchangable with dependicy on lap_time_start
+  . Commen Utils fix 
+  . Backend URL fix 

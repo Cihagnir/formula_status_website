@@ -9,8 +9,7 @@
 
 
 // Base Url for backend 
-export var BASE_URL =  "http://localhost:8080" ;  //"https://formulatics.backend.ssoli.app" ;
-
+export var BASE_URL = "https://formulatics.backend.ssoli.app" ; 
 
 
 //// LAP TIME LINE GRAPH 
