@@ -4,25 +4,28 @@ require("dotenv").config();
 const cors = require('cors');
 const mysql = require('mysql');
 const express = require('express');
+
+// Handmade Imports
 const dataBase = require('./data_base.js');
+const utils = require('./utils.js');
 
 const cors_conf_json = {
-  origin: ["https://main-frontend.d3rpgxvzsb1xs7.amplifyapp.com", "https://formulatics.onrender.com", "http://localhost:3000",],
+  origin: ["https://main-frontend.d3rpgxvzsb1xs7.amplifyapp.com", "", "http://localhost:3000",],
 }
 
 const backend_app = express();
 backend_app.use(cors(cors_conf_json));
 
-/** Local MySQL Connection Config (for development)
+/** Local MySQL Connection Config (for development) */
 var rds_connection = mysql.createConnection({
   user     : 'root',
   password : 'Cg//1234',
   host     : 'localhost',
   database : 'formula_one'
 })
-*/
 
-/** AWS RDS Connection  */
+
+/** AWS RDS Connection  
 // RDS Connection Config
 var rds_connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -31,7 +34,7 @@ var rds_connection = mysql.createConnection({
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
 })
-
+*/
 
 rds_connection.connect(
   (error) => {
@@ -76,6 +79,7 @@ setInterval( () => {
 },  180000); // Chane the time into a minute or 5 minutes  
 
 
+
 // Status Test Function
 backend_app.get(
   "/", (request, result) => {
@@ -83,6 +87,7 @@ backend_app.get(
     result.json({ "Api Status": 200 });
   }
 );
+
 
 // Status Test Function Second Page 
 backend_app.get(
@@ -92,7 +97,11 @@ backend_app.get(
   }
 );
 
-// Track Name Fetcher
+
+
+/********  UI INFORMATION FETCHER BACKEND FUNCTION  *********/
+
+// RACE Track Name Fetcher
 backend_app.get(
   "/ui/year/:year/", (request, result) => {
 
@@ -120,7 +129,8 @@ backend_app.get(
   }
 )
 
-// Seassion Year Fetcher
+
+//  RACE Seassion Year Fetcher
 backend_app.get(
   "/ui/seassion/", (request, result) => {
 
@@ -149,12 +159,114 @@ backend_app.get(
   }
 )
 
-// Lap Time Graph Data Transformer 
+
+// QUALIFICATION Session Type Fetcher 
 backend_app.get(
-  "/graph/Lap_Time/:session_type/:seassion/:race_circuit/", (request, result) => {
+  "/ui/session_type/:year/:circuit_name", (request, result) => {
+
+    var api_result = [];
+    var rds_query_string = `SELECT DISTINCT session_type FROM lap_time_table WHERE (seassion = ${request.params.year} AND circuit_name = '${request.params.circuit_name}' AND session_type LIKE '%Qualifying%')` ;
+
+    rds_connection.query(rds_query_string, (query_error, query_result) => {
+
+      if (query_error) {
+
+        console.error(`DATABASE : Querry Error ${query_error}`);
+        result.status(500).send('Database query search failed.');
+        return;
+
+      } else {
+
+        query_result.forEach(element => {
+          api_result.push(element.session_type)
+        });
+
+        result.json({ api_response: api_result });
+      }
+    }
+    )
+  }
+)
+
+
+/********  GRAPH DRAWER BACKEND FUNCTION  *********/
+
+
+// RACE Lap Time Line Graph Data Transformer 
+backend_app.get(
+  "/graph/Race/Lap_Time_Line/:seassion/:race_circuit/:is_filter/:upper_bound/:lower_bound", (request, result) => {
+
+    let api_result = {};
+    let upper_bound = Number(request.params.upper_bound);
+    let lower_bound = Number(request.params.lower_bound);
+    let is_filter = Boolean(Number(request.params.is_filter));
+
+    var rds_query_string = ` SELECT driver_name, lap_time, lap_number, team_colour FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.race_circuit}' AND lap_number > 1 )`
+
+    rds_connection.query(rds_query_string,
+      (query_error, query_result) => {
+
+        if (query_error) {
+
+          console.error(`DATABASE : Querry Error ${query_error}`);
+          result.status(500).send('Database query search failed.');
+          return;
+
+        } else {
+          
+          let team_colour_json = {};
+          let total_laptime_array = [];
+
+          query_result.forEach(element => {
+            total_laptime_array.push(element.lap_time);
+          });
+          
+          let quartiles = utils.Quartile_Calculater(total_laptime_array, lower_bound, upper_bound);
+
+          if(is_filter){
+            total_laptime_array = total_laptime_array.filter(val => ((quartiles.lower_quart < val) && (val < quartiles.upper_quart)));
+          }
+          
+          query_result.forEach(element => {
+          
+            let lap_time_data = element.lap_time ; 
+
+            if ( is_filter & ((lap_time_data < quartiles.lower_quart) | ( quartiles.upper_quart < lap_time_data)) ){
+              lap_time_data = null ; 
+            }
+            
+            if (api_result.hasOwnProperty(element.driver_name)) {
+              
+              api_result[element.driver_name].push({
+                lap_number: element.lap_number,
+                lap_time: lap_time_data,
+              });
+            
+            } else {
+
+              team_colour_json[element.driver_name] = element.team_colour;
+
+              api_result[element.driver_name] = [{
+                lap_number: element.lap_number,
+                lap_time: lap_time_data,
+              }];
+            }
+          });
+
+          result.json({ api_response: { graph_data : api_result, graph_style : team_colour_json} });
+        }
+      }
+    )
+  }
+)
+
+
+// RACE Lap Time Distrubation Graph Data Transformer 
+backend_app.get(
+  "/graph/Race/Lap_Time_Distr/:seassion/:race_circuit/", (request, result) => {
 
     let api_result = [];
-    var rds_query_string = ` SELECT driver_name, lap_time FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type='${request.params.session_type}' AND circuit_name = '${request.params.race_circuit}' AND lap_number > 1 )`
+    var rds_query_string = ` SELECT driver_name, lap_time, team_colour FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.race_circuit}' AND lap_number > 1 )`
 
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
@@ -168,6 +280,7 @@ backend_app.get(
         } else {
 
           let data_json = {};
+          let team_colour_json = {}
           let total_laptime_array = [];
 
           query_result.forEach(element_json => {
@@ -180,19 +293,12 @@ backend_app.get(
             } else {
 
               data_json[element_json.driver_name] = [element_json.lap_time];
+              team_colour_json[element_json.driver_name] = element_json.team_colour;
             }
 
           });
-
-          total_laptime_array.sort(function (a, b) { return a - b });
-
-          let data_first_quartile = total_laptime_array[Math.floor((total_laptime_array.length + 1) * 0.25)];
-          let data_third_quartile = total_laptime_array[Math.floor((total_laptime_array.length + 1) * 0.75)];
-
-          let data_iqr = data_third_quartile - data_first_quartile
-
-          let outliers_upper_limit = data_third_quartile + data_iqr * 1.5;
-          let outliers_lower_limit = data_first_quartile - data_iqr * 1.5
+          
+          quartiles = utils.Quartile_Calculater(total_laptime_array);
 
           for (let key in data_json) {
 
@@ -202,7 +308,7 @@ backend_app.get(
             }
             lap_time_array.sort(function (a, b) { return a - b });
 
-            lap_time_array = lap_time_array.filter(val => ((outliers_lower_limit < val) && (val < outliers_upper_limit)));
+            lap_time_array = lap_time_array.filter(val => ((quartiles.lower_quart < val) && (val < quartiles.upper_quart)));
 
             let first_quartile = lap_time_array[Math.floor((lap_time_array.length + 1) * 0.25)];
             let third_quartile = lap_time_array[Math.floor((lap_time_array.length + 1) * 0.75)];
@@ -215,6 +321,7 @@ backend_app.get(
                 violin_plot: Count_Elements(lap_time_array.map(num => Math.round(num))),
                 box_plot: {
                   x: key,
+                  color : team_colour_json[key],
                   min: lap_time_array[0],
                   max: lap_time_array[lap_time_array.length - 1],
                   median: lap_time_array[Math.round(lap_time_array.length / 2)],
@@ -233,12 +340,13 @@ backend_app.get(
   }
 )
 
-// Tyre Stint Graph Data Transformer
+
+// RACE Tyre Stint Graph Data Transformer
 backend_app.get(
-  "/graph/Tyre_Stint/:session_type/:seassion/:circuit_name/", (request, result) => {
+  "/graph/Race/Tyre_Stint/:seassion/:circuit_name/", (request, result) => {
 
     api_result = []
-    var rds_query_string = `SELECT driver_name, tyre_compund, stint_duration, stint_number FROM tyre_stint_table WHERE ( seassion = ${request.params.seassion} AND session_type='${request.params.session_type}' AND circuit_name = '${request.params.circuit_name}'  )`
+    var rds_query_string = `SELECT driver_name, tyre_compund, stint_duration, stint_number FROM tyre_stint_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.circuit_name}'  )`
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
 
@@ -279,6 +387,51 @@ backend_app.get(
 )
 
 
+// QUALIFICATION Lap Time Graph Data Transformer
+backend_app.get(
+  "/graph/Qualification/Lap_Time_Bar/:session_type/:seassion/:circuit_name/", (request, result) => {
+
+    api_result = []
+
+    var rds_query_string = `SELECT driver_name, sector_one, sector_two, sector_three, lap_time, lap_start_time  FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type = '${request.params.session_type}' AND circuit_name = '${request.params.circuit_name}'  )`
+
+    rds_connection.query(rds_query_string,
+      (query_error, query_result) => {
+
+        if (query_error) {
+
+          console.error(`DATABASE : Querry Error ${query_error}`);
+          result.status(500).send('Database query search failed.');
+          return;
+
+        } else {
+          
+          let driver_lap_json = {} ;
+
+          query_result.forEach( (sub_element) => {
+
+            if(sub_element.lap_time !== 0) {
+              
+              if (driver_lap_json.hasOwnProperty(sub_element.driver_name)) {
+
+                if(sub_element.lap_time < driver_lap_json[sub_element.driver_name].lap_time ){
+                  
+                  driver_lap_json[sub_element.driver_name] = sub_element ;
+                }
+              } else {
+                driver_lap_json[sub_element.driver_name] = sub_element ;
+              }
+            }
+          })
+
+          api_result = Object.values(driver_lap_json);
+
+          result.json({ api_response: api_result });
+        }
+      }
+    )
+  }
+)
 
 
 // Backend Start function 

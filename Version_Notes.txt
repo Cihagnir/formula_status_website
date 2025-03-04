@@ -1,8 +1,14 @@
 
-> Version 0.0.2.7
+> Version 0.0.2.8
 
-  . Cors update for aws and Render
+  . Database update added 
+    _ lap_time_table ( Race & Qualification )
+    _ tyre_stint_table
+    _ session_key_table
+  . Lap Time Line graph backend added 
 
+
+  !!! DATABASE : lap_time_table => Table changed with that version. Sector segmentation columns removed, team color column added to create stabe color scale at the grpahs. 
 
 
 
