@@ -16,7 +16,16 @@ function Home_Page () {
         Form
       </div>
       <div className='HP_Righ_Div'>
-        ulatics
+        <span className='HP_Right_Title_Span'> ulatics </span>
+        <>
+        {
+          /** Basic Text 
+          <span className='HP_Right_Text_Span'>
+          Your friendly website for Formula 1 analytics . 
+          </span>
+          */
+        }
+        </>
       </div>
     </div>
   );

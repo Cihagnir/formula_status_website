@@ -254,6 +254,30 @@
   display: inline-block;
 }
 
+
+.LTL_Tooltip_Div{
+
+  font-size: 0.6rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+
+}
+
+.LTL_Tooltip_SubDiv{
+
+  display: flex;
+  flex-direction: row;
+}
+
+.LTL_Tooltip_Item_Div{
+
+  padding: 2px;
+}
+
+
+
 /* Legend CSS Area   */
 
 .Graph_Legend {
@@ -307,4 +331,8 @@
 
 .isPassive{
   visibility: hidden;
+}
+
+.capitalize{
+  text-transform: capitalize;
 }

@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+
+/* Page CSS */
+.LTQ_Main_Div {
+  width: 100vw;
+  height: 100vh;
+  
+  background: linear-gradient(135deg, 
+    rgba(152, 30, 50, 0.9) 0%,
+    rgba(246, 32, 57, 0.8) 30%,
+    rgba(41, 82, 148, 0.85) 70%
+  );
+  
+  backdrop-filter: blur(10px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  position: relative;
+  overflow: hidden;
+}
+
+.LTQ_Main_Div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+
+.LTQ_Info_Div{
+  position: absolute;
+
+  top: 10%;
+  left: 4%;
+  padding: 30px;
+  max-width: 400px;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
+  
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+
+}
+
+
+.LTQ_ComboBox_Div {
+  padding: 20px;
+  min-width: 600px;
+  height: fit-content;
+  
+  top: 10%;
+  left: 36%;
+  position: absolute;
+  
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: rgba(245, 245, 245, 0.8);
+
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
+}
+
+.LTQ_Select_Title_Span {
+  margin-left: 3%;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.LTQ_Race {
+  margin-left: 20px;
+}
+
+.LTQ_Select_Box {
+  padding: 8px;
+  min-width: 120px;
+  height: 40px;
+
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background-color:rgba(245, 245, 245, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
+  text-align: center;
+  text-align-last: center;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.LTQ_Select_Box:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.LTQ_Race_Box {
+  min-width: 200px;
+}
+
+
+.LTQ_Button {
+  position: absolute;
+  top: 25%;
+  left: 36%;
+  padding: 10px 20px;
+  
+  color: black;
+  border: none;
+  border-radius: 6px;
+  background-color: rgba(152, 30, 50, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.LTQ_Button:hover {
+  background-color: rgba(152, 30, 50, 0.9);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Graph CSS */
+.LTQ_Graph_Div {
+
+  position: absolute;
+  left: 4%;
+  top: 36%;
+  width: 90%;
+  
+  padding-top: 25px;
+  
+  border-radius: 15px;
+  background-color: rgba(245, 245, 245, 0.95);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+.LTQ_Graph_Div:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.LTQ_Graph_Div > .Graph_Div {
+  padding-left: 10px;
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+
+.LTQ_Graph_Div > .Graph_Div > .Sub_Graph_Div {
+  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+
+.LTQ_Legend_Div{
+  gap: 10px;
+  padding: 10px;
+  width: 8%;
+
+  display: flex;
+  flex-direction: column;
+  
+  border-radius: 8px;
+  font-family: "Electrolize", serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: rgba(255, 255, 255, 0.9);
+   
+}
+
+
+.LTQ_Bar_Text{
+  fill : #4C00B0 ; 
+  
+  text-anchor: middle ;
+  dominant-baseline : middle ;
+
+  font-size : 0.7rem ; 
+  font-family : "Electrolize"; 
+}
+
+
+
+
+.isPassive{
+  visibility: hidden;
+}
+
+.capitalize{
+  text-transform: capitalize;
+}

@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 
 // Hand Made Import 
-import { BASE_URL } from '../Commen_Utils';
+import { BASE_URL } from '../../Commen_Utils';
 import { Tyre_Stint_Graph } from './Graph_Obj';
 
 // CSS Import 
@@ -31,6 +31,7 @@ function Tyre_Stint_Page(){
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
 
     const api_response = await axios.get(BASE_URL + sub_url) ;
+    console.log(api_response.data.api_response);
     state_setter(api_response.data.api_response) ;
   }
 
@@ -57,7 +58,7 @@ function Tyre_Stint_Page(){
   useEffect( () => {
     
     if (! (selected_race_state === '') ) {
-      let backend_input_string : string = `/graph/Tyre_Stint/Race/${selected_season_state}/${selected_race_state}/` ;
+      let backend_input_string : string = `/graph/Race/Tyre_Stint/${selected_season_state}/${selected_race_state}/` ;
       api_fetch_func(backend_input_string, set_graph_data_state)      
     }
   }, [selected_season_state, selected_race_state] )
@@ -86,7 +87,7 @@ function Tyre_Stint_Page(){
       <div className= 'TS_ComboBox_Div'>
         
         <p className= 'TS_Select_Title_Span'> Season : </p>
-        <select className= 'LT_Select_Box' id='Season_Select_Box' 
+        <select className= 'TS_Select_Box' id='Season_Select_Box' 
         onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
           <option value={''} > {'Select the Seassion'} </option> ; 
           {
@@ -129,45 +130,3 @@ function Tyre_Stint_Page(){
 
 
 export default Tyre_Stint_Page ;
-
-
-/*
-<div className= 'TS_Selection_Area_Div' >
-
-<div className= 'TS_Season TS_Select_Div'>
-
-  <p className= 'TS_Select_Title_Span'> Season : </p>
-  <select className= 'TS_Season_Select_Box' id='Season_Select_Box' 
-  onChange={ () => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement ).value ) } } >
-    <option value={''} > {'Select the Seassion'} </option> ; 
-    {
-      seassion_array_state.map(
-        (track_name, index) => (
-          <option value={track_name} > {track_name} </option>
-        ) 
-      )
-    } 
-
-  </select>    
-
-</div>
-
-<div className= 'TS_Race TS_Select_Div'>
-  
-  <p className= 'TS_Select_Title_Span'> Races : </p>
-  <select className= 'TS_Race_Select_Box' id='Race_Select_Box' 
-  onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement ).value ) } }>
-    {
-      track_name_array_state.map(
-        (track_name, index) => (
-          <option value={track_name} > {track_name} </option>
-        ) 
-      )
-    }  
-
-  </select>   
-
-</div>
-
-
-*/

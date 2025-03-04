@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { BASE_URL} from '../Commen_Utils';
+import { BASE_URL} from '../../Commen_Utils';
 import {Lap_Time_Graph, graph_data_interface }from './Graph_Obj';
 
 // CSS Import 
@@ -55,7 +55,7 @@ function Lap_Time_Distr_Page (){
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Lap_Time_Distr/Race/${selected_season_state}/${selected_race_state}/` ;
+      let backend_input_string  = `/graph/Race/Lap_Time_Distr/${selected_season_state}/${selected_race_state}/` ;
       api_fetch_func(backend_input_string, set_graph_data_state)
     }
   }, [selected_season_state, selected_race_state] )
@@ -63,15 +63,15 @@ function Lap_Time_Distr_Page (){
   
   return (
     
-    <div className='LT_Main_Div'>
+    <div className='LTD_Main_Div'>
 
-      <div className='LT_Info_Div'>
+      <div className='LTD_Info_Div'>
         
-        <h3 className='LT_Info_Title'>
-          Lap Time Distrubation
+        <h3 className='LTD_Info_Title'>
+          Drivers' Lap Time Distrubation
         </h3>
 
-        <span className='LT_Info_Text'>
+        <span className='LTD_Info_Text'>
         Explore lap time distribution for each races. The graph reveals 
         drivers' consistency, pace variations, and outliers,  helping you 
         analyze performance trends and key race moments. Dive in and see 
@@ -80,10 +80,10 @@ function Lap_Time_Distr_Page (){
 
       </div>
 
-      <div className= 'LT_ComboBox_Div'>
+      <div className= 'LTD_ComboBox_Div'>
         
-        <p className= 'LT_Select_Title_Span'> Season : </p>
-        <select className= 'LT_Select_Box' id='Season_Select_Box' 
+        <p className= 'LTD_Select_Title_Span'> Season : </p>
+        <select className= 'LTD_Select_Box' id='Season_Select_Box' 
         onChange={() => { set_selected_season_state( ( document.getElementById("Season_Select_Box") as HTMLInputElement).value ) }} >
           <option value={''} > {'Select the Seassion'} </option> ;
           {
@@ -95,8 +95,8 @@ function Lap_Time_Distr_Page (){
           } 
         </select>    
 
-        <p className= 'LT_Select_Title_Span LT_Race'> Races : </p>
-        <select className= 'LT_Select_Box LT_Race_Box' id='Race_Select_Box' 
+        <p className= 'LTD_Select_Title_Span LTD_Race'> Races : </p>
+        <select className= 'LTD_Select_Box LTD_Race_Box' id='Race_Select_Box' 
         onChange={() => { set_selected_race_state( ( document.getElementById("Race_Select_Box") as HTMLInputElement).value ) }}>          
           {
             track_name_array_state.map(
@@ -110,7 +110,7 @@ function Lap_Time_Distr_Page (){
 
       </div>
 
-      <div className= {` LT_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `}>
+      <div className= {` LTD_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `}>
         {
           (graph_data_state !== null) ? (<Lap_Time_Graph  graph_data={graph_data_state} />) : (null)
         }

@@ -16,7 +16,7 @@ function About_Page () {
       <img src={AP_Background} alt="Formula 1 Background" className="AP_Background_Img" />
 
       <svg className="AP_Back_Svg">
-        <rect x="-400" y="400" width='2400' height="750" transform=" rotate(-30 -700 500)" fill="#A6051A" opacity="0.7"/>
+        <rect className="AP_Rect_Svg" x="-400" y="400" width='2400' height="750" transform=" rotate(-30 -700 500)"  />
       </svg>
 
       <div className="AP_Background_Div">
@@ -25,19 +25,22 @@ function About_Page () {
         </h3>
 
         <span className="AP_Info_Text">
+
         This website is a passion project built for fellow Formula One fans who love diving into the numbers <br/>
-        behind the action. My goal is to create an open-source, easy-to-use platform for exploring race <br/>
-        data, analytics, and insights in a simple and accessible way. It’s not a polished, professional <br/>
-        site—just something made with care for those who enjoy the technical side of the sport.
+        behind the action. The goal of website is to create an open-source platform for exploring race <br/>
+        data, as soon as races have finished. It’s not a polished, professional site just something <br/>
+        made with care for those who enjoy the technical side of the sport.
         <br/>
         <br/>
         If you’ve made it to this page, you’re either enjoying the content or wondering <br/>
-        what’s going on! Formulatics started as a hobby project and continues <br/>
-        to evolve with contributions from enthusiasts like you. If you’re <br/> 
-        interested in helping improve the site, feel free to check out <br/> 
-        the GitHub repository and contribute to the code. Whether <br/>
-        you're  here for fun, curiosity, or deep analysis, <br/>
-        I hope you find something interesting!
+        what’s going on! You can check the repository of the Formulatics. Feel free <br/>
+        to express what you want or what it should be better.
+        <br/>
+        <br/>
+        Whether you're  here for fun, curiosity, or deep analysis, <br/> 
+        I hope you find something interesting <br/>
+
+
         </span>
       </div>
     </div>

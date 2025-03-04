@@ -164,3 +164,7 @@
 .isPassive{
   visibility: hidden;
 }
+
+.capitalize{
+  text-transform: capitalize;
+}

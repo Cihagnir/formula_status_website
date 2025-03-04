@@ -3,30 +3,17 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import {BASE_URL} from '../Commen_Utils';
 import {Lap_Time_Line_Graph }from './Graph_Obj';
+import {BASE_URL, graph_input_interface} from '../../Commen_Utils';
 
 // CSS Import 
 import './Lap_Time_Line_Page.css' ;
 
 
-// Interface define section 
-interface lap_data_interface {
-  lap_number: number;
-  lap_time: number;
-}
-
-interface graph_data_interface {
-  [key : string] : Array<lap_data_interface> ;
-}
 
 
-// Interface Defines 
-interface graph_input_interface {
-  graph_data : graph_data_interface ;
-}
 
-
+// Page Export Funciton 
 function Lap_Time_Line_Page (){
 
 
@@ -54,6 +41,7 @@ function Lap_Time_Line_Page (){
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
 
     const api_response = await axios.get(BASE_URL + sub_url)
+    console.log(api_response.data.api_response) ;
     state_setter(api_response.data.api_response) ;
   }
 
@@ -78,7 +66,7 @@ function Lap_Time_Line_Page (){
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Lap_Time_Line/Race/${selected_season_state}/${selected_race_state}/${data_filter_state}/${upper_bound_grpah_state}/${lower_bound_grpah_state}` ;
+      let backend_input_string  = `/graph/Race/Lap_Time_Line/${selected_season_state}/${selected_race_state}/${data_filter_state}/${upper_bound_grpah_state}/${lower_bound_grpah_state}` ;
       api_fetch_func(backend_input_string, set_graph_data_state)
     }
   },
@@ -92,14 +80,14 @@ function Lap_Time_Line_Page (){
       <div className='LTL_Info_Div'>
         
         <h3 className='LTL_Info_Title'>
-          Lap Time Distrubation
+          Drivers' Lap Times
         </h3>
 
         <span className='LTL_Info_Text'>
-        Explore lap time distribution for each races. The graph reveals 
-        drivers' consistency, pace variations, and outliers,  helping you 
-        analyze performance trends and key race moments. Dive in and see 
-        the story behind the numbers !
+        This line graph shows the lap times of F1 drivers throughout 
+        the race. You could use the legend to filter and compare 
+        drivers' performance. Also sliders allow you to set 
+        custom filtering range. 
         </span>
 
       </div>
@@ -175,7 +163,7 @@ function Lap_Time_Line_Page (){
 
       <div className= {` LTL_Graph_Div ${ (graph_data_state !== null) ? ('') : ('isPassive') } `}>
         {
-          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data}  />) : (null)
+          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data} graph_style={graph_data_state.graph_style}  />) : (null)
         }
       </div>
 

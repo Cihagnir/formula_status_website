@@ -54,13 +54,36 @@
 }
 
 .HP_Righ_Div{
+  width: 70%;
+  height: 100%;
 
-  padding-top: 28%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.HP_Right_Title_Span{
+  padding-top: 40%;
   padding-left: 0.1%;
-  
+
+
   color: #fff;
   font-size: 10rem;
   font-weight: 1000;
   font-variant: normal;
   font-family: "Audiowide", serif;
+}
+
+.HP_Right_Text_Span{
+
+  margin-top: auto;
+  margin-left: auto;
+  padding-bottom: 2vh;
+  padding-right: 3vw;
+
+  color: #ffffff;
+  font-size: 1.2rem;  
+  font-weight: 600;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
 }

@@ -6,9 +6,16 @@ import Home_Page from './pages/home_page/Home_Page';
 import About_Page from './pages/about_page/About_Page';
 import Graph_Page from './pages/graph_page/Graph_Page';
 
-import Tyre_Stint_Page from './pages/graph_page/graphs/tyre_stint/Tyre_Stint_Page';
-import Lap_Time_Line_Page from './pages/graph_page/graphs/lap_time_line/Lap_Time_Line_Page';
-import Lap_Time_Distr_Page from './pages/graph_page/graphs/lap_time_distr/Lap_Time_Distr_Page';
+
+// Qualification Graph Page Import 
+import Lap_Time_Bar_Page from "./pages/graph_page/graphs/qualification/lap_time_bar/Lap_Time_Bar_Page";
+
+
+// Race Graph Page Imoprt 
+import Tyre_Stint_Page from './pages/graph_page/graphs/race/tyre_stint/Tyre_Stint_Page';
+import Lap_Time_Line_Page from './pages/graph_page/graphs/race/lap_time_line/Lap_Time_Line_Page';
+import Lap_Time_Distr_Page from './pages/graph_page/graphs/race/lap_time_distr/Lap_Time_Distr_Page';
+
 
 //Img Imoprt 
 import x_img from './pages/img/X_icon.svg'
@@ -59,6 +66,8 @@ function App() {
           <Route path="/graph/race/tyre_stint" element={<Tyre_Stint_Page />} />
           <Route path="/graph/race/lap_time_line" element={<Lap_Time_Line_Page />} />
           <Route path="/graph/race/lap_time_distr" element={<Lap_Time_Distr_Page />} />
+          <Route path="/graph/qualification/lap_time" element={<Lap_Time_Bar_Page />} />
+          
         
         <Route path="/about" element={<About_Page />} />
       </Routes>

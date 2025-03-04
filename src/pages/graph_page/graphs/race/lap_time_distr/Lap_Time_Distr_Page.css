@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
-.LT_Main_Div {
+.LTD_Main_Div {
   width: 100vw;
   height: 100vh;
   
   background: linear-gradient(135deg, 
-    rgba(206, 220, 0, 0.9) 0%,
-    rgba(0, 89, 79, 0.85) 50%,
-    rgba(0, 53, 47, 0.8) 100%
+    rgba(128, 20, 43, 0.9) 0%,
+    rgba(0, 161, 156, 0.85) 50%,
+    rgba(198, 198, 4198, 0.8) 100%
   );
   
   backdrop-filter: blur(10px);
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-.LT_Main_Div::before {
+.LTD_Main_Div::before {
   content: '';
   position: absolute;
   top: 0;
@@ -36,7 +36,7 @@
 }
 
 
-.LT_Info_Div{
+.LTD_Info_Div{
   position: absolute;
 
   top: 10%;
@@ -57,7 +57,7 @@
 }
 
 
-.LT_ComboBox_Div {
+.LTD_ComboBox_Div {
   padding: 20px;
   min-width: 600px;
   height: fit-content;
@@ -79,17 +79,17 @@
   font-family: "Electrolize", serif;
 }
 
-.LT_Select_Title_Span {
+.LTD_Select_Title_Span {
   margin-left: 3%;
   white-space: nowrap;
   min-width: fit-content;
 }
 
-.LT_Race {
+.LTD_Race {
   margin-left: 20px;
 }
 
-.LT_Select_Box {
+.LTD_Select_Box {
   padding: 8px;
   min-width: 120px;
   height: 40px;
@@ -109,18 +109,18 @@
   transition: all 0.2s ease;
 }
 
-.LT_Select_Box:hover {
+.LTD_Select_Box:hover {
   border-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.LT_Race_Box {
+.LTD_Race_Box {
   min-width: 200px;
 }
 
 
 
-.LT_Graph_Div {
+.LTD_Graph_Div {
 
   position: absolute;
   left: 4%;
@@ -137,11 +137,11 @@
   transition: all 0.3s ease;
 }
 
-.LT_Graph_Div:hover {
+.LTD_Graph_Div:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.LT_Graph_Div > .Graph_Div {
+.LTD_Graph_Div > .Graph_Div {
   transition: all 0.3s ease;
 
   padding: 10px;

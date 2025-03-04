@@ -1,5 +1,6 @@
 // Visx Import 
 import { Group } from '@visx/group';
+import { GridRows } from "@visx/grid";
 import { PatternLines } from '@visx/pattern';
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { ViolinPlot, BoxPlot } from '@visx/stats';
@@ -20,6 +21,7 @@ export interface graph_data_interface {
   violin_plot  : Array<bin_data_interface>,
   box_plot : {
     x : string, 
+    color: string,
     min : number ,
     max : number, 
     median : number,
@@ -43,13 +45,17 @@ interface lap_time_graph_interface {
 
 
 // Arrow Functions
-const x = (data: graph_data_interface) => data.box_plot.x;
-const min = (data: graph_data_interface) => data.box_plot.min;
-const max = (data: graph_data_interface) => data.box_plot.max;
-const median   = (data: graph_data_interface) => data.box_plot.median;
-const outliers = (data: graph_data_interface) => data.box_plot.outliers;
-const firstQuartile = (data: graph_data_interface) => data.box_plot.first_quartile;
-const thirdQuartile = (data: graph_data_interface) => data.box_plot.third_quartile;
+const accesser = {
+ x : (data: graph_data_interface) => data.box_plot.x ,
+ min : (data: graph_data_interface) => data.box_plot.min ,
+ max : (data: graph_data_interface) => data.box_plot.max ,
+ median : (data: graph_data_interface) => data.box_plot.median ,
+ outliers : (data: graph_data_interface) => data.box_plot.outliers ,
+ firstQuartile : (data: graph_data_interface) => data.box_plot.first_quartile ,
+ thirdQuartile : (data: graph_data_interface) => data.box_plot.third_quartile ,
+
+}
+
 
 const graph_cosmatic = {
   violin_plot : {
@@ -71,7 +77,11 @@ const graph_cosmatic = {
       fontSize : 13,
       fontFamily : 'Electrolize',
     }
-  }
+  },
+  grid : {
+    opacity : 0.2,
+    stroke_color : "#000000"
+  },
 }
  
 export function  Lap_Time_Graph( { 
@@ -118,7 +128,7 @@ export function  Lap_Time_Graph( {
   // Set the Scales for the axis
   let x_axis_scale = scaleBand<string>({
     range: [0, x_axis_max],
-    domain: graph_data.map(x),
+    domain: graph_data.map(accesser.x),
     padding: 0.4,
   });
 
@@ -135,8 +145,8 @@ export function  Lap_Time_Graph( {
   let label_values : string[] = [] ;
 
   graph_data.map( data  => {
-    if (!( x(data) in label_values )) {
-      label_values.push( x(data) )
+    if (!( accesser.x(data) in label_values )) {
+      label_values.push( accesser.x(data) )
     }
   })
 
@@ -148,10 +158,10 @@ export function  Lap_Time_Graph( {
     if (event) {
       showTooltip({
         tooltipData: {
-          driver: x(data),
-          median: median(data) ,
-          min: min(data),
-          max: max(data),
+          driver: accesser.x(data),
+          median: accesser.median(data) ,
+          min: accesser.min(data),
+          max: accesser.max(data),
         },
         tooltipLeft: event.pageX, // Add small offset from cursor
         tooltipTop: event.pageY,  // Lift slightly above cursor
@@ -176,35 +186,43 @@ export function  Lap_Time_Graph( {
       
         <Group width={x_axis_max} height={y_axis_max} left={element_space_width} >
 
+          <GridRows
+            scale={y_axis_scale}
+            width={x_axis_max}
+            height={y_axis_max}
+            stroke={graph_cosmatic.grid.stroke_color}
+            strokeOpacity={graph_cosmatic.grid.opacity}
+          />
+
           {graph_data.map((data: graph_data_interface, i) => (
             
             <g key={i}>               
 
               <ViolinPlot
                 data  = {data.violin_plot}
-                left  = {x_axis_scale(x(data))!}
+                left  = {x_axis_scale(accesser.x(data))!}
                 width = {constrainedWidth}
-                fill  = "url(#hViolinLines)"
+                fill  = {data.box_plot.color}
                 valueScale = {y_axis_scale}
-                stroke = {graph_cosmatic.violin_plot.violin_color}
+                stroke = {data.box_plot.color}
                 opacity={graph_cosmatic.violin_plot.opacity}
               />
               
               <BoxPlot
-                min = {min(data)}
-                max = {max(data)}
-                left  = {x_axis_scale(x(data))! + 0.3 * constrainedWidth}
+                min = {accesser.min(data)}
+                max = {accesser.max(data)}
+                left  = {x_axis_scale(accesser.x(data))! + 0.3 * constrainedWidth}
                 top= { element_space_height }
                 
-                median   = {median(data)}
-                outliers = {outliers(data)}
+                median   = {accesser.median(data)}
+                outliers = {accesser.outliers(data)}
                 valueScale = {y_axis_scale}
-                firstQuartile = {firstQuartile(data)}
-                thirdQuartile = {thirdQuartile(data)}
+                firstQuartile = {accesser.firstQuartile(data)}
+                thirdQuartile = {accesser.thirdQuartile(data)}
                 
                 boxWidth = {constrainedWidth * 0.4}
-                fill = {graph_cosmatic.box_plot.fill_color}
-                stroke = {graph_cosmatic.box_plot.stroke_color}
+                fill = {data.box_plot.color}
+                stroke = {data.box_plot.color}
                 fillOpacity = {graph_cosmatic.box_plot.fill_opacity}
                 strokeWidth = {graph_cosmatic.box_plot.stroke_width}
             
@@ -212,7 +230,7 @@ export function  Lap_Time_Graph( {
 
               {/* Add invisible rect for tooltip area */}
               <rect
-                x={x_axis_scale(x(data))!}
+                x={x_axis_scale(accesser.x(data))!}
                 y={0}
                 width={constrainedWidth}
                 height={y_axis_max}
@@ -222,32 +240,29 @@ export function  Lap_Time_Graph( {
               />
 
             </g>
-          )
-          )
+          ))
         }
-        </Group>
-        
-        <Group>
-          <AxisLeft 
-          label='Lap Time'
-          left = {element_space_width} scale = {y_axis_scale} 
-          stroke = {graph_cosmatic.axis.line_color}  tickStroke = {graph_cosmatic.axis.line_color} 
-          tickLabelProps = {graph_cosmatic.axis.text_prop}
-          />
-        </Group>
 
-        <Group>
-          <AxisBottom 
-          label ='Drivers'
-          labelOffset= { 20 }
-          top = {y_axis_max} left = {element_space_width} scale = {x_axis_scale} 
-          stroke = {graph_cosmatic.axis.line_color}  tickStroke = {graph_cosmatic.axis.line_color} 
-          tickLabelProps = {graph_cosmatic.axis.text_prop} 
-          tickValues = {label_values} 
-          
+        <AxisLeft 
+        label='Lap Time'
+        scale = {y_axis_scale} 
+        stroke = {graph_cosmatic.axis.line_color}  
+        tickStroke = {graph_cosmatic.axis.line_color} 
+        tickLabelProps = {graph_cosmatic.axis.text_prop}
+        />  
+
+        <AxisBottom 
+        label ='Drivers'
+        labelOffset= { 20 }
+        tickValues = {label_values} 
+        top = {y_axis_max} scale = {x_axis_scale} 
+        stroke = {graph_cosmatic.axis.line_color}  
+        tickStroke = {graph_cosmatic.axis.line_color} 
+        tickLabelProps = {graph_cosmatic.axis.text_prop} 
          />
-        </Group>
 
+
+        </Group>
 
       </svg>
 

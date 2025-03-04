@@ -1,5 +1,6 @@
 
 import { Group } from '@visx/group';
+import { Grid } from "@visx/grid";
 import { LegendOrdinal } from '@visx/legend';
 import { BarStackHorizontal } from '@visx/shape';
 import { AxisBottom, AxisLeft } from '@visx/axis';
@@ -23,9 +24,7 @@ interface graph_interface {
 }
 
 interface TooltipData {
-  lap : number;
-  driver : string;
-  compund : string;
+  [key: string]: string
 } 
 
 // Constant Variable Defines
@@ -37,7 +36,11 @@ const graph_cosmatic = {
       fontSize : 14,
       fontFamily : 'Electrolize',
     }
-  }
+  }, 
+  grid : {
+    opacity : 0.6,
+    stroke_color : "#000000"
+  },
 }
 
 const color_scale_graph = { 
@@ -93,13 +96,14 @@ function Lap_Number_Calculator({ graph_data } : graph_interface) {
 export function Tyre_Stint_Graph( {
    graph_data 
   } : graph_interface) {
+
+  // Tooltip Constant Defines 
   const {
     tooltipData,
     tooltipLeft,
     tooltipTop,
     tooltipOpen,
     showTooltip,
-    hideTooltip,
   } = useTooltip<TooltipData>();
 
   const { TooltipInPortal } = useTooltipInPortal({
@@ -123,8 +127,8 @@ export function Tyre_Stint_Graph( {
   let driver_name_array = graph_data.map(driver_scale)
 
   const sorted_driver_array = driver_name_array
-  .map((name, index) => ({ name, score: driver_lap_array[index] })) // Pair names with scores
-  .sort((a, b) => a.score - b.score)                     // Sort by score descending
+  .map((name, index) => ({ name, score: driver_lap_array[index] })) 
+  .sort((a, b) => a.score - b.score)                     
   .map(pair => pair.name); 
 
 
@@ -153,24 +157,29 @@ export function Tyre_Stint_Graph( {
     domain: Object.keys(color_scale_legend),
   });
 
-  const handleTooltip = (
+  // Tooltip Arrow Function
+  const Handle_Tooltip = (
     event: React.MouseEvent<SVGRectElement>,
     graph_data: any
   ) => {
-
     if (event) {
+
+      let tooltip_data_json: { [key: string]: string } = {};
+
+      Object.keys(graph_data.bar.data).slice(1,).forEach( (keys) => {
+        tooltip_data_json[ keys.split("_")[1] ] = keys.split("_")[0] + "_" + graph_data.bar.data[keys] 
+      })
+
+      tooltip_data_json["driver"] = graph_data.bar.data.driver_name ; 
+
       showTooltip({
-        tooltipData: {
-          driver: graph_data.bar.data.driver_name,
-          compund : graph_data.key.split('_')[0] , 
-          lap : graph_data.bar['1'] - graph_data.bar['0'],
-        },
+        tooltipData: tooltip_data_json,
         tooltipLeft: event.pageX, 
         tooltipTop: event.pageY,  
       });
+
     }
   };
-
 
 
   return (
@@ -181,8 +190,10 @@ export function Tyre_Stint_Graph( {
       </div>
 
       <svg width={grpah_width} height={graph_height}>
-        
+
         <Group left={element_space_width} width={x_axis_max} height={y_axis_max}>
+
+
           {
             graph_data.map(
 
@@ -207,7 +218,8 @@ export function Tyre_Stint_Graph( {
                           width={bar.width - 3}
                           height={bar.height}
                           fill={bar.color}
-                          onMouseMove={(event) => handleTooltip(event, bar) }
+                          onMouseMove={(event) => Handle_Tooltip(event, bar) }
+                          opacity={0.9}
 
                         />
                       )),
@@ -217,39 +229,35 @@ export function Tyre_Stint_Graph( {
             )
           }
 
-        </Group>
-
-        <Group className='Axis_Group' >
+          
+          {/* Graph Axis */}
           <AxisLeft
-            label= "Drivers"
-            labelOffset= {48}
-            
-            left={element_space_width}
             hideAxisLine
             hideTicks
+
+            label= "Drivers"
+            labelOffset= {48}
             scale={ y_axis_scale }
             stroke={ graph_cosmatic.axis.line_color }
             tickStroke={ graph_cosmatic.axis.line_color }
             tickLabelProps={ graph_cosmatic.axis.text_prop }
             tickValues = {graph_data.map(driver_scale)}
 
-          />          
-        </Group>
-
-        <Group>
+          />  
+        
           <AxisBottom
             label= 'Lap Number'
             labelOffset= { 20 }
 
-            left={element_space_width}
             top={y_axis_max}
             scale={x_axis_scale}
             stroke={ graph_cosmatic.axis.line_color }
             tickStroke={ graph_cosmatic.axis.line_color }
             tickLabelProps={ graph_cosmatic.axis.text_prop }
           />
+        
+        
         </Group>
-
       </svg>
 
 
@@ -271,11 +279,20 @@ export function Tyre_Stint_Graph( {
             fontFamily: 'Electrolize',
           }}
         >
+
           <div>
             <strong>{tooltipData.driver}</strong>
             <br />
-            <div>Tire : {tooltipData.compund}</div>
-            <div>Lap : {tooltipData.lap}</div>
+            <>
+            { 
+              Object.values(tooltipData).slice(0,-1).map((values, index)=> (
+                <div className= 'capitalize' > 
+                {values.split('_')[0].toLowerCase()} : 
+                {values.split('_')[1].toLowerCase()}
+                </div>
+              ))
+            }
+            </>
           </div>
 
         </TooltipInPortal>

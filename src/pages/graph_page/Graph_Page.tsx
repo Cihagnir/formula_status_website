@@ -27,7 +27,14 @@ function Graph_Page() {
           </h3>
 
           <span className="GP_Text_Span" >
-
+              Welcome aganin to Formulatics ... 
+              <br/>
+              <br/>
+              Here the our graph dashbord page. Graph dashboard allow you to go thourgh the different 
+              graph visulisation for each session. To see the which graph currently we have, you can 
+              check the flip card bellow the page. As sake of the development time we are trying to 
+              add new graph as soon as possible. 
+              <br/> 
           </span>
 
 
@@ -43,8 +50,8 @@ function Graph_Page() {
             
               <div className="GP_Flip_Card_Back_Div">
                 <a href='/graph/race/tyre_stint' > Tyre Stint </a> 
-                <a href='/graph/race/lap_time_line' > Tyre Stint Line</a>
-                <a href='/graph/race/lap_time_distr'   > Lap time Distr</a>
+                <a href='/graph/race/lap_time_line' > Lap Time </a>
+                <a href='/graph/race/lap_time_distr'   > Lap Time Distribution</a>
 
               </div>
             
@@ -59,7 +66,7 @@ function Graph_Page() {
               </div>
             
               <div className="GP_Flip_Card_Back_Div">
-                <a href=""></a>
+                <a href="/graph/qualification/lap_time">Lap Time</a>
               </div>
             
             </div>
