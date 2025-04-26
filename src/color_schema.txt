@@ -2,7 +2,24 @@
 ## Graph Page Design 
 
 #000000 -> box shadow for the general div   | Opacity 0.3       | Shadow 0 4px 8px 
-#F5F5F5 -> background color for general div | Opacity 0.8 - 0.9 
+
+
+background: linear-gradient(135deg, 
+rgba(108, 117, 125, 0.80) 0%,
+rgba(173, 181, 189, 0.90) 20%,
+rgba(222, 226, 230, 0.85) 80%
+);
+
+background: linear-gradient(135deg, 
+rgba(222, 226, 230, 0.85) 0%,
+rgba(173, 181, 189, 0.90) 50%,
+rgba(108, 117, 125, 0.80) 100%
+); -> Page background gradient function for graph pages .
+
+#F5F5F5 -> Inner Div's border color for graph pages .
+Transparant -> Inner Divs' background colors for graph pages . 
+
+
 
 ## Graph Page Background 
 

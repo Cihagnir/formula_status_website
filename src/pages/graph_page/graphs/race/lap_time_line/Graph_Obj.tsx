@@ -1,13 +1,11 @@
 // Visx Import 
 import React, { useEffect, useState } from 'react';
-import { Axis,  Grid, LineSeries, XYChart, Tooltip, } from "@visx/xychart";
-import {lap_data_interface, graph_input_interface} from '../../Commen_Utils';
+import { curveCardinal } from '@visx/curve';
+import { Axis,  Grid, LineSeries, XYChart, Tooltip, grayColors, } from "@visx/xychart";
+import {lap_duration_data_interface, lap_duration_graph_input_interface} from '../../Commen_Utils';
 
 // CSS Import 
 import "./Lap_Time_Line_Page.css"
-import { index } from 'd3';
-
-
 
 // Interface Defines 
 interface graph_domain_interface{ 
@@ -18,7 +16,7 @@ interface graph_domain_interface{
 interface tooltip_datum_interface{
   key : string, 
   index : number, 
-  datum : lap_data_interface
+  datum : lap_duration_data_interface
 }
 
 
@@ -42,7 +40,7 @@ function Tooltip_Data_Handler( tooltip_data : any[] ) {
 export function  Lap_Time_Line_Graph( { 
   graph_data,
   graph_style,
-}: graph_input_interface ) {
+}: lap_duration_graph_input_interface ) {
 
   // Add state for tracking visible series
   const [visible_series_state, set_visible_series_state] = useState<Set<string>>(
@@ -61,7 +59,7 @@ export function  Lap_Time_Line_Graph( {
       if ( Object.keys(graph_data).includes(key) ) {
 
         let lap_time_array = graph_data[key]
-        .map((item: lap_data_interface) => item.lap_time)
+        .map((item: lap_duration_data_interface) => item.lap_time)
         .filter((time): time is number => 
           time !== null && 
           time !== undefined && 
@@ -87,6 +85,15 @@ export function  Lap_Time_Line_Graph( {
   }, [visible_series_state, graph_data] )
 
 
+    // Update window size calculation
+    let window_width = Math.min(document.documentElement.clientWidth); 
+    let window_height = Math.min(document.documentElement.clientHeight); 
+
+    // Adjust graph dimensions based on screen size
+    let graph_height = window_height < 800 ? window_height * 1 : window_height * 0.5;
+    let graph_width = window_width < 1024 ? window_width * 0.85 : window_width * 0.75;
+
+
   // Arrow Function for toggle 
   const toggleSeries = (seriesKey: string) => {
     const new_visible_series = new Set(visible_series_state);
@@ -106,21 +113,52 @@ export function  Lap_Time_Line_Graph( {
     colorAccessor: (key : string) => graph_style[key], // NOTES : Color Accessor got the mapping key as an input, not the data point. [ As in our case 'VER', 'LEC' etc. ]
   };
 
+
+  const graph_cosmatic = {
+    axis: {
+      line_color: '#F5F5F5',
+      label_props: {
+        fill: '#F5F5F5',
+        fontSize: window_width < 1024 ? 12 : 18,
+        fontFamily: 'Electrolize',
+      },
+      tick_props: {
+        fill: '#F5F5F5',
+        fontSize: window_width < 1024 ? 10 : 13,
+        fontFamily: 'Electrolize',
+      },
+    },
+    grid : {
+      opacity : 0.6,
+      stroke_color : "#F5F5F5"
+    },
+  }
+
   // Return the object if it exist 
   return (
-    <div className='Graph_Div'>
+    <div className='LTL_Graph_Div'>
 
-      <div className='Graph_Container'>
+      <div className='LTL_Graph_Container'>
 
         <XYChart 
-          height={500} 
+          width={graph_width}
+          height={graph_height} 
+          
           xScale={{ type: "band", zero: true}} 
-          yScale={{ type: "linear", domain: [graph_domain_state.min - 1, graph_domain_state.max + 1], zero:false}}>
+          yScale={{ type: "linear", domain: [graph_domain_state.min - 0.5, graph_domain_state.max + 0.5], zero:false}}
+          >
           
-          <Axis orientation="bottom" label="Lap Number" />
-          <Axis orientation="left" label="Lap Time" labelOffset={12}/>
+          <Axis 
+          orientation="bottom" hideAxisLine hideTicks
+          label="Lap Number" labelOffset={10} labelProps={graph_cosmatic.axis.label_props} 
+          tickLabelProps={graph_cosmatic.axis.tick_props} />
           
-          <Grid columns={false} numTicks={10} />
+          <Axis 
+          orientation="left" left={60} hideTicks hideAxisLine
+          label="Lap Duration" labelOffset={40} labelProps={graph_cosmatic.axis.label_props}
+          tickLabelProps={graph_cosmatic.axis.tick_props} />
+          
+          <Grid columns={false} numTicks={10} left={60} />
           
           {
             Object.keys(graph_data).map((key) => (
@@ -130,6 +168,7 @@ export function  Lap_Time_Line_Graph( {
                   key={key}
                   dataKey={key} 
                   data={graph_data[key]} 
+                  curve={curveCardinal}
                   {...accessors}
                 />
               )
@@ -184,10 +223,11 @@ export function  Lap_Time_Line_Graph( {
         </XYChart>
 
       </div>
+      
 
-      <div className='Graph_Legend'>
+      <div className='LTL_Graph_Legend'>
         
-        <div className='Legend_Column'>
+        <div className='LTL_Legend_Column'>
 
           {Object.keys(graph_data)
             .filter((_, index) => index % 2 === 0)
@@ -195,18 +235,17 @@ export function  Lap_Time_Line_Graph( {
 
             <div 
               key={driverName}
-              className={`Legend_Item ${!visible_series_state.has(driverName) ? 'Legend_Item_Inactive' : ''}`}
+              className={`LTL_Legend_Item ${!visible_series_state.has(driverName) ? 'LTL_Legend_Item_Inactive' : ''}`}
               onClick={() => toggleSeries(driverName)}
             >
-              <span className='Legend_Color_Box' style={{ backgroundColor: `var(--${driverName}-color)` }}></span>
-              <span className='Legend_Driver_Name'>{driverName}</span>
+              <span className='LTL_Legend_Driver_Name'>{driverName}</span>
             </div>
             
           ))}
 
         </div>
         
-        <div className='Legend_Column'>
+        <div className='LTL_Legend_Column'>
           
           {Object.keys(graph_data)
             .filter((_, index) => index % 2 === 1)
@@ -214,11 +253,10 @@ export function  Lap_Time_Line_Graph( {
       
             <div 
               key={driverName}
-              className={`Legend_Item ${!visible_series_state.has(driverName) ? 'Legend_Item_Inactive' : ''}`}
+              className={`LTL_Legend_Item ${!visible_series_state.has(driverName) ? 'LTL_Legend_Item_Inactive' : ''}`}
               onClick={() => toggleSeries(driverName)}
             >
-              <span className='Legend_Color_Box' style={{ backgroundColor: `var(--${driverName}-color)` }}></span>
-              <span className='Legend_Driver_Name'>{driverName}</span>
+              <span className='LTL_Legend_Driver_Name'>{driverName}</span>
             </div>
 
           ))}

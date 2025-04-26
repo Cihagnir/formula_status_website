@@ -39,18 +39,18 @@
   padding-right: 0.1%;
 
   backdrop-filter: blur(40px);
+  background: rgb(0 0 0/12%);
 
   -webkit-mask: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
   -webkit-mask-clip: text, padding-box;
   -webkit-mask-composite: xor; 
   -webgit-mask-composite: exclude;
-  background: rgb(0 0 0/12%);
   
-  font-size: 10rem;
+  text-align: right;
   font-weight: 1000;
   font-variant: normal;
   font-family: "Audiowide", serif;
-  text-align: right;
+  font-size: clamp(4rem, 8vw, 10rem);
 }
 
 .HP_Righ_Div{
@@ -68,7 +68,7 @@
 
 
   color: #fff;
-  font-size: 10rem;
+  font-size: clamp(4rem, 8vw, 10rem);
   font-weight: 1000;
   font-variant: normal;
   font-family: "Audiowide", serif;
@@ -86,4 +86,25 @@
   font-weight: 600;
   font-variant: normal;
   font-family: "Electrolize", serif;
+}
+
+@media screen and (max-width: 1024) {
+  .HP_Blur_Div {
+    padding-top: 40%;
+  }
+  
+  .HP_Right_Title_Span {
+    padding-top: 50%;
+  }
+}
+
+@media screen and (max-width: 720) {
+  .HP_Blur_Div {
+    width: 50% ;
+    padding-top: 50%;
+  }
+  
+  .HP_Right_Title_Span {
+    padding-top: 60%;
+  }
 }

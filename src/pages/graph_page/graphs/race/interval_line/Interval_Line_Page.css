@@ -1,0 +1,492 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+/* Page CSS */
+
+.IL_Main_Div {
+  width: 100vw;
+  height: 100vh;
+  
+  position: relative;
+  overflow: hidden;
+}
+
+.IL_Background_Image{
+  
+  width: 100vw;
+  height: 100vh;
+  
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.IL_Blur_Div{
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.IL_Window_Div{
+  
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  flex-direction: column;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.IL_Combined_Div {
+  
+  gap: 10px;
+  padding: 20px;
+  margin : 15px;
+  
+  top: 10%;
+  left: 4%;
+  width: 50%;
+  
+  display: flex;
+  flex-direction: column;
+  
+  color : #F5F5F5;
+  
+}
+
+.IL_Info_Div {
+
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+}
+
+/* Combo Box CSS Area  */
+
+.IL_Control_Div {
+
+  gap: 15px;
+  width: 100%;
+  height: fit-content;
+  
+  display: flex;
+  flex-direction: column;
+
+  color: #F5F5F5;
+
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
+}
+
+.IL_Control_Upper_Div {
+  gap: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.IL_Divider {
+  margin: 20px 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(245, 245, 245, 0.8),
+    transparent
+  );
+}
+
+.IL_Select_Title_Span {
+  margin-left: 3%;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.IL_Select_Box {
+  padding: 8px;
+  min-width: 120px;
+  height: 40px;
+
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  background-color: transparent;
+  border-color: rgba(245, 245, 245, 0.8);
+  
+  color: #F5F5F5;
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
+  text-align: center;
+  text-align-last: center;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.IL_Select_Box:hover {
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
+}
+
+
+.IL_Race_Box {
+  min-width: 200px;
+  margin-right: 20px;
+}
+
+
+/* Constrol CSS Area */
+
+.IL_Toggle_Container {
+
+  width: 260px;
+  height: 40px;
+  position: relative;
+  
+  border-radius: 20px;
+  background: rgba(245, 245, 245, 0.3);
+  
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.IL_Toggle_Slider {
+
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  
+  background:rgba(245, 245, 245, 0.8);;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.IL_Toggle_Labels {
+  
+  height: 100%;
+
+  z-index: 1;
+  display: flex;
+  position: relative;
+}
+
+.IL_Toggle_Label {
+  
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  color: white;
+  font-size: 0.9rem;
+  justify-content: center;
+  font-family: "Electrolize", serif;
+  transition: color 0.3s ease;
+}
+
+.IL_Toggle_Label.active {
+  color: black;
+}
+
+/* Garph CSS Area */
+
+.IL_Graph_Div {
+
+  left: 4%;
+  width: 96%;
+  display: flex;
+  flex-direction: row;
+
+  transition: all 0.3s ease;
+  margin: 30px 0px 30px 30px ;
+}
+
+
+.IL_Graph_Container_Div {
+  width: 90%;
+
+  margin-right: auto;
+  min-width: fit-content;
+}
+
+
+.IL_Tooltip_Div{
+
+  font-size: 0.6rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+
+}
+
+.IL_Tooltip_SubDiv{
+
+  display: flex;
+  flex-direction: row;
+}
+
+.Legend_ColumnTooltip_Item_Div{
+
+  padding: 2px;
+}
+
+
+
+/* Legend CSS Area   */
+
+
+.IL_Graph_Legend_Main_Div{
+
+  display: flex;
+  flex-direction: row-reverse; 
+
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+.IL_Graph_Legend_Control_Div{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px;
+  margin-left: 5px;
+
+  cursor: pointer;
+  text-orientation: mixed;
+  writing-mode: vertical-rl;
+  
+  transform: rotate(180deg);
+  transition: all 0.3s ease;
+  
+  border-style: solid;
+  border-radius: 10px 0 0  10px;
+  border-color: rgba(245, 245, 245, 0.8);
+}
+
+
+.IL_Graph_Legend_Control_Text {
+
+  color: #F5F5F5;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  font-family: "Electrolize", serif;
+}
+
+.IL_Graph_Legend_Div {
+
+  gap: 10px;
+  max-height: 400px;
+  
+  display: flex;
+
+  transform-origin: right;
+  transition: all 0.3s ease;
+  
+}
+
+.Legend_Inactive{
+  
+  width: 0;
+  
+  padding: 0;
+  opacity: 0;
+  
+  visibility: hidden;
+  transition: all 0.3s ease;
+  transform: translateX(100%);  
+
+}
+
+.IL_Legend_Column {
+  flex: 1;
+  min-width: 0;
+}
+
+.IL_Legend_Item {
+  width: fit-content;
+  color: #F5F5F5;
+  overflow: hidden;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 10px 6px 10px 6px;
+}
+
+.IL_Legend_Item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.Legend_Item_Inactive {
+  opacity: 0.6;
+}
+
+.IL_Legend_Driver_Name {
+  font-size: 0.8rem;
+  max-width: fit-content;
+}
+
+.capitalize{
+  text-transform: capitalize;
+}
+
+/* Add these responsive styles at the end of the file */
+
+@media screen and (max-width: 1200px) {
+
+  .IL_Main_Div {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .IL_Window_Div {
+    
+    width: 95%;
+    height: 85%;
+    overflow-y: scroll;
+  }
+
+  .IL_Combined_Div {
+    position: relative;
+    left: 10%;
+    width: 80%;
+    margin-top: 10vh;
+    margin-bottom: 20px;
+  }
+
+  .IL_Info_Div {
+    max-width: 100%;
+    font-size: 0.7rem;
+  }
+
+  .IL_Control_Div {
+    min-width: auto;
+    max-width: 100%;
+
+    color: #F5F5F5;
+    font-size: 0.7rem;
+  }
+
+  .IL_Control_Bottom_Div {
+    gap: 15px;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .IL_Toggle_Label {
+    font-size: 0.7rem;
+  
+    }
+
+  .IL_Graph_Div {
+    left: 2%;
+    width: 95%;
+
+    margin-top: 4vh;
+
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 0.7rem;
+  
+  }
+
+  .IL_Select_Box{
+    font-size: 0.7rem;
+  }
+
+  .IL_Legend_Item{
+    padding: 0px;
+    margin-top: 8px;
+    font-size: 0.6rem;
+  }
+
+  .IL_Graph_Legend_Div{
+    padding: 0px;
+  }
+
+  .IL_Graph_Container_Div{
+    height: 50%;
+  }
+
+
+}
+
+@media screen and (max-width: 768px) {
+
+  .IL_Window_Div {
+
+    width: 95%;
+    height: 95%;
+    overflow-y: scroll;
+  }
+
+  .IL_Control_Upper_Div {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .IL_Select_Title_Span {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .IL_Race {
+    margin-left: 0;
+  }
+
+  .IL_Select_Box {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .IL_Graph_Container_Div {
+    width: 95%;
+  }
+
+  .IL_Graph_Legend_Div {
+    flex-direction: row;
+    width: 100%;
+    max-height: none;
+    padding: 10px;
+  }
+
+  .IL_Legend_Item {
+    font-size: 0.6rem;
+  }
+
+  .IL_Combined_Div {
+    left: 5%;
+    width: 80%;
+  }
+
+  .IL_Toggle_Label {
+  font-size: 0.7rem;
+
+  }
+
+}

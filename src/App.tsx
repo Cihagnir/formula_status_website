@@ -13,6 +13,8 @@ import Lap_Time_Bar_Page from "./pages/graph_page/graphs/qualification/lap_time_
 
 // Race Graph Page Imoprt 
 import Tyre_Stint_Page from './pages/graph_page/graphs/race/tyre_stint/Tyre_Stint_Page';
+import Position_Line_Page from './pages/graph_page/graphs/race/position_line/Position_Line_Page';
+import Interval_Line_Page from './pages/graph_page/graphs/race/interval_line/Interval_Line_Page';
 import Lap_Time_Line_Page from './pages/graph_page/graphs/race/lap_time_line/Lap_Time_Line_Page';
 import Lap_Time_Distr_Page from './pages/graph_page/graphs/race/lap_time_distr/Lap_Time_Distr_Page';
 
@@ -48,7 +50,7 @@ function App() {
         Home
         </a>
         
-        <a className='Nav_Bar_Item' id ='Nav_Bar_Graph' href="/graph">
+        <a className='Nav_Bar_Item' href="/graph">
           Graph
         </a>
         
@@ -64,6 +66,8 @@ function App() {
         <Route path="/graph"element={<Graph_Page/>}/>
         
           <Route path="/graph/race/tyre_stint" element={<Tyre_Stint_Page />} />
+          <Route path="/graph/race/position_line" element={<Position_Line_Page />} />
+          <Route path="/graph/race/interval_line" element={<Interval_Line_Page />} />
           <Route path="/graph/race/lap_time_line" element={<Lap_Time_Line_Page />} />
           <Route path="/graph/race/lap_time_distr" element={<Lap_Time_Distr_Page />} />
           <Route path="/graph/qualification/lap_time" element={<Lap_Time_Bar_Page />} />

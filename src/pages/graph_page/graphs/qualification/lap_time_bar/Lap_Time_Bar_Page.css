@@ -6,114 +6,125 @@
   width: 100vw;
   height: 100vh;
   
-  background: linear-gradient(135deg, 
-    rgba(152, 30, 50, 0.9) 0%,
-    rgba(246, 32, 57, 0.8) 30%,
-    rgba(41, 82, 148, 0.85) 70%
-  );
-  
-  backdrop-filter: blur(10px);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
   position: relative;
   overflow: hidden;
 }
 
-.LTQ_Main_Div::before {
-  content: '';
-  position: absolute;
+.LTQ_Background_Image{
+  
+  width: 100vw;
+  height: 100vh;
+  
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
+  z-index: -1;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.LTQ_Blur_Div{
+
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
+  position: relative;
+  overflow: hidden;
 }
 
 
-.LTQ_Info_Div{
-  position: absolute;
-
-  top: 10%;
-  left: 4%;
-  padding: 30px;
-  max-width: 400px;
-
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
+.LTQ_Window_Div{
   
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.LTQ_Combined_Div {
+
+  gap: 20px;
+  margin: 30px;
+  padding: 10px;
+  
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  background-color: transparent;
+  
+  color: #F5F5F5;
+}
+
+
+.LTQ_Combined_Upper_Div {
+  width: 100%;
+  max-width: 800px;
+
   font-size: 1rem;
   font-weight: 300;
-  text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
-
 }
 
 
-.LTQ_ComboBox_Div {
-  padding: 20px;
-  min-width: 600px;
-  height: fit-content;
+
+.LTQ_Combined_Middle_Div {
   
-  top: 10%;
-  left: 36%;
-  position: absolute;
-  
+  gap: 15px;
+  width: 100%;
+
   display: flex;
   align-items: center;
-  gap: 15px;
-
-  color: black;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
+  justify-content: center;
 
   font-size: 1rem;
   font-family: "Electrolize", serif;
-}
-
-.LTQ_Select_Title_Span {
-  margin-left: 3%;
-  white-space: nowrap;
-  min-width: fit-content;
-}
-
-.LTQ_Race {
-  margin-left: 20px;
 }
 
 .LTQ_Select_Box {
   padding: 8px;
-  min-width: 120px;
   height: 40px;
+  width: fit-content;
 
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  background-color:rgba(245, 245, 245, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  background-color: transparent;
+  border-color: rgba(245, 245, 245, 0.8);
 
+  color: #F5F5F5;
   font-size: 0.9rem;
-  font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
+  font-family: "Electrolize", serif;
 
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .LTQ_Select_Box:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
 }
 
 .LTQ_Race_Box {
@@ -121,80 +132,108 @@
 }
 
 
-.LTQ_Button {
+
+/* Sliding Toggle Button Styles */
+.LTQ_Combined_Bottom_Div {
+  gap: 15px;
+  width: 100%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LTQ_Toggle_Container_Div {
+  
+  width: 300px;
+  height: 40px;
+  
+  display: flex;
+  position: relative;
+  
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: rgba(245, 245, 245, 0.3);
+}
+
+.LTQ_Toggle_Slider_Div {
+
   position: absolute;
-  top: 25%;
-  left: 36%;
-  padding: 10px 20px;
+  width: 33.33%;
+  height: 100%;
+  background-color: rgba(245, 245, 245, 0.8);
+
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.LTQ_Toggle_Options_Div {
+
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.LTQ_Toggle_Option_Div {
   
-  color: black;
-  border: none;
-  border-radius: 6px;
-  background-color: rgba(152, 30, 50, 0.8);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
+  color: #F5F5F5;
   font-size: 0.9rem;
+  transition: color 0.3s ease;
   font-family: "Electrolize", serif;
   
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.LTQ_Button:hover {
-  background-color: rgba(152, 30, 50, 0.9);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.LTQ_Toggle_Option_Div.active {
+  color: #000000;
 }
+
 
 
 /* Graph CSS */
 .LTQ_Graph_Div {
 
-  position: absolute;
-  left: 4%;
-  top: 36%;
-  width: 90%;
+  width: 96%;
+  margin: 30px;
   
-  padding-top: 25px;
-  
-  border-radius: 15px;
-  background-color: rgba(245, 245, 245, 0.95);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
-.LTQ_Graph_Div:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.LTQ_Graph_Div > .Graph_Div {
-  padding-left: 10px;
-  display: flex;
-  transition: all 0.3s ease;
-}
-
-
-.LTQ_Graph_Div > .Graph_Div > .Sub_Graph_Div {
-  gap: 20px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+
+  border-radius: 15px;
+background-color: transparent;
+}
+
+.LTQ_Graph_Container_Div{
+
+  max-width: fit-content; ;
 }
 
 
 .LTQ_Legend_Div{
+
+  width: fit-content;
+  height: fit-content;
+
+  margin-left: auto;
+  
   gap: 10px;
   padding: 10px;
-  width: 8%;
 
   display: flex;
   flex-direction: column;
   
   border-radius: 8px;
+  background-color: transparent;
+  
+  color: #F5F5F5;
   font-family: "Electrolize", serif;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  background-color: rgba(255, 255, 255, 0.9);
-   
 }
-
 
 .LTQ_Bar_Text{
   fill : #4C00B0 ; 
@@ -203,7 +242,8 @@
   dominant-baseline : middle ;
 
   font-size : 0.7rem ; 
-  font-family : "Electrolize"; 
+  font-family : "Electrolize";
+
 }
 
 
@@ -215,4 +255,59 @@
 
 .capitalize{
   text-transform: capitalize;
+}
+
+
+/* Add these responsive styles at the end of the file */
+
+@media screen and (max-width: 1200px) {
+
+  .LTQ_Main_Div {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .LTQ_Window_Div {
+    
+    width: 95%;
+    height: 85%;
+    overflow-y: scroll;
+  }
+
+  .LTQ_Combined_Div{
+    width: fit-content;
+  }
+
+  .LTQ_Legend_Div,
+  .LTQ_Select_Box,
+  .LTQ_Toggle_Option_Div,
+  .LTQ_Combined_Upper_Div,
+  .LTQ_Combined_Middle_Div{
+    font-size: 0.7rem;
+  }
+
+
+  .LTQ_Select_Box{
+    width: fit-content;
+  }
+  .LTQ_Toggle_Container_Div{
+    width: 200px;
+    height: 30px;
+  }
+
+  .LTQ_Graph_Div{
+    margin: 0;
+    margin-left: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .LTQ_Bar_Text{
+
+    font-size: 0.6rem;
+    transition: all 0.3s ease;
+    writing-mode: vertical-rl;
+
+  }
+
+
 }

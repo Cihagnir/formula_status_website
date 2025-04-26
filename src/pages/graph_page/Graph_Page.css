@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Electrolize&family=Sriracha&display=swap');
 
-
-
 /* Page CSS */
 
 .GP_Main_Div{
@@ -25,147 +23,284 @@
   background-repeat: no-repeat;
 }
 
-
 .GP_Content_Container {
-  top: 50%;
-  left: 50%;
-  width: 60vw;
-  height: 80vh;
-  padding: 2rem;
+  top: 0;
+  right: 0;
+  width: 40vw;
+  height: 100vh;
+  
+  margin: 0;
+  padding: 0;
   position: fixed;
 
-  border-radius: 20px;
-  backdrop-filter: blur(3px);
+  border-radius: 0;
+  backdrop-filter: blur(32px);
+  background: rgb(0 0 0/12%);
 
   display: flex;
   flex-direction: column;
-  background-color: rgba(200, 200, 200, 0.8);
-  transform: translate(-50%, -50%);
+
 }
 
 /* Text Area CSS  */
 
 .GP_Text_Area {
-  height: 30%;
+  
   width: 60%;
-
+  height: auto;
+  
+  margin-top: 10vh;
+  margin-left: 2vw;
+  min-height: fit-content;
+  
+  display: flex;
+  flex-direction: column;
+  
+  gap: 1rem;
+  color: white;
 }
 
 .GP_Tittle_Heading {
-  color:  black;
+
+  color:  white;
   font-size: 2rem;
   font-variant: normal;
   font-family: "Audiowide", serif;
 }
 
-
 .GP_Text_Span{
-  color: black;
-  text-align: left;
-  
 
+  color:  white;
+  text-align: justify;
+  
   font-weight: 500;
   font-size: 1.1rem;
   font-variant: normal;
   font-family: "Electrolize", serif;
 }
 
-
-
-/* Flipping Card CSS */
-
-.GP_Cards_Div {
+/* Accordion Menu Styles */
+.GP_Accordion_Container {
   width: 100%;
-  height: 70%;
+  height: 70%; 
+  
+  margin-top: 10vh;
+  margin-left: 2vw;
+
+  gap: 4px;
+  display: flex;
+  padding: 20px;
+}
+
+.GP_Accordion_Item {
+  width: 80px;
+  height: 360px; 
   position: relative;
   
-  gap: 3rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.GP_Flip_Card_Div {
-  width: 300px;
-  height: 300px;
-  perspective: 1000px;
-}
-
-.GP_Flip_Card_Inner_Div {
+  background: rgba(245, 245, 245, 0.4);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   
-  width: 100%;
-  height: 100%;
-  min-height: 200px;  
-  position: absolute;
+  overflow: hidden;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
 
+.GP_Accordion_Item.active {
+  width: 420px; 
+}
+
+.GP_Accordion_Title {
+  
+  height: 100%;
+  width: 80px;
+  
+  z-index: 2;
+  position: absolute;
+  
+  display: flex;
   cursor: pointer;
-  text-align: center;
   
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.GP_Flip_Card_Div:hover .GP_Flip_Card_Inner_Div {
-  transform: rotateY(180deg);
-}
-
-.GP_Flip_Card_Front_Div, .GP_Flip_Card_Back_Div {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-
-  display: flex;
   align-items: center;
   justify-content: center;
-
-  border-radius: 15px;
-  backface-visibility: hidden;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.GP_Flip_Card_Front_Div {
-  min-height: 200px; 
+.GP_Accordion_Title span {
 
-  color: black;
-  backdrop-filter: blur(5px);
+  color: white;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  transform: rotate(180deg);
+  font-family: 'Audiowide', sans-serif;
+}
+
+.GP_Accordion_Content {
+  top: 0;
+  left: 80px;
+  width: 270px; 
+  height: 100%;
+  position: absolute;
   
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.4);
-}
-
-.GP_Flip_Card_Front_Div h2 {
-  font-size: 1.5rem;
-  font-family: 'Audiowide', cursive;
-}
-
-.GP_Flip_Card_Back_Div {
+  gap: 15px;
+  padding: 20px;
+  
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-
-  backdrop-filter: blur(5px);
-  transform: rotateY(180deg);
-  background-color: rgba(245, 245, 245, 0.4);
-
 }
 
-.GP_Flip_Card_Back_Div a {
-  width: 100%;
-  height: auto;  /* Allow links to take natural height */
-  padding: 0.75rem 0;
+.GP_Accordion_Item.active .GP_Accordion_Content {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  color: black;
-  font-variant: normal;
+.GP_Accordion_Content a {
+  color: white;
   text-decoration: none;
+  
+  padding: 10px;
+  border-radius: 5px;
   font-family: "Electrolize", serif;
+  transition: background-color 0.2s ease;
+}
+
+.GP_Accordion_Content a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+
+@media screen and (max-width: 1024px) {
+  .GP_Content_Container {
+    width: 60%;
+    overflow-x: auto
+  }
+
+  .GP_Text_Area {
+    margin-top: 5vh;
+    margin-left: 5%;
+    padding: 0.5rem;
+
+    width: 90%; 
+    height: auto;
+    min-height: fit-content;
+  }
+  .GP_Tittle_Heading {
+    font-size: 1.3rem;
+  }
+  
+  .GP_Text_Span {
+    font-size: 0.8rem;
+  }
+
+  .GP_Accordion_Container {
+    
+    gap: 10px;
+    padding: 10px;
+    margin-left: 5%;
+    margin-top: 2vh;
+    
+    width: 90%;
+    height: auto;
+    min-height: 50vh;
+  }
+
+  .GP_Cards_Div {
+    gap: 1.5rem;
+    padding: 1rem;
+  }
 }
 
 
+@media screen and (max-width: 768px) {
+  .GP_Content_Container {
+    width: 50%; 
+    height: 100vh;
+    position: fixed;
+    right: 0;
+  }
 
+  .GP_Text_Area {
+    margin-top: 5vh;
+    margin-left: 5%;
+    padding: 0px;
+
+    width: 90%; 
+    height: auto;
+    min-height: fit-content;
+    margin-bottom: 2vh;
+  }
+
+  .GP_Tittle_Heading {
+    font-size: 1.3rem;
+  }
+  
+  .GP_Text_Span {
+    font-size: 0.8rem;
+  }
+
+  .GP_Accordion_Container {
+    
+    gap: 10px;
+    padding: 0px;
+    margin-left: 5%;
+    margin-top: 2vh;
+    
+    width: 90%;
+    height: auto;
+    min-height: 50vh;
+
+    flex-direction: column;
+  }
+
+  .GP_Cards_Div {
+    padding: 1rem;
+    gap: 1rem;
+    justify-content: space-around;
+  }
+
+  .GP_Accordion_Item {
+
+    width: 100%;
+    height: 50px; 
+  }
+
+  .GP_Accordion_Item.active {
+    width: 100%;
+    height: 220px;
+  }
+
+  .GP_Accordion_Title {
+    width: 100%;
+    height: fit-content; 
+
+  }
+
+  .GP_Accordion_Title span {
+    margin: 3px;
+    transform: none;
+    font-size: 0.8rem;
+    writing-mode: horizontal-tb;
+  }
+
+  .GP_Accordion_Content {
+    
+    left: 0;
+    top: 15px; 
+    width: 100%;
+    height: fit-content; 
+    
+    gap: 0px;
+    margin: 2px;
+    padding: 0px;
+  }
+}
 
 
 

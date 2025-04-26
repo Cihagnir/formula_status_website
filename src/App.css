@@ -10,11 +10,11 @@
   flex-direction: row;
   align-items: center;
 
-  width: 90vw;
+  width: 95vw;
   height: 5vh;
   border-radius: 3mm;
   background-color: transparent;
-  margin-left: 5%;
+  margin-left: 2.5%;
 
 }
 
@@ -22,13 +22,13 @@
 
   color: #212529;
 
-  font-size: larger;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 500;
   font-family: "Funnel Display", serif;
 
-  padding-left: 2.5vw;
-  padding-right: 2.5vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
   padding-top: 1vh;
   text-decoration: none;
 }
@@ -47,4 +47,32 @@
 .Nav_Bar_Item:hover{
   text-decoration: underline ;
 }
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1024px) {
+
+  .Nav_Bar_Item {
+    font-size: 1rem;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+  }
+  
+  .Nav_Bar_Img_Item {
+    width: 4%;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .Nav_Bar_Item {
+    font-size: 0.8rem;
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+  
+  
+  .Nav_Bar_Img_Item {
+    width: 5%;
+  }
+}
+
 

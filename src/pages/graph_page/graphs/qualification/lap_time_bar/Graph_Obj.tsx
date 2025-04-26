@@ -12,7 +12,7 @@ import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
 // Interface Defines 
 interface graph_sub_data_interface {
   driver_name: string,
-  lap_time: number,
+  lap_duration: number,
   sector_one: number,
   sector_two: number,
   sector_three: number,
@@ -20,20 +20,20 @@ interface graph_sub_data_interface {
 };
 
 
-interface graph_data_interface {
+interface lap_duration_graph_data_interface {
   graph_data: Array<graph_sub_data_interface>,
 };
 
 
 // Define the complex function 
-function Lap_Time_Collecter({ graph_data }: graph_data_interface) {
+function Lap_Time_Collecter({ graph_data }: lap_duration_graph_data_interface) {
 
   const driver_lap_time: {
     [key: string]: number;
   } = {};
 
   graph_data.forEach((sub_data) => {
-    driver_lap_time[sub_data.driver_name] = sub_data.lap_time;
+    driver_lap_time[sub_data.driver_name] = sub_data.lap_duration;
   })
 
   return driver_lap_time;
@@ -46,14 +46,51 @@ const get_driver_name = (data: graph_sub_data_interface) => data.driver_name;
 const data_keys = ['sector_one', 'sector_two', 'sector_three']
 
 
-// Define the constant variable 
+// Object Function 
+function Lap_Time_Graph(
+  { graph_data }: lap_duration_graph_data_interface
+) {
+
+  // Add state for visible sectors
+  const [visible_sectors, set_visible_sectors] = useState(new Set(data_keys));
+  
+  // Graph the window height and widht 
+  let window_width = document.documentElement.clientWidth;
+  let window_height = document.documentElement.clientHeight;
+
+  // Set the bounderies 
+  let graph_width = window_width < 1024 ? window_width * 0.85 : window_width * 0.8;
+  let graph_height = window_height < 800 ? window_height * 0.8 : window_height * 0.5;
+
+  let element_space_width = window_width < 1024 ? window_width * 0.05 : window_width * 0.04;
+  let element_space_height = window_height < 800 ? window_height * 0.15 : window_height * 0.1;
+
+  let x_axis_max = graph_width - element_space_width;
+  let y_axis_max = graph_height - element_space_height;
+
+
+  // Set the some global varibales 
+
+  let driver_lap_json = Lap_Time_Collecter({ graph_data });
+  let sorted_driver_lap_json = Object.fromEntries(
+    Object.entries(driver_lap_json)
+      .sort(([, a], [, b]) => a - b)
+  );
+
+
+// Define the graph cosmatic varable 
 const graph_cosmatic = {
   axis: {
-    color: '#000000',
-    text_prop: {
-      fill: '#000000',
-      fontSize: 14,
+    color: '#F5F5F5',
+    label_props: {
+      fill: '#F5F5F5',
+      fontSize: window_width < 1024 ? 12 : 18,
       fontFamily: 'Electrolize',
+    },
+    tick_props : {
+      fill :'#F5F5F5',
+      color : '#F5F5F5',
+      fontSize : window_width < 1024 ? 9 : 13,
     },
   },
 
@@ -66,43 +103,10 @@ const graph_cosmatic = {
 
   grid : {
     opacity : 0.6,
-    stroke_color : "#000000"
+    stroke_color : "#F5F5F5"
   },
   color_scale : ["#968CE8", "#B4B3EB", "#D9CDF5"]
 }
-
-
-
-
-// Object Function 
-function Lap_Time_Graph(
-  { graph_data }: graph_data_interface
-) {
-
-  // Add state for visible sectors
-  const [visible_sectors, set_visible_sectors] = useState(new Set(data_keys));
-  
-  // Graph the window height and widht 
-  let window_width = document.documentElement.clientWidth;
-  let window_height = document.documentElement.clientHeight;
-
-  // Set the bounderies 
-  let grpah_width = window_width * 0.8;
-  let graph_height = window_height * 0.56;
-  let element_space_width = window_width * 0.04;
-  let element_space_height = window_height * 0.1;
-
-  let x_axis_max = grpah_width - element_space_width;
-  let y_axis_max = graph_height - element_space_height;
-
-
-  // Set the some global varibales 
-
-  let driver_lap_json = Lap_Time_Collecter({ graph_data });
-  let sorted_driver_lap_json = Object.fromEntries(
-    Object.entries(driver_lap_json)
-      .sort(([, a], [, b]) => a - b)
-  );
 
 
   // Set the grpah scales 
@@ -165,11 +169,11 @@ function Lap_Time_Graph(
   };
 
   return (
-    <div className='Graph_Div'>
+    <div className='LTQ_Graph_Div'>
 
-      <div className="Sub_Graph_Div" >
+      <div className="LTQ_Graph_Container_Div" >
 
-        <svg width={grpah_width} height={graph_height}>
+        <svg width={graph_width} height={graph_height}>
         
           <Group top={graph_cosmatic.margin.top} left={element_space_width}>
 
@@ -193,6 +197,35 @@ function Lap_Time_Graph(
               numTicksRows={Math.max(...Object.values(driver_lap_json))}
             />
 
+            <AxisBottom
+              label="Drivers"
+              labelProps={graph_cosmatic.axis.label_props}
+              
+              top={y_axis_max}
+              left={graph_cosmatic.margin.left}
+              
+              scale={x_axis_scale}
+              
+              stroke={graph_cosmatic.axis.color}
+              tickStroke={graph_cosmatic.axis.color}
+              tickValues={graph_data.map(get_driver_name)}
+              tickLabelProps={graph_cosmatic.axis.tick_props}
+            />
+
+            <AxisLeft
+              label="Lap Times as Sec"
+              labelOffset={25}
+              labelProps={graph_cosmatic.axis.label_props}
+              
+              scale={y_axis_scale}
+              
+              numTicks={20}
+              stroke={graph_cosmatic.axis.color}
+              tickStroke={graph_cosmatic.axis.color}
+              tickLabelProps={graph_cosmatic.axis.tick_props}
+            />
+
+
             <BarStack
               data={graph_data}
               keys={activeKeys}
@@ -204,15 +237,18 @@ function Lap_Time_Graph(
               {(barStacks) =>
                 barStacks.map((barStack) =>
                   barStack.bars.map((bar) => (
-                    
-                    <g key={`bar-stack-${barStack.index}-${bar.index}`}>
+                  
+                  <g key={`bar-stack-${barStack.index}-${bar.index}`}>
+                  
+                    <>{console.log(barStacks)}</>
                     <rect
+                      className="LTQ_Bar"
                       x={bar.x}
                       y={bar.y}
                       fill={bar.color}
                       height={bar.height}
                       width={bar.width}
-                      opacity={0.9}
+                      opacity={1}
                       onMouseLeave={() => hideTooltip()}
                       onMouseMove={(event) => {
                         showTooltip({
@@ -225,13 +261,12 @@ function Lap_Time_Graph(
                         });
                       }}
                     />
-                    {/* Add text element */}
-                      <text className="LTQ_Bar_Text"
-                        x={bar.x + (bar.width / 2)}
-                        y={bar.y + (bar.height / 2)}
-                      >
-                        {(bar.bar['1'] - bar.bar['0']) .toFixed(3)}
-                      </text>
+                    <text className="LTQ_Bar_Text"
+                      x={bar.x + (bar.width / 2)}
+                      y={bar.y + (bar.height / 2)}
+                    >
+                      { (bar.bar['1'] - bar.bar['0']) .toFixed(2) }
+                    </text>
                   </g>
                     
                   ))
@@ -256,7 +291,7 @@ function Lap_Time_Graph(
 
               <div>
                 <strong> Driver : </strong> {tooltipData.bar.data.driver_name} <br/>
-                <strong> Lap Time : </strong> {tooltipData.bar.data.lap_time} 
+                <strong> Lap Time : </strong> {tooltipData.bar.data.lap_duration} <br/>
 
                 {
                 Object.keys(tooltipData.bar.data).slice(1,-2).reverse().map((data_key,index) => (
@@ -270,69 +305,46 @@ function Lap_Time_Graph(
             </TooltipInPortal>
             )}
 
-            <AxisBottom
-              label="Drivers"
-              scale={x_axis_scale}
-              left={graph_cosmatic.margin.left}
-              top={y_axis_max}
-              stroke={graph_cosmatic.axis.color}
-              tickStroke={graph_cosmatic.axis.color}
-              tickValues={graph_data.map(get_driver_name)}
-              tickLabelProps={{
-                fill: "#000000",
-                fontSize: 11,
-                textAnchor: "middle",
-              }}
-            />
 
-            <AxisLeft
-              label="Lap Times as Sec"
-              hideAxisLine
-              scale={y_axis_scale}
-              stroke={graph_cosmatic.axis.color}
-              tickStroke={graph_cosmatic.axis.color}
-              tickLabelProps={graph_cosmatic.axis.text_prop}
-              numTicks={20}
-            />
 
           </Group>
         </svg>
 
-        {/* Legend Code */}
-        <div className="LTQ_Legend_Div">
-          
-          <div>
-            <strong>Sectors</strong>
-          </div>
-          
-          {data_keys.map((key) => (
-          
-          <div className = "capitalize" 
-              key={key}
-              onClick={() => toggleSector(key)}
-              style={{
-                gap: '8px',
-                display: 'flex',
-                padding: '2px 0',
-                cursor: 'pointer',
-                alignItems: 'center',
-                opacity: visible_sectors.has(key) ? 1 : 0.4,
-              }}
-            >
-          
-            <div  style={{
-              width: '12px',
-              height: '12px',
-              backgroundColor: color_scale(key),
-              borderRadius: '2px'
-            }} />
+      </div>
 
-            <span> {key.replace(/_/g, ' ')} </span>
-
-          </div>
-          
-          ))}
+      <div className="LTQ_Legend_Div">
+        
+        <div>
+          <strong>Sectors</strong>
         </div>
+        
+        {data_keys.map((key) => (
+        
+        <div className = "capitalize" 
+            key={key}
+            onClick={() => toggleSector(key)}
+            style={{
+              gap: '8px',
+              display: 'flex',
+              padding: '2px 0',
+              cursor: 'pointer',
+              alignItems: 'center',
+              opacity: visible_sectors.has(key) ? 1 : 0.4,
+            }}
+          >
+        
+          <div  style={{
+            width: '12px',
+            height: '12px',
+            backgroundColor: color_scale(key),
+            borderRadius: '2px'
+          }} />
+
+          <span> {key.replace(/_/g, ' ')} </span>
+
+        </div>
+        
+        ))}
       </div>
     </div>
   )

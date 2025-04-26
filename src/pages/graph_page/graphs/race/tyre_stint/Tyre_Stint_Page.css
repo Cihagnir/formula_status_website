@@ -1,96 +1,107 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
-
-
-
 
 .TS_Main_Div {
   width: 100vw;
   height: 100vh;
   
-  background: linear-gradient(135deg, 
-    rgba(71, 199, 252, 0.85) 5%,
-    rgba(255, 128, 0, 0.9) 25%,
-    rgba(0, 0, 0, 0.8) 80%
-  );
+  overflow: hidden;
+  position: relative;
+}
+
+.TS_Background_Image{
   
-  backdrop-filter: blur(10px);
+  width: 100vw;
+  height: 100vh;
+  
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: fixed;
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
+}
+
+
+.TS_Blur_Div{
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
   position: relative;
   overflow: hidden;
 }
 
 
-.TS_Main_Div::before {
-  content: '';
+.TS_Window_Div{
+
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-
-.TS_Info_Div{
-  position: absolute;
-
-  top: 8%;
-  left: 4%;
-  padding: 30px;
-  max-width: 400px;
-
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
-  
-  font-size: 1rem;
-  font-weight: 300;
-  text-align: justify;
-  font-variant: normal;
-  font-family: "Electrolize", serif;
-
-}
-
-.TS_ComboBox_Div {
-  padding: 20px;
-  min-width: 600px;
-  height: fit-content;
-  
-  top: 36%;
-  left: 4%;
-  position: absolute;
+  transform: translate(-50%, -50%);
   
   display: flex;
+  flex-direction: row;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.TS_Combined_Div {
+
+  width: 90%;
+  margin: 30px;
+  padding: 20px;
+  max-width: min(580px, 90vw);
+
+  background-color: transparent;
+
+  color : #F5F5F5;
+  font-family: "Electrolize", serif;
+}
+
+.TS_ComboBox_Section {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
+}
 
-  color: black;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
+.TS_Select_Group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  font-size: 1rem;
-  font-family: "Electrolize", serif;
+.TS_Divider {
+  margin: 20px 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(245, 245, 245, 0.8),
+    transparent
+  );
 }
 
 .TS_Select_Title_Span {
-  margin-left: 3%;
+  margin-left: 0;
   white-space: nowrap;
   min-width: fit-content;
 }
 
 .TS_Race {
-  margin-left: 20px;
+  margin-left: 0;
 }
 
 .TS_Select_Box {
@@ -98,25 +109,31 @@
   min-width: 120px;
   height: 40px;
 
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  background-color:rgba(245, 245, 245, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #F5F5F5;
+
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  border: 1px solid rgba(245, 245, 245, 0.8);
+  
+  background-color: transparent;
 
   font-size: 0.9rem;
-  font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
+  font-family: "Electrolize", serif;
 
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .TS_Select_Box:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
 }
+
 
 .TS_Race_Box {
   min-width: 200px;
@@ -124,42 +141,32 @@
 
 .TS_Graph_Div {
 
-  position: absolute;
-  left: 45%;
-  top: 8%;
+  width: 50%;
+  max-width: 90vw;
+  margin-left: 30px;
 
   padding-top: 25px;
   padding-right: 30px;
   
-  border-radius: 15px;
-  background-color: rgba(245, 245, 245, 0.85);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   
   transition: all 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .TS_Graph_Div:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.TS_Graph_Div > .Graph_Div {
-  transition: all 0.3s ease;
 
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.TS_Graph_Legend_Div{
+  color: #F5F5F5;
+  margin-bottom: 8px;
 }
-
-.visx-axis-label{
-
-
-  font-size: 1.2rem;
-
-
-}
-
 
 .isPassive{
   visibility: hidden;
@@ -167,4 +174,81 @@
 
 .capitalize{
   text-transform: capitalize;
+}
+
+
+/* Reactive Screen CSS */
+@media screen and (max-width: 1024px) {
+  .TS_Main_Div {
+    
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .TS_Window_Div{
+    height: 85%;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+
+
+  .TS_Combined_Div {
+    width: 70%;
+    max-width: 95%;
+
+    margin: 10px;
+    position: relative;
+  }
+
+  .TS_Info_Title,
+  .TS_Info_Text,
+  .TS_Select_Box,
+  .TS_Select_Title_Span{
+    font-size: 0.7rem;
+  }
+
+
+  .TS_Graph_Legend_Div{
+    font-size: 0.6rem;
+  }
+
+
+  .TS_Graph_Div {
+
+    transform: none;
+    margin: 10px auto;
+
+    width: 95%;
+    max-height: fit-content;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .TS_Main_Div {
+    padding: 5px;
+  }
+
+  .TS_Combined_Div {
+    width: 98%;
+    max-width: 98%;
+    margin: 5px auto;
+    padding: 10px;
+  }
+
+  .TS_Graph_Div {
+    width: 98%;
+    max-width: 98%;
+    margin: 5px auto;
+    padding: 10px;
+  }
+
+  .TS_ComboBox_Section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .TS_Select_Group {
+    justify-content: space-between;
+  }
 }

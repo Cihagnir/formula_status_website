@@ -6,50 +6,75 @@
   width: 100vw;
   height: 100vh;
   
-  background: linear-gradient(135deg, 
-    rgba(206, 220, 0, 0.9) 0%,
-    rgba(0, 89, 79, 0.85) 50%,
-    rgba(0, 53, 47, 0.8) 100%
-  );
-  
-  backdrop-filter: blur(10px);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
   position: relative;
   overflow: hidden;
 }
 
-.LTL_Main_Div::before {
-  content: '';
-  position: absolute;
+.LTL_Background_Image{
+  
+  width: 100vw;
+  height: 100vh;
+  
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
+  z-index: -1;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 
-.LTL_Info_Div{
+.LTL_Blur_Div{
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.LTL_Window_Div{
+
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
   position: absolute;
-
-  top: 10%;
-  left: 4%;
-  padding: 30px;
-  max-width: 400px;
-
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
+  transform: translate(-50%, -50%);
   
+  display: flex;
+  flex-direction: column;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+.LTL_Control_Area_Div{
+
+  display: flex;
+  flex-direction: row;
+
+  margin: 10px;
+}
+
+.LTL_Info_Div{
+
+  margin: 20px;
+  padding: 15px;
+  width: 500px;
+
+  background-color: transparent;
+  
+  color: #F5F5F5;
   font-size: 1rem;
   font-weight: 300;
   text-align: justify;
@@ -60,26 +85,41 @@
 
 /* Combo Box CSS Area  */
 
-.LTL_ComboBox_Div {
+.LTL_Control_Div {
+
+  gap: 15px;
   padding: 20px;
+  margin: 30px;
+  margin-left: 200px;
   min-width: 600px;
   height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: transparent;
   
-  top: 10%;
-  left: 40%;
-  position: absolute;
+  color: #F5F5F5;
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
+}
+
+.LTL_ComboBox_Upper {
+  gap: 15px;
   
   display: flex;
   align-items: center;
-  gap: 15px;
+}
 
-  color: black;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
-
-  font-size: 1rem;
-  font-family: "Electrolize", serif;
+.LTL_Divider {
+  margin: 20px 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(245, 245, 245, 0.6),
+    transparent
+  );;
 }
 
 .LTL_Select_Title_Span {
@@ -97,12 +137,12 @@
   min-width: 120px;
   height: 40px;
 
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  background-color:rgba(245, 245, 245, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  background-color: transparent;
+  
+  color: #F5F5F5;
   font-size: 0.9rem;
   font-family: "Electrolize", serif;
   text-align: center;
@@ -113,8 +153,9 @@
 }
 
 .LTL_Select_Box:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
 }
 
 .LTL_Race_Box {
@@ -124,24 +165,18 @@
 
 /* Constrol CSS Area */
 
-.LTL_Control_Container {
-  
-  top: 23%;
-  left: 40%;
-  min-width: 610px;
-  position: absolute;
+.LTL_ComboBox_Bottom {
 
   gap: 20px;
-  padding: 15px;
   display: flex;
+  flex-direction: row;
   align-items: center;
 
   border-radius: 8px;
-  background-color: rgba(245, 245, 245, 0.8);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .LTL_Filter_Button {
+
   top: 25%;
   left: 40%;
   position: static;
@@ -149,10 +184,9 @@
   padding: 10px 20px;
   
   border: none;
-  color: white;
+  color: #000000;
   border-radius: 8px;
-  background-color: rgba(0, 89, 79, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color:rgba(245, 245, 245, 2);  ;
   
   cursor: pointer;
   font-size: 0.9rem;
@@ -161,28 +195,20 @@
 }
 
 .LTL_Filter_Button:hover {
-  background-color: rgba(0, 89, 79, 1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
+  background-color: rgba(245, 245, 245, 0.6);
 }
 
-.LTL_Range_Slider_Container {
-  gap: 20px;
-  padding: 15px;
-  display: flex;
-  margin-left: 35px;
-  
-  border-radius: 8px;
-  background-color: rgba(245, 245, 245, 0.5);
-
-}
 
 .LTL_Slider_Group {
-  display: flex;
+  
   gap: 5px;
+  margin-left: 15px;
+
+  display: flex;
+  flex-direction: column;
   
   font-size: 0.9rem;
-  flex-direction: column;
   font-family: "Electrolize", serif;
 }
 
@@ -193,7 +219,7 @@
   outline: none;
   -webkit-appearance: none;
   
-  background: #ddd;
+  background:rgba(245, 245, 245, 0.4);
   border-radius: 5px;
 }
 
@@ -207,53 +233,113 @@
   -webkit-appearance: none;
   transition: all 0.2s ease;
   
-  background: rgba(0, 89, 79, 0.9);
+  background: rgba(245, 245, 245, 1);
 }
 
 .LTL_Range_Slider::-webkit-slider-thumb:hover {
   transform: scale(1.1);
-  background: rgba(0, 89, 79, 1);
+  background-color:rgba(245, 245, 245, 0.3);
 }
 
+
+/* Hover Info CSS Area */
+.LTL_Info_Hover_Container {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.LTL_Info_Icon {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  cursor: help;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: rgba(245, 245, 245, 1);
+  border-radius: 50%;
+  background-color: rgba(245, 245, 245, 0.3);
+  transition: all 0.2s ease;
+}
+
+.LTL_Info_Icon:hover {
+  background-color: rgba(245, 245, 245, 0.6);
+}
+
+.LTL_Info_Tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  z-index: 1000;
+  
+  width: 250px;
+  padding: 12px;
+  margin-bottom: 10px;
+  
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+  white-space: normal;
+  
+  border-radius: 8px;
+  background-color: rgba(245, 245, 245, 0.98);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.LTL_Info_Tooltip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  
+  width: 10px;
+  height: 10px;
+  
+  transform: translateX(-50%) rotate(45deg);
+  background-color: rgba(245, 245, 245, 0.98);
+}
+
+.LTL_Info_Hover_Container:hover .LTL_Info_Tooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: 130%;
+}
 
 
 /* Garph CSS Area */
 
 .LTL_Graph_Div {
 
-  position: absolute;
-  left: 4%;
-  top: 36%;
-  width: 90%;
-  
-  padding-top: 25px;
-  padding-right: 30px;
+  width: 95%;
+  margin: 0px 30px 30px 30px;
 
   border-radius: 15px;
-  background-color: rgba(245, 245, 245, 0.95);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: transparent;
   
   transition: all 0.3s ease;
-}
 
-.LTL_Graph_Div:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.LTL_Graph_Div > .Graph_Div {
-  transition: all 0.3s ease;
-
-  padding: 10px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+
 }
 
-.Graph_Container {
-  width: 90%;
-  display: inline-block;
+.LTL_Graph_Container {
+  min-width: fit-content;
+
 }
 
+/* Tool Tip Css Area */
 
 .LTL_Tooltip_Div{
 
@@ -280,7 +366,7 @@
 
 /* Legend CSS Area   */
 
-.Graph_Legend {
+.LTL_Graph_Legend {
   gap: 10px;
   width: 10%;
   padding: 20px;
@@ -290,12 +376,12 @@
   overflow-y: auto;
 }
 
-.Legend_Column {
+.LTL_Legend_Column {
   flex: 1;
   min-width: 0;
 }
 
-.Legend_Item {
+.LTL_Legend_Item {
   overflow: hidden;
   font-size: 0.75rem;
   white-space: nowrap;
@@ -303,31 +389,20 @@
   padding: 10px 6px 10px 6px;
 }
 
-.Legend_Item:hover {
+.LTL_Legend_Item:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.Legend_Item_Inactive {
-  opacity: 0.3;
+.LTL_Legend_Item_Inactive {
+  opacity: 0.6;
 }
 
-.Legend_Color_Box {
-  width: 8px;
-
-  margin-right: 8px;
-  border-radius: 2px;
-}
-
-.Legend_Driver_Name {
+.LTL_Legend_Driver_Name {
+  min-width: fit-content;
+  color: #F5F5F5;
   font-size: 0.8rem;
 }
 
-/* Define colors for each driver - you'll need to add these based on your data */
-:root {
-  --driver1-color: #FF1E1E;
-  --driver2-color: #00FF00;
-  /* Add more driver colors as needed */
-}
 
 .isPassive{
   visibility: hidden;
@@ -335,4 +410,137 @@
 
 .capitalize{
   text-transform: capitalize;
+}
+
+/* Add these responsive styles at the end of the file */
+
+@media screen and (max-width: 1200px) {
+
+  .LTL_Main_Div {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .LTL_Info_Div {
+
+    margin-top: 10vh;
+    margin-bottom: 20px;
+
+    font-size: 0.7rem;
+  }
+
+  .LTL_Control_Div {
+    max-width: 60%;
+    content: fit-content;
+    
+    left: 4%;
+    position: relative;
+
+    font-size: 0.7rem;
+  }
+
+  .LTL_ComboBox_Bottom {
+    gap: 15px;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+
+  .LTL_Filter_Button {
+    margin: 4px auto;
+    width: fit-content;
+  }
+
+  .LTL_Graph_Div {
+    left: 2%;
+    width: 95%;
+
+    margin-top: 4vh;
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 0.7rem;
+  
+  }
+
+  .LTL_Select_Box,
+  .LTL_Slider_Group,
+  .LTL_Filter_Button{
+    font-size: 0.7rem;
+  }
+
+
+  .Legend_Item{
+    padding: 0px;
+    margin-top: 8px;
+    font-size: 0.6rem;
+  }
+
+  .Graph_Legend{
+    padding: 0px;
+  }
+
+  .LTL_Graph_Container{
+    height: 50%;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .LTL_ComboBox_Upper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .LTL_Select_Title_Span {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .LTL_Race {
+    margin-left: 0;
+  }
+
+  .LTL_Select_Box {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .LTL_Graph_Container {
+    width: 95%;
+  }
+
+  .Graph_Legend {
+    flex-direction: row;
+    width: 100%;
+    max-height: none;
+    padding: 10px;
+  }
+
+  .Legend_Item {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .LTL_Info_Div {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+
+
+  .LTL_Slider_Group {
+    margin-left: 0;
+    width: 100%;
+    align-items: center;
+  }
+
+  .LTL_Range_Slider {
+    width: 200px;
+  }
+
+  .Graph_Legend {
+    overflow-x: auto;
+  }
 }

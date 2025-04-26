@@ -1,6 +1,4 @@
-
 import { Group } from '@visx/group';
-import { Grid } from "@visx/grid";
 import { LegendOrdinal } from '@visx/legend';
 import { BarStackHorizontal } from '@visx/shape';
 import { AxisBottom, AxisLeft } from '@visx/axis';
@@ -28,28 +26,13 @@ interface TooltipData {
 } 
 
 // Constant Variable Defines
-const graph_cosmatic = {
-  axis : {
-    line_color : '#000000',
-    text_prop : {
-      fill : '#000000',
-      fontSize : 14,
-      fontFamily : 'Electrolize',
-    }
-  }, 
-  grid : {
-    opacity : 0.6,
-    stroke_color : "#000000"
-  },
-}
-
 const color_scale_graph = { 
   SOFT : '#FF0000', 
   MEDIUM : '#FFD900', 
   HARD : '#FFFFFF', 
   INTERMEDIATE  : '#00A808', 
   WET : '#000EA8', 
-  UNKNOWN : "#000000" 
+  null : "#858585" 
 }
 
 const color_scale_legend  = { 
@@ -58,7 +41,7 @@ const color_scale_legend  = {
   Hard : '#FFFFFF', 
   Intermediate  : '#00A808', 
   Wet : '#000EA8', 
-  Unknown : "#000000" 
+  Unknown : "#858585" 
 }
 
 function Color_Scale_Seperator({ graph_data } : graph_interface) {
@@ -111,16 +94,19 @@ export function Tyre_Stint_Graph( {
     detectBounds: true,
   });
 
-  let window_width = document.documentElement.clientWidth;
-  let window_height = document.documentElement.clientHeight;
+  // Update window size calculation
+  let window_width = Math.min(document.documentElement.clientWidth, 1200); // Cap max width
+  let window_height = Math.min(document.documentElement.clientHeight, 800); // Cap max height
 
-  // Set the boundries 
-  let grpah_width = window_width * 0.50 ; 
-  let graph_height = window_height * 0.80 ;
-  let element_space_width = window_width * 0.05 ;
-  let element_space_height = window_height * 0.1 ;
+  // Adjust graph dimensions based on screen size
+  let graph_width = window_width < 1024 ? window_width * 0.9 : window_width * 0.70;
+  let graph_height = window_height < 1024 ? window_height * 0.80 : window_height * 0.80;
+  
+  // Adjust spacing for smaller screens
+  let element_space_width = window_width < 1024 ? window_width * 0.1 : window_width * 0.08;
+  let element_space_height = window_height < 1024 ? window_height * 0.15 : window_height * 0.1;
 
-  let x_axis_max = grpah_width - element_space_width ; 
+  let x_axis_max = graph_width - element_space_width ; 
   let y_axis_max = graph_height - element_space_height ;
 
   let driver_lap_array = Lap_Number_Calculator({graph_data})
@@ -157,6 +143,27 @@ export function Tyre_Stint_Graph( {
     domain: Object.keys(color_scale_legend),
   });
 
+  // Update font sizes for smaller screens
+  const graph_cosmatic = {
+    axis: {
+      line_color: '#F5F5F5',
+      label_props : {
+        fill: '#F5F5F5',
+        fontSize: window_width < 1024 ? 14 : 20,
+        fontFamily: 'Electrolize',
+      },
+      tick_props: {
+        fill: '#F5F5F5',
+        fontSize: window_width < 1024 ? 10 : 14,
+        fontFamily: 'Electrolize',
+      }
+    },
+    grid : {
+      opacity : 0.6,
+      stroke_color : "#F5F5F5"
+    },
+  }
+
   // Tooltip Arrow Function
   const Handle_Tooltip = (
     event: React.MouseEvent<SVGRectElement>,
@@ -183,13 +190,13 @@ export function Tyre_Stint_Graph( {
 
 
   return (
-    <div className='Graph_Div' >
+    <div className='TS_Graph_Div' >
       
-      <div className='Graph_Legend_Div'>
+      <div className='TS_Graph_Legend_Div'>
         <LegendOrdinal scale={legend_color_scale} direction="row" labelMargin="0 15px 0 0" />
       </div>
 
-      <svg width={grpah_width} height={graph_height}>
+      <svg width={graph_width} height={graph_height}>
 
         <Group left={element_space_width} width={x_axis_max} height={y_axis_max}>
 
@@ -209,21 +216,24 @@ export function Tyre_Stint_Graph( {
                   color={graph_color_scale}
                 >
                   {(barStacks) =>
-                    barStacks.map((barStack) =>
-                      barStack.bars.map((bar) => (
-                        <rect
-                          key={`barstack-horizontal-${barStack.index}-${bar.index}`}
-                          x={bar.x}
-                          y={bar.y}
-                          width={bar.width - 3}
-                          height={bar.height}
-                          fill={bar.color}
-                          onMouseMove={(event) => Handle_Tooltip(event, bar) }
-                          opacity={0.9}
-
-                        />
-                      )),
-                    )
+                  barStacks.map((barStack) =>
+                    barStack.bars.map((bar) => (
+                    <rect
+                      key={`barstack-horizontal-${barStack.index}-${bar.index}`}
+                      x={bar.x}
+                      y={bar.y}
+                      width={bar.width - 3}
+                      height={bar.height}
+                      
+                      rx={4}  
+                      ry={4}  
+                      fill={bar.color}
+                      
+                      onMouseMove={(event) => Handle_Tooltip(event, bar) }
+                      opacity={0.9}
+                    />
+                    )),
+                  )
                   }
                 </BarStackHorizontal>
             )
@@ -237,10 +247,12 @@ export function Tyre_Stint_Graph( {
 
             label= "Drivers"
             labelOffset= {48}
+            labelProps={graph_cosmatic.axis.label_props}
+
             scale={ y_axis_scale }
             stroke={ graph_cosmatic.axis.line_color }
             tickStroke={ graph_cosmatic.axis.line_color }
-            tickLabelProps={ graph_cosmatic.axis.text_prop }
+            tickLabelProps={ graph_cosmatic.axis.tick_props }
             tickValues = {graph_data.map(driver_scale)}
 
           />  
@@ -248,12 +260,13 @@ export function Tyre_Stint_Graph( {
           <AxisBottom
             label= 'Lap Number'
             labelOffset= { 20 }
+            labelProps={graph_cosmatic.axis.label_props}
 
             top={y_axis_max}
             scale={x_axis_scale}
             stroke={ graph_cosmatic.axis.line_color }
             tickStroke={ graph_cosmatic.axis.line_color }
-            tickLabelProps={ graph_cosmatic.axis.text_prop }
+            tickLabelProps={ graph_cosmatic.axis.tick_props }
           />
         
         

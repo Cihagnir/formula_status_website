@@ -1,6 +1,38 @@
 
 
-> Version 0.0.3.5
+> Version 0.0.3.6
 
-  . Commen Utils fix 
-  . Backend URL fix 
+  . All Graph pages has Selectoin box bug fix ( Single option situation create bugs on the code )
+  
+  !! All Page
+    _ All GRAPH pages are redesign to create more good looking
+    _ Page made compatiable with the mobile. [ Probably still need to be improved ] 
+    _ Sprint Race added to Graph [ Races selection option area changed in order to handle that situation ]
+  
+  . Graph Page 
+    _ Page redesign to improve the website design consistency.
+  
+  . Tyre Stint Page 
+    _ Page redesign to create more minimal interface 
+
+  . Lap Time Line Page 
+    _ How to use pop up added to page. 
+    _ Page redesign to create more minimal interface 
+    _ Graph lines type changed to make more lookable [ yhep i crete some random word to sounds weird  ]
+  
+  . Interval Line Page 
+    - That page added at that version 
+    _ Page has switchable graph type depending on interval type. 
+
+  . Position Line Page 
+    - That Page added at that version 
+
+
+
+
+!!! Problems : 
+
+  . 2024 USA Grand Prix Tyre Stint data not look's right.
+  .Tyre Stint Graph Problem at that race 
+    SELECT driver_name, driver_number, lap_number, driver_pos, team_color FROM position_interval_table WHERE ( year = 2024 AND country = 'Qatar' AND session_name = 'Race' ) ORDER BY sample_time
+

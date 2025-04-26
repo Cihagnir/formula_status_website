@@ -17,7 +17,7 @@ interface bin_data_interface {
   count: number;
 }
 
-export interface graph_data_interface {
+export interface lap_duration_graph_data_interface {
   violin_plot  : Array<bin_data_interface>,
   box_plot : {
     x : string, 
@@ -40,50 +40,23 @@ interface TooltipData {
 }
 
 interface lap_time_graph_interface {
-  graph_data : Array<graph_data_interface>
+  graph_data : Array<lap_duration_graph_data_interface>
 }
 
 
 // Arrow Functions
 const accesser = {
- x : (data: graph_data_interface) => data.box_plot.x ,
- min : (data: graph_data_interface) => data.box_plot.min ,
- max : (data: graph_data_interface) => data.box_plot.max ,
- median : (data: graph_data_interface) => data.box_plot.median ,
- outliers : (data: graph_data_interface) => data.box_plot.outliers ,
- firstQuartile : (data: graph_data_interface) => data.box_plot.first_quartile ,
- thirdQuartile : (data: graph_data_interface) => data.box_plot.third_quartile ,
+ x : (data: lap_duration_graph_data_interface) => data.box_plot.x ,
+ min : (data: lap_duration_graph_data_interface) => data.box_plot.min ,
+ max : (data: lap_duration_graph_data_interface) => data.box_plot.max ,
+ median : (data: lap_duration_graph_data_interface) => data.box_plot.median ,
+ outliers : (data: lap_duration_graph_data_interface) => data.box_plot.outliers ,
+ firstQuartile : (data: lap_duration_graph_data_interface) => data.box_plot.first_quartile ,
+ thirdQuartile : (data: lap_duration_graph_data_interface) => data.box_plot.third_quartile ,
 
 }
 
 
-const graph_cosmatic = {
-  violin_plot : {
-    violin_color : '#000000',
-    pattern_line_color : '#000000', 
-    opacity : 0.3 ,
-
-  },
-  box_plot : {
-    fill_color : '#000000', 
-    fill_opacity : 0.1 ,
-    stroke_color : '#CCCCCC',
-    stroke_width : 1, 
-  },
-  axis : {
-    line_color : '#000000',
-    text_prop : {
-      fill : '#000000',
-      fontSize : 13,
-      fontFamily : 'Electrolize',
-    }
-  },
-  grid : {
-    opacity : 0.2,
-    stroke_color : "#000000"
-  },
-}
- 
 export function  Lap_Time_Graph( { 
   graph_data,
 }: lap_time_graph_interface) {
@@ -112,12 +85,13 @@ export function  Lap_Time_Graph( {
 
   // Set the bounderies 
 
-  let grpah_width = window_width * 0.90 ;
-  let graph_height = window_height * 0.56 ;
+  let graph_width = window_width < 1024 ? window_width * 0.85 : window_width * 0.8;
+  let graph_height = window_height < 800 ? window_height * 1 : window_height * 0.5;
+
   let element_space_width = window_width  * 0.05;
   let element_space_height = window_height * 0.1 ;
 
-  let x_axis_max = grpah_width - element_space_width ;
+  let x_axis_max = graph_width - element_space_width ;
   let y_axis_max = graph_height - element_space_height ;
 
   let minYValue = Math.min(...values);
@@ -153,7 +127,7 @@ export function  Lap_Time_Graph( {
   // Add tooltip handler
   const handleTooltip = (
     event: React.MouseEvent<SVGRectElement>,
-    data: graph_data_interface
+    data: lap_duration_graph_data_interface
   ) => {
     if (event) {
       showTooltip({
@@ -169,11 +143,43 @@ export function  Lap_Time_Graph( {
     }
   };
 
+  const graph_cosmatic = {
+    violin_plot : {
+      violin_color : '#F5F5F5',
+      pattern_line_color : '#F5F5F5', 
+      opacity : 0.6 ,
+  
+    },
+    box_plot : {
+      fill_color : '#F5F5F5', 
+      fill_opacity : 0   ,
+      stroke_color : '#CCCCCC',
+      stroke_width : 1, 
+    },
+    axis : {
+      line_color : '#F5F5F5',
+      tick_props : {
+        fill : '#F5F5F5',
+        fontSize : window_width < 1024 ? 10 : 14,
+        fontFamily : 'Electrolize',
+      },
+      label_props: {
+        fill: '#F5F5F5',
+        fontSize: window_width < 1024 ? 12 : 18,
+        fontFamily: 'Electrolize',
+      },
+    },
+    grid : {
+      opacity : 0.2,
+      stroke_color : "#F5F5F5"
+    },
+  }
+
   // Return the object if it exist 
   return (
-    <div className= 'Graph_Div' >
+    <div className= 'LTD_Graph_Div' >
 
-      <svg width={grpah_width} height={graph_height}>
+      <svg width={graph_width} height={graph_height}>
       
         <PatternLines
           id="hViolinLines"
@@ -194,7 +200,7 @@ export function  Lap_Time_Graph( {
             strokeOpacity={graph_cosmatic.grid.opacity}
           />
 
-          {graph_data.map((data: graph_data_interface, i) => (
+          {graph_data.map((data: lap_duration_graph_data_interface, i) => (
             
             <g key={i}>               
 
@@ -245,20 +251,25 @@ export function  Lap_Time_Graph( {
 
         <AxisLeft 
         label='Lap Time'
+        labelProps={graph_cosmatic.axis.label_props}
+        labelOffset={50}
+
         scale = {y_axis_scale} 
         stroke = {graph_cosmatic.axis.line_color}  
         tickStroke = {graph_cosmatic.axis.line_color} 
-        tickLabelProps = {graph_cosmatic.axis.text_prop}
+        tickLabelProps = {graph_cosmatic.axis.tick_props}
         />  
 
         <AxisBottom 
         label ='Drivers'
         labelOffset= { 20 }
+        labelProps={graph_cosmatic.axis.label_props}
+        
         tickValues = {label_values} 
         top = {y_axis_max} scale = {x_axis_scale} 
         stroke = {graph_cosmatic.axis.line_color}  
         tickStroke = {graph_cosmatic.axis.line_color} 
-        tickLabelProps = {graph_cosmatic.axis.text_prop} 
+        tickLabelProps = {graph_cosmatic.axis.tick_props} 
          />
 
 

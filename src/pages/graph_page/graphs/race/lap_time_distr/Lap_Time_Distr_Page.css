@@ -4,17 +4,6 @@
   width: 100vw;
   height: 100vh;
   
-  background: linear-gradient(135deg, 
-    rgba(128, 20, 43, 0.9) 0%,
-    rgba(0, 161, 156, 0.85) 50%,
-    rgba(198, 198, 4198, 0.8) 100%
-  );
-  
-  backdrop-filter: blur(10px);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
   position: relative;
   overflow: hidden;
 }
@@ -36,53 +25,115 @@
 }
 
 
-.LTD_Info_Div{
-  position: absolute;
-
-  top: 10%;
-  left: 4%;
-  padding: 30px;
-  max-width: 400px;
-
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
+.LTD_Background_Image{
   
+  width: 100vw;
+  height: 100vh;
+  
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: fixed;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.LTD_Blur_Div{
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.LTD_Window_Div{
+
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  flex-direction: column;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+.LTD_Combined_Container {
+
+  display: flex;
+  flex-direction: column;
+  
+  margin: 30px;
+  padding: 15px;
+
+  width: 35%;
+  height: fit-content;
+  color: #F5F5F5;
+
+  gap: 20px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.LTD_Info_Div {
+
   font-size: 1rem;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
-
 }
 
+.LTD_Divider {
+
+  margin: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(245, 245, 245, 0.8),
+    transparent
+  );
+}
 
 .LTD_ComboBox_Div {
-  padding: 20px;
-  min-width: 600px;
-  height: fit-content;
+
+  margin: 0;
+  padding: 10px 0;
   
-  top: 10%;
-  left: 40%;
-  position: absolute;
+  top: 0;
+  left: 0;
+  position: relative;
   
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 15px;
 
-  color: black;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: rgba(245, 245, 245, 0.8);
-
-  font-size: 1rem;
-  font-family: "Electrolize", serif;
+  box-shadow: none;
+  min-width: auto;
+  background-color: transparent;
 }
 
 .LTD_Select_Title_Span {
-  margin-left: 3%;
-  white-space: nowrap;
+
+  margin-left: 3%;;
   min-width: fit-content;
+
 }
 
 .LTD_Race {
@@ -90,67 +141,51 @@
 }
 
 .LTD_Select_Box {
+
   padding: 8px;
-  min-width: 120px;
   height: 40px;
+  margin-left: 15px;
+  min-width: fit-content;
 
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  background-color:rgba(245, 245, 245, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+  background-color:transparent;
+  
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #F5F5F5;
+  
+  color: #F5F5F5;
   font-size: 0.9rem;
-  font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
+  font-family: "Electrolize", serif;
 
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .LTD_Select_Box:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
 }
 
 .LTD_Race_Box {
   min-width: 200px;
 }
 
-
-
 .LTD_Graph_Div {
-
-  position: absolute;
-  left: 4%;
-  top: 36%;
   width: 90%;
-  
-  padding-top: 25px;
-  padding-right: 30px;
-  
-  border-radius: 15px;
-  background-color: rgba(245, 245, 245, 0.95);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  
-  transition: all 0.3s ease;
-}
+  margin: 30px;  
 
-.LTD_Graph_Div:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.LTD_Graph_Div > .Graph_Div {
   transition: all 0.3s ease;
 
   padding: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 
-.isPassive{
+
+.isPassive {
   visibility: hidden;
 }

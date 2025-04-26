@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+/* Page CSS */
+
+.PL_Main_Div {
+  width: 100vw;
+  height: 100vh;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.PL_Background_Image{
+  
+  width: 100vw;
+  height: 100vh;
+  
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: fixed;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.PL_Blur_Div{
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(40px);
+  background: rgb(0 0 0/56%);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.PL_Window_Div{
+  
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  flex-direction: column;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: rgba(245, 245, 245, 0.5);
+
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+.PL_Combined_Div {
+  
+  gap: 10px;
+  padding: 20px;
+  margin: 30px;
+
+  width: 35%;
+  height: fit-content;
+  
+  display: flex;
+  flex-direction: column;
+
+  color: #F5F5F5;
+}
+
+.PL_Info_Div{
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+}
+
+/* Combo Box CSS Area  */
+
+.PL_Control_Div {
+  
+  gap: 15px;
+  width: 100%;
+  height: fit-content;
+  
+  display: flex;
+  flex-direction: column;
+
+  font-size: 1rem;
+  font-family: "Electrolize", serif;
+}
+
+.PL_Control_Upper_Div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.PL_Divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 5px 0;
+}
+
+.PL_Select_Title_Span {
+  margin-left: 3%;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.PL_Race {
+  margin-left: 20px;
+}
+
+.PL_Select_Box {
+  padding: 8px;
+  min-width: 120px;
+  height: 40px;
+
+  border-width: 2px;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: rgba(245, 245, 245, 0.8);
+  background-color: transparent;
+
+  color: #F5F5F5;
+  font-size: 0.9rem;
+  font-family: "Electrolize", serif;
+  text-align: center;
+  text-align-last: center;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.PL_Select_Box:hover {
+  color: #F5F5F5;
+  background-color: #000000;
+  border-color: rgba(245, 245, 245, 0.2);
+}
+
+.PL_Race_Box {
+  min-width: 200px;
+}
+
+
+/* Constrol CSS Area */
+
+.PL_Control_Bottom_Div {
+
+  display: flex;
+  flex-direction: row;
+  
+  gap: 20px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+/* Garph CSS Area */
+
+.PL_Graph_Div {
+  
+  transition: all 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.PL_Graph_Container {
+  width: 90%;
+  display: inline-block;
+}
+
+
+.PL_Tooltip_Div{
+
+  font-size: 0.6rem;
+  font-weight: 300;
+  text-align: justify;
+  font-variant: normal;
+  font-family: "Electrolize", serif;
+
+}
+
+
+.visx-circle-glyph{
+  r: 2.5;
+  opacity: 0.8;
+  
+}
+
+
+.isPassive{
+  visibility: hidden;
+}
+
+.capitalize{
+  text-transform: capitalize;
+}
+
+/* Add these responsive styles at the end of the file */
+
+@media screen and (max-width: 1200px) {
+
+  .PL_Main_Div {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .PL_Window_Div{
+    height: 84%;
+    overflow-y: scroll;
+
+  }
+
+  .PL_Combined_Div {
+    width: 60%;
+    margin-left: 4%;
+    margin-top: 10vh;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .PL_Info_Div,
+  .PL_Control_Div,
+  .PL_Select_Box{
+    font-size: 0.7rem;
+  }
+
+  .PL_Graph_Div {
+    max-height: fit-content;
+    padding: 0%;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .PL_Control_Upper_Div {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .PL_Select_Title_Span {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .PL_Race {
+    margin-left: 0;
+  }
+
+  .PL_Select_Box {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .PL_Graph_Container {
+    width: 95%;
+  }
+
+  .PL_Combined_Div {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .PL_Control_Div {
+    max-width: 60%;
+    content: fit-content;
+    
+    left: 10%;
+    position: relative;
+
+    font-size: 0.7rem;
+  }
+
+}
