@@ -1,14 +1,23 @@
 
-> Version 0.0.2.8
+> Version 0.0.2.9
 
-  . Database update added 
+  . Database changed 
     _ lap_time_table ( Race & Qualification )
     _ tyre_stint_table
     _ session_key_table
-  . Lap Time Line graph backend added 
+    _ position_interval_table
 
+  . Postion backend added 
+  . Interval backend added 
+  . Redundent API Request function added 
+  . Await async compatiable SQL Querry function added 
+  
 
-  !!! DATABASE : lap_time_table => Table changed with that version. Sector segmentation columns removed, team color column added to create stabe color scale at the grpahs. 
+  !! data_base.js rewritten -> Data update logis is changed 
+  
+  
+!! You may want to checkt the database before the updateing the code. 
+
 
 
 

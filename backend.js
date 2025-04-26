@@ -6,27 +6,35 @@ const mysql = require('mysql');
 const express = require('express');
 
 // Handmade Imports
-const dataBase = require('./data_base.js');
 const utils = require('./utils.js');
+const dataBase = require('./data_base.js');
+
+// Debug Setting 
+const LOCAL_DEBUG_SETTING = false ; // It's is exist in order to debug the each file indivually. 
+const DEBUG_SETTING = utils.GLOBAL_DEBUG_SETTING || LOCAL_DEBUG_SETTING ;
 
 const cors_conf_json = {
-  origin: ["https://main-frontend.d3rpgxvzsb1xs7.amplifyapp.com", "", "http://localhost:3000",],
+  origin: [
+    "https://formulatics.ssoli.app", 
+    "http://localhost:3000"
+  ],
 }
 
 const backend_app = express();
 backend_app.use(cors(cors_conf_json));
 
-/** Local MySQL Connection Config (for development) */
+/** Local MySQL Connection Config (for development)
 var rds_connection = mysql.createConnection({
   user     : 'root',
   password : 'Cg//1234',
   host     : 'localhost',
   database : 'formula_one'
-})
-
-
-/** AWS RDS Connection  
+});
+ */
+/** AWS RDS Connection   
 // RDS Connection Config
+*/
+
 var rds_connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER, 
@@ -34,7 +42,7 @@ var rds_connection = mysql.createConnection({
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
 })
-*/
+
 
 rds_connection.connect(
   (error) => {
@@ -44,7 +52,8 @@ rds_connection.connect(
     }
     console.log('DATABASE : Connection Status Done');
   }
-)
+);
+
 
 // Return the number of the element on the list 
 function Count_Elements(array) {
@@ -58,25 +67,24 @@ function Count_Elements(array) {
     value: isNaN(Number(value)) ? value : Number(value), // Convert string keys to numbers if numeric
     count,
   }));
-}
+};
 
-setInterval( () => {
-  console.log('Fetching Data from API');
 
-  // We check the if race is over or not
-  fetch('https://api.openf1.org/v1/sessions?session_key=latest')
-  .then(response => response.json())
-  .then(data => { 
-    let race_data_json = data[0] ; 
-    let race_date = new Date(race_data_json.date_end); 
-    let current_date = new Date(); 
+setInterval( async () => {
+  ( DEBUG_SETTING ) ? ( console.log('Fetching Data from API') ) : null;
 
-    // If the race is over we call the fucntion to update the database with new data 
-    if (current_date >= race_date) {
-      dataBase.Updata_Database(race_data_json, rds_connection);
-    }
-  })
+  let session_response = await utils.API_Fetch_Request('https://api.openf1.org/v1/sessions?session_key=latest');
+  let session_info_json = session_response[0];
+
+
+  let is_race_end = utils.Is_Race_End(session_info_json.session_key);
+  
+  if ( is_race_end ) {
+    dataBase.Updata_Database(session_info_json, rds_connection);
+  }
+  
 },  180000); // Chane the time into a minute or 5 minutes  
+
 
 
 
@@ -103,11 +111,12 @@ backend_app.get(
 
 // RACE Track Name Fetcher
 backend_app.get(
-  "/ui/year/:year/", (request, result) => {
+  "/ui/year/:year/:session_type/", (request, result) => {
 
     var api_result = [];
-    var rds_query_string = `SELECT DISTINCT circuit_name FROM lap_time_table WHERE seassion = ${request.params.year}`;
-
+    var rds_query_string = `SELECT DISTINCT country, session_name FROM lap_time_table WHERE ( year = ${ request.params.year } AND session_type = '${ request.params.session_type }' )`;
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
+    
     rds_connection.query(rds_query_string, (query_error, query_result) => {
 
       if (query_error) {
@@ -119,7 +128,7 @@ backend_app.get(
       } else {
 
         query_result.forEach(element => {
-          api_result.push(element.circuit_name)
+          api_result.push(element.country + "   " + element.session_name) ;
         });
 
         result.json({ api_response: api_result });
@@ -127,15 +136,16 @@ backend_app.get(
     }
     )
   }
-)
+);
 
 
 //  RACE Seassion Year Fetcher
 backend_app.get(
-  "/ui/seassion/", (request, result) => {
+  "/ui/year/", (request, result) => {
 
     var api_result = [];
-    var rds_query_string = `SELECT DISTINCT seassion FROM lap_time_table`;
+    var rds_query_string = `SELECT DISTINCT year FROM lap_time_table`;
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
 
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
@@ -149,7 +159,7 @@ backend_app.get(
         } else {
 
           query_result.forEach(element => {
-            api_result.push(element.seassion)
+            api_result.push(element.year)
           });
 
           result.json({ api_response: api_result });
@@ -157,15 +167,16 @@ backend_app.get(
       }
     )
   }
-)
+);
 
 
 // QUALIFICATION Session Type Fetcher 
 backend_app.get(
-  "/ui/session_type/:year/:circuit_name", (request, result) => {
+  "/ui/session_name/:year/:circuit_name", (request, result) => {
 
     var api_result = [];
-    var rds_query_string = `SELECT DISTINCT session_type FROM lap_time_table WHERE (seassion = ${request.params.year} AND circuit_name = '${request.params.circuit_name}' AND session_type LIKE '%Qualifying%')` ;
+    var rds_query_string = `SELECT DISTINCT session_name FROM lap_time_table WHERE (year = ${request.params.year} AND circuit_name = '${request.params.circuit_name}' AND session_name LIKE '%Qualifying%')` ;
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
 
     rds_connection.query(rds_query_string, (query_error, query_result) => {
 
@@ -178,7 +189,7 @@ backend_app.get(
       } else {
 
         query_result.forEach(element => {
-          api_result.push(element.session_type)
+          api_result.push(element.session_name)
         });
 
         result.json({ api_response: api_result });
@@ -186,7 +197,7 @@ backend_app.get(
     }
     )
   }
-)
+);
 
 
 /********  GRAPH DRAWER BACKEND FUNCTION  *********/
@@ -194,15 +205,17 @@ backend_app.get(
 
 // RACE Lap Time Line Graph Data Transformer 
 backend_app.get(
-  "/graph/Race/Lap_Time_Line/:seassion/:race_circuit/:is_filter/:upper_bound/:lower_bound", (request, result) => {
+  "/graph/Race/Lap_Time_Line/:year/:country/:session_name/:is_filter/:upper_bound/:lower_bound", (request, result) => {
 
     let api_result = {};
     let upper_bound = Number(request.params.upper_bound);
     let lower_bound = Number(request.params.lower_bound);
     let is_filter = Boolean(Number(request.params.is_filter));
 
-    var rds_query_string = ` SELECT driver_name, lap_time, lap_number, team_colour FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.race_circuit}' AND lap_number > 1 )`
-
+    var rds_query_string = ` SELECT driver_name, lap_duration, lap_number_fix, team_color FROM lap_time_table WHERE ( year = ${request.params.year} AND country='${request.params.country}' AND session_name='${request.params.session_name}'  )`;
+    
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
+    
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
 
@@ -214,11 +227,11 @@ backend_app.get(
 
         } else {
           
-          let team_colour_json = {};
+          let team_color_json = {};
           let total_laptime_array = [];
 
           query_result.forEach(element => {
-            total_laptime_array.push(element.lap_time);
+            total_laptime_array.push(element.lap_duration);
           });
           
           let quartiles = utils.Quartile_Calculater(total_laptime_array, lower_bound, upper_bound);
@@ -229,7 +242,7 @@ backend_app.get(
           
           query_result.forEach(element => {
           
-            let lap_time_data = element.lap_time ; 
+            let lap_time_data = element.lap_duration ; 
 
             if ( is_filter & ((lap_time_data < quartiles.lower_quart) | ( quartiles.upper_quart < lap_time_data)) ){
               lap_time_data = null ; 
@@ -238,35 +251,230 @@ backend_app.get(
             if (api_result.hasOwnProperty(element.driver_name)) {
               
               api_result[element.driver_name].push({
-                lap_number: element.lap_number,
+                lap_number: element.lap_number_fix,
                 lap_time: lap_time_data,
               });
             
             } else {
 
-              team_colour_json[element.driver_name] = element.team_colour;
+              team_color_json[element.driver_name] = element.team_color;
 
               api_result[element.driver_name] = [{
-                lap_number: element.lap_number,
+                lap_number: element.lap_number_fix,
                 lap_time: lap_time_data,
               }];
             }
           });
 
-          result.json({ api_response: { graph_data : api_result, graph_style : team_colour_json} });
+          result.json({ api_response: { graph_data : api_result, graph_style : team_color_json} });
         }
       }
     )
   }
-)
+);
+
+
+// RACE Driver Interval Graph Data Transformer
+backend_app.get( 
+  "/graph/Race/Driver_Interval/:year/:country/:session_name/:is_per_lap/", ( request, result ) => {
+
+    let api_result = {};
+    const is_per_lap = Boolean(Number(request.params.is_per_lap));
+
+    let sql_querry_string = `SELECT driver_name, driver_number, lap_number, driver_pos, driver_interval, team_color, sample_time FROM position_interval_table WHERE ( year = ${request.params.year} AND country = '${request.params.country}' AND session_name = '${request.params.session_name}' ) ORDER BY sample_time`;
+
+    (DEBUG_SETTING) ? ( console.log(sql_querry_string) ) : null;
+
+    rds_connection.query(sql_querry_string, (query_error, query_result) => { 
+
+      if (query_error) {
+
+        console.error(`DATABASE : Querry Error ${query_error}`);
+        result.status(500).send('Database query search failed.');
+        return;
+
+      }else {
+
+        let team_color_json = {};
+
+        let lap_position_json = {};
+        let temp_graph_data_json = {};
+        let lap_max_interval_json = {};
+
+        // If is_per_lap is true
+        if ( is_per_lap ) {
+
+
+          query_result.forEach( (interval_json) => {
+
+            const lap_number = interval_json.lap_number;
+            const driver_pos = interval_json.driver_pos;
+            const team_color = interval_json.team_color;
+            const driver_name = interval_json.driver_name;
+            const driver_number = interval_json.driver_number;
+            const driver_interval = interval_json.driver_interval;
+
+            if (! team_color_json.hasOwnProperty(driver_name)) {
+              team_color_json[driver_name] = team_color;
+            };
+
+            if ( ! lap_position_json.hasOwnProperty( lap_number ) ) {
+              lap_position_json[ lap_number ] = {};
+            }
+
+            if ( ! temp_graph_data_json.hasOwnProperty( lap_number ) ) {
+              temp_graph_data_json[ lap_number ] = {};
+            }
+
+            // If it's new we add the json 
+            if ( ! temp_graph_data_json[ lap_number ].hasOwnProperty( driver_number )  ) {
+              temp_graph_data_json[ lap_number][ driver_number ] = {
+                driver_interval : [],
+                driver_pos : driver_pos,
+                driver_name : driver_name,
+              };
+            }
+
+            // If the driver position is changed 
+            if ( temp_graph_data_json[ lap_number ][ driver_number ].driver_pos !== driver_pos ){
+
+              lap_position_json[ lap_number ][ temp_graph_data_json[ lap_number][ driver_number ].driver_pos ] = undefined ; 
+
+              temp_graph_data_json[ lap_number][ driver_number ] = {
+                driver_name : driver_name,
+                driver_pos : driver_pos,
+                driver_interval : [],
+              };
+            }
+
+            lap_position_json[ lap_number ][ driver_pos ] = driver_number ;
+            temp_graph_data_json[ lap_number ][ driver_number ].driver_interval.push( driver_interval );
+
+          }); // Query Result ForEach Loop End 
+
+
+          for ( const [ lap_number, driver_pos_json ] of Object.entries( lap_position_json ) ){
+
+            let prev_pos_interval = 0 ;
+
+            for ( const [ driver_pos, driver_number ] of Object.entries( driver_pos_json ) ){
+
+              if (driver_number !== undefined) {
+
+                let interval_array = temp_graph_data_json[ lap_number ][ driver_number ].driver_interval;
+                
+                let avrg_interval =  utils.Average_Array(interval_array);
+                const driver_name = temp_graph_data_json[ lap_number ][ driver_number ].driver_name ;
+                
+                if( driver_pos == 1 ){
+                  avrg_interval += 0.001 ;
+                }
+                
+                avrg_interval += prev_pos_interval ;
+                
+                if ( ! api_result.hasOwnProperty( driver_name ) ) {
+                  api_result[ driver_name ] = [];
+                }
+                if (! lap_max_interval_json.hasOwnProperty( +lap_number ) ) {
+                  lap_max_interval_json[ +lap_number ] = 0;
+                }
+
+                if ( lap_max_interval_json[ +lap_number ] < avrg_interval ) {
+                  lap_max_interval_json[ +lap_number ] = avrg_interval ;
+                }
+
+                api_result[ driver_name ].push( { lap_number : +lap_number, driver_interval : avrg_interval, is_missing : false, stacked_interval : null } );
+              }
+            }
+          }
+
+          result.json( { api_response : { graph_data : api_result, graph_style : team_color_json, lap_max_interval_json, lap_max_interval_json } } )
+        }; // is_per_lap If Ends 
+
+      };// Querry Error Else Ends 
+    });// RDS Connection Ends 
+  }
+);// Function Ends 
+
+
+// RACE Driver Position Grpah Data Transformer
+backend_app.get(
+  "/graph/Race/Driver_Position/:year/:country/:session_name/", (request, result) => {
+
+    let api_result = {};
+    let rds_query_string = `SELECT driver_name, driver_number, lap_number, driver_pos, team_color FROM position_interval_table WHERE ( year = ${request.params.year} AND country = '${request.params.country}' AND session_name = '${request.params.session_name}' AND driver_interval=-2 ) ORDER BY lap_number` ;
+
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null ;
+
+    rds_connection.query( rds_query_string, (query_error, query_result) => {
+
+      if ( query_error ) {
+
+        console.error(`DATABASE : Querry Error ${query_error}`);
+        result.status(500).send('Database query search failed.');
+        return;
+      
+      }else{
+
+        let team_color_json = {}
+        let lap_position_json = {}
+
+        query_result.forEach( ( position_json ) => { 
+
+          if ( position_json.driver_pos !== null ){
+           
+            const driver_pos = position_json.driver_pos ;
+            const team_color = position_json.team_color ;
+            const lap_number = position_json.lap_number ;
+            const driver_name = position_json.driver_name ;
+            const driver_number = position_json.driver_number ;
+
+            if ( ! team_color_json.hasOwnProperty( driver_name ) ) {
+              team_color_json[ driver_name ] = team_color ;
+            }
+
+            if ( ! lap_position_json.hasOwnProperty( lap_number ) ) {
+              lap_position_json[ lap_number ] = {};
+
+            }
+
+            if ( ! lap_position_json[ lap_number ].hasOwnProperty( driver_number ) ) {
+              lap_position_json[ lap_number ][ driver_name ] = null;
+            }
+
+            lap_position_json[ lap_number ][ driver_name ] = driver_pos ;
+          }
+        });// Query Loop Ends 
+
+
+        for( const [lap_number, position_json] of Object.entries(lap_position_json) ){
+
+          for( const [driver_name, driver_pos] of Object.entries(position_json) ){
+
+
+            if ( ! api_result.hasOwnProperty( driver_name ) ) {
+              api_result[ driver_name ] = [];
+            }
+
+            api_result[ driver_name ].push( { lap_number : +lap_number, driver_pos : driver_pos } );
+          }// Postion For Loop End 
+        }// Lap Number Postion End 
+        
+        result.json( { api_response : { graph_data : api_result, graph_style : team_color_json } } )
+      
+      }// Query Else End
+    });// Query Ends
+  }
+);// Function Ends
 
 
 // RACE Lap Time Distrubation Graph Data Transformer 
 backend_app.get(
-  "/graph/Race/Lap_Time_Distr/:seassion/:race_circuit/", (request, result) => {
+  "/graph/Race/Lap_Time_Distr/:year/:country/:session_name/", (request, result) => {
 
     let api_result = [];
-    var rds_query_string = ` SELECT driver_name, lap_time, team_colour FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.race_circuit}' AND lap_number > 1 )`
+    var rds_query_string = ` SELECT driver_name, lap_duration, team_color FROM lap_time_table WHERE ( year = ${request.params.year} AND country='${request.params.country}' AND session_name='${request.params.session_name}' )` ;
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
 
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
@@ -280,20 +488,20 @@ backend_app.get(
         } else {
 
           let data_json = {};
-          let team_colour_json = {}
+          let team_color_json = {}
           let total_laptime_array = [];
 
           query_result.forEach(element_json => {
 
-            total_laptime_array.push(element_json.lap_time)
+            total_laptime_array.push(element_json.lap_duration)
 
             if (element_json.driver_name in data_json) {
 
-              data_json[element_json.driver_name].push(element_json.lap_time);
+              data_json[element_json.driver_name].push(element_json.lap_duration);
             } else {
 
-              data_json[element_json.driver_name] = [element_json.lap_time];
-              team_colour_json[element_json.driver_name] = element_json.team_colour;
+              data_json[element_json.driver_name] = [element_json.lap_duration];
+              team_color_json[element_json.driver_name] = element_json.team_color;
             }
 
           });
@@ -321,7 +529,7 @@ backend_app.get(
                 violin_plot: Count_Elements(lap_time_array.map(num => Math.round(num))),
                 box_plot: {
                   x: key,
-                  color : team_colour_json[key],
+                  color : team_color_json[key],
                   min: lap_time_array[0],
                   max: lap_time_array[lap_time_array.length - 1],
                   median: lap_time_array[Math.round(lap_time_array.length / 2)],
@@ -338,15 +546,18 @@ backend_app.get(
       }
     )
   }
-)
+);
 
 
 // RACE Tyre Stint Graph Data Transformer
 backend_app.get(
-  "/graph/Race/Tyre_Stint/:seassion/:circuit_name/", (request, result) => {
+  "/graph/Race/Tyre_Stint/:year/:country/:session_name/", (request, result) => {
 
     api_result = []
-    var rds_query_string = `SELECT driver_name, tyre_compund, stint_duration, stint_number FROM tyre_stint_table WHERE ( seassion = ${request.params.seassion} AND session_type='Race' AND circuit_name = '${request.params.circuit_name}'  )`
+    var rds_query_string = `SELECT driver_name, tyre_compound, stint_duration, stint_number FROM tyre_stint_table WHERE ( year = ${request.params.year} AND country='${request.params.country}' AND session_name='${request.params.session_name}'  )`;
+    
+    (DEBUG_SETTING) ? ( console.log("Tyre stint query : ", rds_query_string) ) : null;
+    
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
 
@@ -361,7 +572,7 @@ backend_app.get(
           let data_json = {};
           query_result.forEach(element_json => {
 
-            let key_string = element_json.tyre_compund + '_' + element_json.stint_number.toString()
+            let key_string = element_json.tyre_compound + '_' + element_json.stint_number.toString()
 
             if (!(element_json.driver_name in data_json)) {
 
@@ -384,16 +595,17 @@ backend_app.get(
       }
     )
   }
-)
+);
 
 
 // QUALIFICATION Lap Time Graph Data Transformer
 backend_app.get(
-  "/graph/Qualification/Lap_Time_Bar/:session_type/:seassion/:circuit_name/", (request, result) => {
+  "/graph/Qualification/Lap_Time_Bar/:year/:country/:session_name/:sub_session_name", (request, result) => {
 
     api_result = []
 
-    var rds_query_string = `SELECT driver_name, sector_one, sector_two, sector_three, lap_time, lap_start_time  FROM lap_time_table WHERE ( seassion = ${request.params.seassion} AND session_type = '${request.params.session_type}' AND circuit_name = '${request.params.circuit_name}'  )`
+    var rds_query_string = `SELECT driver_name, sector_one, sector_two, sector_three, lap_duration, lap_start_time  FROM lap_time_table WHERE ( year = ${request.params.year} AND session_name = '${request.params.session_name}' AND country = '${request.params.country}' AND sub_session_name = '${request.params.sub_session_name}'  )` ;
+    (DEBUG_SETTING) ? ( console.log(rds_query_string) ) : null;
 
     rds_connection.query(rds_query_string,
       (query_error, query_result) => {
@@ -410,11 +622,11 @@ backend_app.get(
 
           query_result.forEach( (sub_element) => {
 
-            if(sub_element.lap_time !== 0) {
+            if(sub_element.lap_duration) {
               
               if (driver_lap_json.hasOwnProperty(sub_element.driver_name)) {
 
-                if(sub_element.lap_time < driver_lap_json[sub_element.driver_name].lap_time ){
+                if(sub_element.lap_duration < driver_lap_json[sub_element.driver_name].lap_duration ){
                   
                   driver_lap_json[sub_element.driver_name] = sub_element ;
                 }
@@ -431,7 +643,7 @@ backend_app.get(
       }
     )
   }
-)
+);
 
 
 // Backend Start function 
@@ -439,7 +651,7 @@ backend_app.listen(
   8080, () => {
     console.log("Backend server started : Port => 8080");
   }
-)
+);
 
 
 
