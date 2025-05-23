@@ -1,6 +1,6 @@
 
 # Ignoring folder list for the git - I hope to don't forget add any key in there -
 
+venv
+__pycache__
 formulaWebpageKeyPair.pem
-/node_modules
-temp.js

@@ -1,23 +1,19 @@
 
-> Version 0.0.2.9
 
-  . Database changed 
-    _ lap_time_table ( Race & Qualification )
-    _ tyre_stint_table
-    _ session_key_table
-    _ position_interval_table
 
-  . Postion backend added 
-  . Interval backend added 
-  . Redundent API Request function added 
-  . Await async compatiable SQL Querry function added 
+> Version 0.0.5
+
+  ! IMPORTANT ! 
+  Backend completely changed in order to use 'FastF1' data source. 
   
+  _ All the backend rewritten in python. 
+  _ FastApi used to handle the HTTP Requests. 
+  _ Data souce changed from OpenF1 to FastF1.
+  _ Requests parameter input style changed into 'Query Parameter' style. 
 
-  !! data_base.js rewritten -> Data update logis is changed 
-  
-  
-!! You may want to checkt the database before the updateing the code. 
-
+  _ UI requests starts to handle by single endpoint [for now] .
+  _ Graphs endpoints also changed .
+  _ 'Uvicorn' starty to use as an webserver handler [ Proxy servers still held by Caddy ]. 
 
 
 
