@@ -1,19 +1,27 @@
-// Import 
+
+// Library Imports 
 import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
-// Hand Made Import 
+// Project Imoprts  
 import {Lap_Time_Line_Graph }from './Graph_Obj';
-import {BASE_URL, lap_duration_graph_input_interface} from '../../Commen_Utils';
+import {BASE_URL, lap_duration_graph_input_interface} from '../../../Commen_Utils';
 
 // CSS Import 
 import './Lap_Time_Line_Page.css' ;
 import home_page_backgraound from '../../../../img/home_page_back.jpg';
 
 
+// Constant Defines 
+const LOCAL_DEBUG = false ; 
+
+
+
 // Page Export Funciton 
 function Lap_Time_Line_Page (){
 
+
+// ======== UseState Section ========
 
   // Graph State Area 
   const [selected_race_state, set_selected_race_state] = useState("")
@@ -35,42 +43,51 @@ function Lap_Time_Line_Page (){
   const [lower_bound_state, set_lower_bound_state] = useState(1.5);
 
 
-  // Api Fetch Function
+// ======== Api Fetch Function ========
+
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
     
-    console.log('Fetching Data from : ' + BASE_URL + sub_url) ;
+    if (LOCAL_DEBUG) console.log('Fetching Data from : ' + BASE_URL + sub_url) ;
     const api_response = await axios.get(BASE_URL + sub_url)
     state_setter(api_response.data.api_response) ;
-    console.log(api_response.data.api_response)
+    if (LOCAL_DEBUG) console.log(api_response.data.api_response)
   }
 
-  // Fetch the Track Name Data 
-  useEffect(() => {
-  
-    if (! (selected_year_state === '') ) {
-      let backend_input_string  = `/ui/year/${selected_year_state}/Race/`
-      api_fetch_func(backend_input_string, set_track_name_array_state); 
-    }
-  }, [selected_year_state ] )
+
+
+// =========== UseEffect Section ===========
 
   // Fetch the Seassion Year Data
   useEffect( () => {
-    
-    let backend_input_string = '/ui/year/' 
+
+    let backend_input_string = '/ui/' 
     api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
 
+
+  // Fetch the Track Name Data 
+  useEffect(() => {
+    
+    if (! (selected_year_state === '') ) {
+
+      let backend_input_string  = `/ui?year=${selected_year_state}&session_type=${'Race'}`
+      api_fetch_func(backend_input_string, set_track_name_array_state);       
+    }
+  }, [selected_year_state ] )
+
+
   // Fetch the Graph Data 
   useEffect( () => {
-
+    
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Race/Lap_Time_Line/${selected_year_state}/${selected_race_state.split("   ")[0]}/${selected_race_state.split("   ")[1]}/${data_filter_state}/${upper_bound_grpah_state}/${lower_bound_grpah_state}` ;
-      api_fetch_func(backend_input_string, set_graph_data_state)
-    }
-  },
-  [selected_race_state, selected_race_state, selected_year_state, data_filter_state, upper_bound_grpah_state, lower_bound_grpah_state] )
 
-  
+      let backend_input_string : string = `/graph/race_laps_line/?year=${selected_year_state}&race_name=${selected_race_state.split("  ")[0]}&session_name=${selected_race_state.split("  ")[1]}&user_upper_bound=${upper_bound_grpah_state}&user_lower_bound=${lower_bound_grpah_state}&is_filter=${data_filter_state}` ;
+      api_fetch_func(backend_input_string, set_graph_data_state)      
+    }
+  }, [selected_race_state, selected_race_state, selected_year_state, data_filter_state, upper_bound_grpah_state, lower_bound_grpah_state] )
+
+
+// =========== Return Section ===========
   return (
     
     <div className='LTL_Main_Div'>
@@ -188,7 +205,7 @@ function Lap_Time_Line_Page (){
         </div>
 
         {
-          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data} graph_style={graph_data_state.graph_style}  />) : (null)
+          (graph_data_state !== null) ? (<Lap_Time_Line_Graph  graph_data={graph_data_state.graph_data} color_map={graph_data_state.color_map}  />) : (null)
         }
 
 

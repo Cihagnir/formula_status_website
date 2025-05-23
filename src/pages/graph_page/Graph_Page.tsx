@@ -1,20 +1,26 @@
-// Css Import 
-import "./Graph_Page.css"
 
-// External Imports 
-import GP_Background from "../img/Interlagos-Merc (1).jpg"
-
-// React Imports
+// Library Imports
 import { useState } from 'react';
 
+// Css Import 
+import "./Graph_Page.css"
+import GP_Background from "../img/Interlagos-Merc (1).jpg"
+
+
+
+
 function Graph_Page() {
-  const [activeTab, setActiveTab] = useState<string | null>('race'); // Changed initial value to 'race'
+
+  const [activeTab, setActiveTab] = useState<string | null>('race'); 
 
   const handleTabClick = (tabName: string) => {
-    setActiveTab(tabName); // Removed the toggle logic, now it only opens
+    setActiveTab(tabName); 
   };
 
+
+
   return(
+  
     <div className="GP_Main_Div">
       <img src={GP_Background} className="GP_Background_Img"/>
       <div className="GP_Content_Container">

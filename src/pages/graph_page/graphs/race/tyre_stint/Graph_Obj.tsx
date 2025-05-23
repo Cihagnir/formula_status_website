@@ -1,98 +1,78 @@
+
+// Library Imports
 import { Group } from '@visx/group';
 import { LegendOrdinal } from '@visx/legend';
-import { BarStackHorizontal } from '@visx/shape';
+import {  BarStackHorizontal } from '@visx/shape';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 import { useTooltip, useTooltipInPortal, defaultStyles } from '@visx/tooltip';
 
-
+// Project Imports
+import { tyre_stint_graph_interface, axis_cosmatics } from '../../../Commen_Utils';
 
 // CSS Import 
 import './Tyre_Stint_Page.css'
+import { stringify } from 'querystring';
+import { color } from 'd3';
 
-// ==========================================================
 
-const driver_scale = (data_json  : Array<any> ) => Object.values(data_json)[0].driver_name ;
-const driver = (data_json : {driver_name : string}) => data_json.driver_name; 
-const keys = (data_json : any ) => Object.keys(data_json).slice(1,) ;
- 
-// Interface Defines
-interface graph_interface {
-  graph_data : Array<any>,
-}
 
+// ==== Local interface defines ====
 interface TooltipData {
   [key: string]: string
 } 
 
-// Constant Variable Defines
-const color_scale_graph = { 
-  SOFT : '#FF0000', 
-  MEDIUM : '#FFD900', 
-  HARD : '#FFFFFF', 
-  INTERMEDIATE  : '#00A808', 
-  WET : '#000EA8', 
-  null : "#858585" 
-}
 
-const color_scale_legend  = { 
-  Soft : '#FF0000', 
-  Medium : '#FFD900', 
-  Hard : '#FFFFFF', 
-  Intermediate  : '#00A808', 
-  Wet : '#000EA8', 
-  Unknown : "#858585" 
-}
+// ==== Arrow Functions ====
 
-function Color_Scale_Seperator({ graph_data } : graph_interface) {
+// Sorted driver total laps calculater
+const driver_lap_counts = ( graph_data : Array<any>) => {
 
-  let range : string[] = [] ; 
-  let domain : string[] = [] ;
+  let driver_laps : { [key:string] : number } = {} ;
 
-  graph_data.forEach(element => {
+  graph_data.forEach( (  stint_json , i) => {
 
-    Object.keys(element[0]).slice(1,).forEach(sub_element => {
-      if (!domain.includes(sub_element)) {
-        
-        let key_element  = sub_element.split("_")[0] ; 
-        let color_element = color_scale_graph[key_element as keyof typeof color_scale_graph ] ; 
-        
-        domain.push(sub_element) ; 
-        range.push(color_element) ; 
-      }
-    });
+    let race_duration : any = 0
+    let driver_stint_info = stint_json[0] ;
+    let stint_durations = Object.values( driver_stint_info ) ;
+
+    for (let index = 0; index < stint_durations.length - 1; index++) {
+      race_duration += stint_durations[index] ;
+    }
+
+    driver_laps[ driver_stint_info.driver_name ] = race_duration
   });
-  return {range, domain}
+
+  const sorted_driver_laps : { [key : string] : number } = Object.entries(driver_laps)
+    .sort(([,a], [,b]) => a - b)
+    .reduce((acc, [key, value]) => ({
+      ...acc,
+      [key]: value
+    }), {});
+
+  return sorted_driver_laps ; 
 }
 
-function Lap_Number_Calculator({ graph_data } : graph_interface) {
+// Descriptive arrow functions
+const driver = (data_json : {driver_name : string}) => data_json.driver_name; 
+const driver_scale = (data_json  : Array<any> ) => Object.values(data_json)[0].driver_name ;
 
-  let driver_lap_number : number[] = []
+const keys = (data_json : any ) => { 
+  let temp_subdata = Object.keys(data_json) ; 
+  temp_subdata.pop() ; 
+  return temp_subdata
+} ;
 
-  graph_data.forEach(element => {
-    let sum : number = Object.values(element[0]).slice(1,).reduce((accumulator:number, currentValue:any) => accumulator + currentValue, 0);
-    driver_lap_number.push(sum)
-  });
-  return driver_lap_number ; 
-}
 
+// ==== Export Fucntion ====
 export function Tyre_Stint_Graph( {
-   graph_data 
-  } : graph_interface) {
+   graph_data,
+   color_maps,
+  } : tyre_stint_graph_interface) {
 
-  // Tooltip Constant Defines 
-  const {
-    tooltipData,
-    tooltipLeft,
-    tooltipTop,
-    tooltipOpen,
-    showTooltip,
-  } = useTooltip<TooltipData>();
 
-  const { TooltipInPortal } = useTooltipInPortal({
-    scroll: true,
-    detectBounds: true,
-  });
+
+// ==== General Defines ==== 
 
   // Update window size calculation
   let window_width = Math.min(document.documentElement.clientWidth, 1200); // Cap max width
@@ -109,62 +89,61 @@ export function Tyre_Stint_Graph( {
   let x_axis_max = graph_width - element_space_width ; 
   let y_axis_max = graph_height - element_space_height ;
 
-  let driver_lap_array = Lap_Number_Calculator({graph_data})
-  let driver_name_array = graph_data.map(driver_scale)
-
-  const sorted_driver_array = driver_name_array
-  .map((name, index) => ({ name, score: driver_lap_array[index] })) 
-  .sort((a, b) => a.score - b.score)                     
-  .map(pair => pair.name); 
+  const axis_features = axis_cosmatics(window_width) ;
 
 
-  // Set the graph scales 
+  const sorted_driver_laps_json = driver_lap_counts(graph_data) ;
+
+  // Graph Scales Defines 
+
   let x_axis_scale = scaleLinear<number>({
     nice   : true,
     range  : [0, x_axis_max], 
-    domain : [0, Math.max(...driver_lap_array)],
+    domain : [0, Math.max(...Object.values( sorted_driver_laps_json ) ) ],
   });
 
   let y_axis_scale = scaleBand<string>({
     padding : 0.2,
     range   : [y_axis_max, 0],  
-    domain  : sorted_driver_array,
+    domain  : Object.keys(sorted_driver_laps_json),
   });
-
-  let color_scale = Color_Scale_Seperator( { graph_data } ) ;  
 
   let graph_color_scale = scaleOrdinal<string ,string>({
-    range: color_scale.range,
-    domain: color_scale.domain,
+    range: Object.values(color_maps.graph_color_map),
+    domain: Object.keys(color_maps.graph_color_map),
   });
+
+
+  let legend_color_map : {[key : string] : string} = {}
+  
+  Object.entries(color_maps.legend_color_map).forEach(([tyre_name, color_vals], i) => {
+    legend_color_map[ tyre_name.charAt(0) + tyre_name.slice(1).toLocaleLowerCase() ] = color_vals ;
+  });
+
 
   let legend_color_scale = scaleOrdinal<string, string>({
-    range: Object.values(color_scale_legend),
-    domain: Object.keys(color_scale_legend),
+    range: Object.values(legend_color_map),
+    domain: Object.keys(legend_color_map),
   });
 
-  // Update font sizes for smaller screens
-  const graph_cosmatic = {
-    axis: {
-      line_color: '#F5F5F5',
-      label_props : {
-        fill: '#F5F5F5',
-        fontSize: window_width < 1024 ? 14 : 20,
-        fontFamily: 'Electrolize',
-      },
-      tick_props: {
-        fill: '#F5F5F5',
-        fontSize: window_width < 1024 ? 10 : 14,
-        fontFamily: 'Electrolize',
-      }
-    },
-    grid : {
-      opacity : 0.6,
-      stroke_color : "#F5F5F5"
-    },
-  }
+  // Tooltip Defines 
+  const {
+    tooltipData,
+    tooltipLeft,
+    tooltipTop,
+    tooltipOpen,
+    showTooltip,
+  } = useTooltip<TooltipData>();
 
-  // Tooltip Arrow Function
+  const { TooltipInPortal } = useTooltipInPortal({
+    scroll: true,
+    detectBounds: true,
+  });
+
+
+// ==== Local Arrow Functions ====
+
+  // Tooltip Handler
   const Handle_Tooltip = (
     event: React.MouseEvent<SVGRectElement>,
     graph_data: any
@@ -173,11 +152,11 @@ export function Tyre_Stint_Graph( {
 
       let tooltip_data_json: { [key: string]: string } = {};
 
-      Object.keys(graph_data.bar.data).slice(1,).forEach( (keys) => {
-        tooltip_data_json[ keys.split("_")[1] ] = keys.split("_")[0] + "_" + graph_data.bar.data[keys] 
-      })
-
       tooltip_data_json["driver"] = graph_data.bar.data.driver_name ; 
+
+      keys(graph_data.bar.data).forEach( (keys) => {
+        tooltip_data_json[ 'd' + keys.split("_")[1] ] = keys.split("_")[0] + "_" + graph_data.bar.data[keys] 
+      })
 
       showTooltip({
         tooltipData: tooltip_data_json,
@@ -188,7 +167,7 @@ export function Tyre_Stint_Graph( {
     }
   };
 
-
+// ==== Return Section ====
   return (
     <div className='TS_Graph_Div' >
       
@@ -203,41 +182,45 @@ export function Tyre_Stint_Graph( {
 
           {
             graph_data.map(
-
-              (driver_stint) => 
-                <BarStackHorizontal
-                  data={driver_stint}
-                  height={y_axis_max}
-                  keys={driver_stint.map(keys)[0]}
-                  
-                  y={driver}
-                  xScale={x_axis_scale}
-                  yScale={y_axis_scale}
-                  color={graph_color_scale}
+              (driver_stint) => (
+                              
+              <BarStackHorizontal
+                data={driver_stint}
+                height={y_axis_max}
+                keys={driver_stint.map(keys)[0]}
+                
+                y={driver}
+                xScale={x_axis_scale}
+                yScale={y_axis_scale}
+                color={graph_color_scale}
                 >
+    
                   {(barStacks) =>
                   barStacks.map((barStack) =>
                     barStack.bars.map((bar) => (
-                    <rect
-                      key={`barstack-horizontal-${barStack.index}-${bar.index}`}
-                      x={bar.x}
-                      y={bar.y}
-                      width={bar.width - 3}
-                      height={bar.height}
-                      
-                      rx={4}  
-                      ry={4}  
-                      fill={bar.color}
-                      
-                      onMouseMove={(event) => Handle_Tooltip(event, bar) }
-                      opacity={0.9}
-                    />
-                    )),
-                  )
+                      <rect
+                        key={`barstack-horizontal-${barStack.index}-${bar.index}`}
+                        x={bar.x}
+                        y={bar.y}
+                        width={bar.width - 3 }
+                        height={bar.height}
+                        
+                        rx={4}  
+                        ry={4}  
+                        fill={bar.color}
+                        
+                        onMouseMove={(event) => Handle_Tooltip(event, bar) }
+                        opacity={0.9}
+                        />
+                      )),
+                    )
                   }
                 </BarStackHorizontal>
+              )
             )
+            
           }
+
 
           
           {/* Graph Axis */}
@@ -247,12 +230,12 @@ export function Tyre_Stint_Graph( {
 
             label= "Drivers"
             labelOffset= {48}
-            labelProps={graph_cosmatic.axis.label_props}
+            labelProps={axis_features.axis.label_props}
 
             scale={ y_axis_scale }
-            stroke={ graph_cosmatic.axis.line_color }
-            tickStroke={ graph_cosmatic.axis.line_color }
-            tickLabelProps={ graph_cosmatic.axis.tick_props }
+            stroke={ axis_features.axis.line_color }
+            tickStroke={ axis_features.axis.line_color }
+            tickLabelProps={ axis_features.axis.tick_props }
             tickValues = {graph_data.map(driver_scale)}
 
           />  
@@ -260,13 +243,13 @@ export function Tyre_Stint_Graph( {
           <AxisBottom
             label= 'Lap Number'
             labelOffset= { 20 }
-            labelProps={graph_cosmatic.axis.label_props}
+            labelProps={axis_features.axis.label_props}
 
             top={y_axis_max}
             scale={x_axis_scale}
-            stroke={ graph_cosmatic.axis.line_color }
-            tickStroke={ graph_cosmatic.axis.line_color }
-            tickLabelProps={ graph_cosmatic.axis.tick_props }
+            stroke={ axis_features.axis.line_color }
+            tickStroke={ axis_features.axis.line_color }
+            tickLabelProps={ axis_features.axis.tick_props }
           />
         
         
@@ -282,26 +265,26 @@ export function Tyre_Stint_Graph( {
           left={tooltipLeft}
           style={{
             ...defaultStyles,
-            backdropFilter: 'blur(4px)',
-            background: 'rgba(245, 245, 245, 0.9)',
-            padding: '0.5rem',
-            border: '1px solid black',
             borderRadius: '5px',
-            color: 'black',
+            border: '1px solid #F5F5F5',
+            padding: '0.5rem',
+
+            color: '#F5F5F5',
             fontSize: '14px',
             fontFamily: 'Electrolize',
+            backdropFilter: 'blur(80px)',
+            background: 'rgb(0 0 0/24%)',
           }}
         >
 
           <div>
-            <strong>{tooltipData.driver}</strong>
-            <br />
+            <div className='TS_ToolTip_Title_Div'>{tooltipData.driver}</div>
             <>
             { 
-              Object.values(tooltipData).slice(0,-1).map((values, index)=> (
-                <div className= 'capitalize' > 
+              Object.values(tooltipData).slice(1,).map((values, index)=> (
+                <div className= 'TS_ToolTip_Row_Div capitalize' > 
                 {values.split('_')[0].toLowerCase()} : 
-                {values.split('_')[1].toLowerCase()}
+                {values.split('_')[1]} Laps
                 </div>
               ))
             }

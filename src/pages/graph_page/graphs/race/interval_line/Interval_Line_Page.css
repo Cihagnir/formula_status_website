@@ -2,7 +2,7 @@
 
 /* Page CSS */
 
-.IL_Main_Div {
+.IL_Main_Div{
   width: 100vw;
   height: 100vh;
   
@@ -57,7 +57,7 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.IL_Combined_Div {
+.IL_Combined_Div{
   
   gap: 10px;
   padding: 20px;
@@ -74,7 +74,7 @@
   
 }
 
-.IL_Info_Div {
+.IL_Info_Div{
 
   font-size: 1rem;
   font-weight: 300;
@@ -85,7 +85,7 @@
 
 /* Combo Box CSS Area  */
 
-.IL_Control_Div {
+.IL_Control_Div{
 
   gap: 15px;
   width: 100%;
@@ -100,14 +100,14 @@
   font-family: "Electrolize", serif;
 }
 
-.IL_Control_Upper_Div {
+.IL_Control_Upper_Div{
   gap: 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.IL_Divider {
+.IL_Divider{
   margin: 20px 0;
   height: 1px;
   background: linear-gradient(
@@ -118,13 +118,13 @@
   );
 }
 
-.IL_Select_Title_Span {
+.IL_Select_Title_Span{
   margin-left: 3%;
   white-space: nowrap;
   min-width: fit-content;
 }
 
-.IL_Select_Box {
+.IL_Select_Box{
   padding: 8px;
   min-width: 120px;
   height: 40px;
@@ -145,14 +145,14 @@
   transition: all 0.2s ease;
 }
 
-.IL_Select_Box:hover {
+.IL_Select_Box:hover{
   color: #F5F5F5;
   background-color: #000000;
   border-color: rgba(245, 245, 245, 0.2);
 }
 
 
-.IL_Race_Box {
+.IL_Race_Box{
   min-width: 200px;
   margin-right: 20px;
 }
@@ -160,7 +160,7 @@
 
 /* Constrol CSS Area */
 
-.IL_Toggle_Container {
+.IL_Toggle_Container{
 
   width: 260px;
   height: 40px;
@@ -173,7 +173,7 @@
   overflow: hidden;
 }
 
-.IL_Toggle_Slider {
+.IL_Toggle_Slider{
 
   width: 50%;
   height: 100%;
@@ -184,7 +184,7 @@
   transition: transform 0.3s ease;
 }
 
-.IL_Toggle_Labels {
+.IL_Toggle_Labels{
   
   height: 100%;
 
@@ -193,7 +193,7 @@
   position: relative;
 }
 
-.IL_Toggle_Label {
+.IL_Toggle_Label{
   
   flex: 1;
   display: flex;
@@ -206,13 +206,13 @@
   transition: color 0.3s ease;
 }
 
-.IL_Toggle_Label.active {
+.IL_Toggle_Label.active{
   color: black;
 }
 
 /* Garph CSS Area */
 
-.IL_Graph_Div {
+.IL_Graph_Div{
 
   left: 4%;
   width: 96%;
@@ -224,17 +224,18 @@
 }
 
 
-.IL_Graph_Container_Div {
+.IL_Graph_Container_Div{
   width: 90%;
 
   margin-right: auto;
   min-width: fit-content;
+  position: relative;  /* Added for proper stacking context */
 }
 
 
 .IL_Tooltip_Div{
 
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
@@ -242,15 +243,23 @@
 
 }
 
+.IL_Tooltip_Tittle{
+  font-size: 0.9rem;
+
+}
 .IL_Tooltip_SubDiv{
 
   display: flex;
   flex-direction: row;
 }
 
-.Legend_ColumnTooltip_Item_Div{
+.IL_Tooltip_Column_Div{
+  padding: 6px;
+}
 
-  padding: 2px;
+.IL_Tooltip_Item_Div{
+
+  padding-top: 8px;
 }
 
 
@@ -259,16 +268,15 @@
 
 
 .IL_Graph_Legend_Main_Div{
-
+  position: relative;  /* Changed to relative for absolute child positioning */
+  width: auto;
   display: flex;
-  flex-direction: row-reverse; 
-
+  flex-direction: row; 
   margin-top: 4%;
   margin-bottom: 4%;
 }
 
 .IL_Graph_Legend_Control_Div{
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,63 +297,80 @@
 }
 
 
-.IL_Graph_Legend_Control_Text {
-
+.IL_Graph_Legend_Control_Text{
   color: #F5F5F5;
   font-size: 0.8rem;
   letter-spacing: 1px;
   font-family: "Electrolize", serif;
 }
 
-.IL_Graph_Legend_Div {
-
-  gap: 10px;
-  max-height: 400px;
+.IL_Graph_Legend_Div{
+  position: absolute; 
+  right: 30px;       
+  top: 0;
   
+  gap: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  
+  width: 110px;
+  min-width: fit-content; 
+  
+  z-index: 3;
   display: flex;
-
-  transform-origin: right;
-  transition: all 0.3s ease;
+  visibility: visible;
   
+  transform: translateX(0);
+  transition: all 0.3s ease-in-out;
+  border-left: 1px solid #F5F5F5;
 }
 
 .Legend_Inactive{
-  
-  width: 0;
-  
-  padding: 0;
-  opacity: 0;
-  
+  transform: translateX(calc(100% + 30px)); 
   visibility: hidden;
-  transition: all 0.3s ease;
-  transform: translateX(100%);  
+  width: 0;
 
 }
 
-.IL_Legend_Column {
+.IL_Legend_Column{
   flex: 1;
   min-width: 0;
 }
 
-.IL_Legend_Item {
-  width: fit-content;
+.IL_Legend_Item{
+  
   color: #F5F5F5;
   overflow: hidden;
+  max-width: fit-content;
+  visibility : visible;
+
   font-size: 0.75rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 10px 6px 10px 6px;
+  
+  transition-delay: 0.2s;
+  transition-duration: 0.3s;
+  transition-property: visibility ;
+
 }
 
-.IL_Legend_Item:hover {
+.IL_Legend_Item:hover{
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.Legend_Item_Inactive {
+.Legend_Item_Inactive{
   opacity: 0.6;
 }
 
-.IL_Legend_Driver_Name {
+.Legend_Item_Invisable{
+  visibility: hidden;
+  transition-delay: 0s;
+  transition-duration: 0.1s;
+  transition-property: visibility ;
+}
+
+.IL_Legend_Driver_Name{
   font-size: 0.8rem;
   max-width: fit-content;
 }
@@ -356,21 +381,21 @@
 
 /* Add these responsive styles at the end of the file */
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1200px){
 
-  .IL_Main_Div {
+  .IL_Main_Div{
     height: auto;
     min-height: 100vh;
   }
 
-  .IL_Window_Div {
+  .IL_Window_Div{
     
     width: 95%;
     height: 85%;
     overflow-y: scroll;
   }
 
-  .IL_Combined_Div {
+  .IL_Combined_Div{
     position: relative;
     left: 10%;
     width: 80%;
@@ -378,12 +403,12 @@
     margin-bottom: 20px;
   }
 
-  .IL_Info_Div {
+  .IL_Info_Div{
     max-width: 100%;
     font-size: 0.7rem;
   }
 
-  .IL_Control_Div {
+  .IL_Control_Div{
     min-width: auto;
     max-width: 100%;
 
@@ -391,25 +416,26 @@
     font-size: 0.7rem;
   }
 
-  .IL_Control_Bottom_Div {
+  .IL_Control_Bottom_Div{
     gap: 15px;
     flex-direction: row;
     align-items: stretch;
   }
 
-  .IL_Toggle_Label {
+  .IL_Toggle_Label{
     font-size: 0.7rem;
   
     }
 
-  .IL_Graph_Div {
-    left: 2%;
+  .IL_Graph_Div{
+    left: 0%;
     width: 95%;
 
     margin-top: 4vh;
 
     position: relative;
     margin-bottom: 30px;
+    margin-left: 0;
     font-size: 0.7rem;
   
   }
@@ -418,73 +444,75 @@
     font-size: 0.7rem;
   }
 
-  .IL_Legend_Item{
-    padding: 0px;
-    margin-top: 8px;
-    font-size: 0.6rem;
-  }
-
-  .IL_Graph_Legend_Div{
-    padding: 0px;
-  }
-
   .IL_Graph_Container_Div{
     height: 50%;
   }
 
+  .IL_Graph_Legend_Div{
+    padding-left: 3px;
+    align-items : center;
 
+  }
+  
+  .IL_Legend_Column{
+    align-items: center;
+  }
+
+  .IL_Legend_Item{
+    padding: 8px 4px 8px 4px;
+    font-size: 0.6rem;
+  }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px){
 
-  .IL_Window_Div {
+  .IL_Window_Div{
 
     width: 95%;
     height: 95%;
     overflow-y: scroll;
   }
 
-  .IL_Control_Upper_Div {
+  .IL_Control_Upper_Div{
     flex-direction: column;
     gap: 10px;
   }
 
-  .IL_Select_Title_Span {
+  .IL_Select_Title_Span{
     margin-left: 0;
     text-align: center;
   }
 
-  .IL_Race {
+  .IL_Race{
     margin-left: 0;
   }
 
-  .IL_Select_Box {
+  .IL_Select_Box{
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
   }
 
-  .IL_Graph_Container_Div {
+  .IL_Graph_Container_Div{
     width: 95%;
   }
 
-  .IL_Graph_Legend_Div {
+  .IL_Graph_Legend_Div{
     flex-direction: row;
     width: 100%;
-    max-height: none;
     padding: 10px;
   }
 
-  .IL_Legend_Item {
+  .IL_Legend_Item{
     font-size: 0.6rem;
   }
 
-  .IL_Combined_Div {
+  .IL_Combined_Div{
     left: 5%;
     width: 80%;
   }
 
-  .IL_Toggle_Label {
+  .IL_Toggle_Label{
   font-size: 0.7rem;
 
   }

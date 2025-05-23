@@ -3,77 +3,104 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { BASE_URL} from '../../Commen_Utils';
-import Lap_Time_Graph from './Graph_Obj';
+import Quali_Lap_Time_Graph from './Graph_Obj';
+import { BASE_URL} from '../../../Commen_Utils';
+import {  quali_graph_data_interface } from "../../../Commen_Utils";
+
 
 // CSS Import 
 import './Lap_Time_Bar_Page.css' ;
 import home_page_backgraound from '../../../../img/home_page_back.jpg';
 
+const LOCAL_DEBUG = false ;
 
 
 // Return function 
 function Lap_Time_Bar_Page (){
 
+// ======== UseState Section ========
 
-  // Dropdown Box Selection and Data 
-  const [selected_sub_session, set_selected_sub_session] = useState(0); 
-  const [selected_race_state, set_selected_race_state] = useState("")
-  const [selected_year_state, set_selected_year_state] = useState('')
-  const [sub_session_name_state, set_sub_session_name_state] = useState('') ;
-  
+  // Dropdown Box Selection and Sliders 
+  const [selected_race_state, set_selected_race_state] = useState<string>('')
+  const [selected_year_state, set_selected_year_state] = useState<string>('')
+
+  const [graph_type_state, set_graph_type_state] = useState<number>(0)
+  const [selected_sub_session, set_selected_sub_session] = useState<number>(0); 
+  const [sub_session_name_state, set_sub_session_name_state] = useState<string>('') ;
+
   // Graph Data 
-  const [graph_data_state, set_graph_data_state ] = useState<Array<any> | null>(null)
+  const [graph_data_state, set_graph_data_state ] = useState< quali_graph_data_interface | null>( null  )
 
   // Dropdown Box Datas
   const [seassion_array_state, set_seassion_array_state] =useState( [] ) ;
   const [track_name_array_state, set_track_name_array_state] = useState( ['Select the Race'] ) ;
 
 
-  // Api Fetch Function
+// ======== Api Fetch Function ========
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
 
-    const api_response = await axios.get(BASE_URL + sub_url)
-    console.log(api_response.data.api_response);
+    if (LOCAL_DEBUG ) console.log(BASE_URL + sub_url); 
+    const api_response = await axios.get(BASE_URL + sub_url) ;
     state_setter(api_response.data.api_response) ;
+    if (LOCAL_DEBUG) console.log(api_response.data.api_response);
   }
 
+
+// ======== UseEffect Section ========
+
   // Fetch the Seassion Year Data
-  useEffect(() => {
-    
-    let backend_input_string = '/ui/year/' 
+  useEffect( () => {
+
+    let backend_input_string = '/ui/' 
     api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
 
+
   // Fetch the Track Name Data 
   useEffect(() => {
-   
+    
     if (! (selected_year_state === '') ) {
-      let backend_input_string  = `/ui/year/${selected_year_state}/Qualifying/`
-      api_fetch_func(backend_input_string, set_track_name_array_state); 
+
+      let backend_input_string  = `/ui?year=${selected_year_state}&session_type=${'Qualifying'}`
+      api_fetch_func(backend_input_string, set_track_name_array_state);       
     }
   }, [selected_year_state ] )
 
+
   // Fetch the Graph Data 
   useEffect( () => {
+    
+    if (! (selected_race_state === '') ) {
 
-    if (!(selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Qualification/Lap_Time_Bar/${selected_year_state}/${selected_race_state.split("   ")[0]}/${selected_race_state.split("   ")[1]}/${sub_session_name_state}/` ;
-      api_fetch_func(backend_input_string, set_graph_data_state)
+      let backend_input_string : string = `/graph/qualifying_laps_bar/?year=${selected_year_state}&race_name=${selected_race_state.split("  ")[0]}&session_type=${selected_race_state.split("  ")[1]}` ;
+      api_fetch_func(backend_input_string, set_graph_data_state)      
     }
-  }, [selected_race_state, sub_session_name_state] )
-
+  }, [selected_year_state, selected_race_state] )
+  
   // Add useEffect to set initial sub session
   useEffect(() => {
     set_sub_session_name_state('Q1');
   }, []);
 
 
-  const handleSessionChange = (session: number) => {
+
+// ======== Local Arrow Functions ========
+
+  const session_change_handler = (session: number) => {
     set_selected_sub_session(session);
     set_sub_session_name_state(`Q${session + 1}`);
   };
   
+
+  const graph_type_handler = (graph_tye : number) => {
+    set_graph_type_state(graph_tye)
+  }
+
+
+
+
+// ======== Return Section ========
+
 
   return (
     <div className='LTQ_Main_Div'>
@@ -92,6 +119,9 @@ function Lap_Time_Bar_Page (){
             </h3>
       
             <span className='LTQ_Info_Text'>
+            This graph shows the qualifying results and lap times for each session. 
+            As well You can toggle between viewing raw lap times and the gap to pole position.
+
             </span>
       
           </div>
@@ -131,7 +161,7 @@ function Lap_Time_Bar_Page (){
 
             <div className='LTQ_Toggle_Container_Div'>
               <div 
-                className='LTQ_Toggle_Slider_Div' 
+                className='LTQ_Toggle_Slider_Div Sub_Session' 
                 style={{ transform: `translateX(${selected_sub_session * 100}%)` }}
               />
               <div className='LTQ_Toggle_Options_Div'>
@@ -140,7 +170,28 @@ function Lap_Time_Bar_Page (){
                   <div
                     key={session}
                     className={`LTQ_Toggle_Option_Div ${selected_sub_session === index ? 'active' : ''}`}
-                    onClick={() => handleSessionChange(index)}
+                    onClick={() => session_change_handler(index)}
+                  >
+                    {session}
+                  </div>
+                ))}
+                
+              </div>
+
+            </div>
+
+            <div className='LTQ_Toggle_Container_Div'>
+              <div 
+                className='LTQ_Toggle_Slider_Div Graph_Type' 
+                style={{ transform: `translateX(${graph_type_state * 100}%)` }}
+              />
+              <div className='LTQ_Toggle_Options_Div'>
+              
+                {['Lap Time', 'Diff Pole'].map((session, index) => (
+                  <div
+                    key={session}
+                    className={`LTQ_Toggle_Option_Div ${graph_type_state === index ? 'active' : ''}`}
+                    onClick={() => graph_type_handler(index)}
                   >
                     {session}
                   </div>
@@ -154,7 +205,7 @@ function Lap_Time_Bar_Page (){
         </div>
 
         {
-          (graph_data_state !== null) ? (<Lap_Time_Graph  graph_data={graph_data_state} />) : (null)
+          (graph_data_state !== null) ? (<Quali_Lap_Time_Graph  graph_data={graph_data_state.graph_data} selected_section={sub_session_name_state} graph_type={graph_type_state} color_map={graph_data_state.color_map} />) : (null)
         }
       
       </div>

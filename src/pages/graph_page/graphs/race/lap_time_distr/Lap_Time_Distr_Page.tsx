@@ -3,23 +3,30 @@ import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
-import { BASE_URL} from '../../Commen_Utils';
-import {Lap_Time_Graph, lap_duration_graph_data_interface }from './Graph_Obj';
+import { BASE_URL, lap_dstrb_graph_data_interface} from '../../../Commen_Utils';
+import {Lap_Time_Graph}from './Graph_Obj';
 
 // CSS Import 
 import './Lap_Time_Distr_Page.css' ;
 import home_page_backgraound from '../../../../img/home_page_back.jpg';
 
 
+// ======== Global Const Defines ========
+const LOCAL_DEBUG = false   ; 
+
+
+// Page Export Function
 function Lap_Time_Distr_Page (){
 
+
+// ======== UseState Section ========
 
   // Dropdown Box Selection and Data 
   const [selected_race_state, set_selected_race_state] = useState("")
   const [selected_year_state, set_selected_year_state] = useState('')
   
   // Plotly Graph Data 
-  const [graph_data_state, set_graph_data_state ] = useState<Array<lap_duration_graph_data_interface> | null>(null)
+  const [graph_data_state, set_graph_data_state ] = useState<Array<lap_dstrb_graph_data_interface> | null>(null)
   
   // Dropdown Box Datas
   const [seassion_array_state, set_seassion_array_state] =useState( [] ) ;
@@ -27,42 +34,47 @@ function Lap_Time_Distr_Page (){
   
 
 
-  // Api Fetch Function
+// ======== Api Fetch Function ========
+
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
     
-    console.log(BASE_URL + sub_url)
-
+    if (LOCAL_DEBUG)  console.log(BASE_URL + sub_url)
     const api_response = await axios.get(BASE_URL + sub_url)
-    console.log(BASE_URL + sub_url);
     state_setter(api_response.data.api_response) ;
+    if (LOCAL_DEBUG)  console.log(api_response.data.api_response);
   }
 
-  // Fetch the Track Name Data 
-  useEffect(() => {
-   
-    if (! (selected_year_state === '') ) {
 
-      let backend_input_string  = `/ui/year/${selected_year_state}/Race/`
-      api_fetch_func(backend_input_string, set_track_name_array_state); 
-    }
-  }, [selected_year_state ] )
+// ======== UseEffect Section ========
 
   // Fetch the Seassion Year Data
   useEffect( () => {
-    
-    let backend_input_string = '/ui/year/' 
+
+    let backend_input_string = '/ui/' 
     api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
+
+  // Fetch the Track Name Data 
+  useEffect(() => {
+    
+    if (! (selected_year_state === '') ) {
+
+      let backend_input_string  = `/ui?year=${selected_year_state}&session_type=${'Race'}`
+      api_fetch_func(backend_input_string, set_track_name_array_state); 
+    }
+  }, [selected_year_state ] )
 
   // Fetch the Graph Data 
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Race/Lap_Time_Distr/${selected_year_state}/${selected_race_state.split("   ")[0]}/${selected_race_state.split("   ")[1]}/`;
-      api_fetch_func(backend_input_string, set_graph_data_state) ;
+      let backend_input_string = `/graph/race_lap_dstrb/?year=${selected_year_state}&race_name=${selected_race_state.split("  ")[0]}&session_name=${selected_race_state.split("  ")[1]}` 
+      api_fetch_func(backend_input_string, set_graph_data_state);
     }
-  }, [selected_year_state, selected_race_state] )
+  },
+  [selected_race_state, selected_year_state] )
 
+// ======== Return Section ========
   
   return (
 

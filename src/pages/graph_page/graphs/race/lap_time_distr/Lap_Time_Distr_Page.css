@@ -125,7 +125,7 @@
   align-items: center;
 
   box-shadow: none;
-  min-width: auto;
+  min-width: fit-content;
   background-color: transparent;
 }
 
@@ -184,8 +184,102 @@
   display: flex;
 }
 
+.LTD_ToolTip_Title_Div{
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+.LTD_ToolTip_Row_Div{
+  padding-top: 6px;
+  text-align: justify;
+}
 
 
 .isPassive {
   visibility: hidden;
 }
+
+
+@media screen and (max-width: 1200px) {
+
+  .LTD_Main_Div {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .LTD_Window_Div{
+    height: 84%;
+    overflow-y: scroll;
+
+  }
+
+  .LTD_Combined_Container {
+    width: 60%;
+    margin-left: 4%;
+    margin-top: 10vh;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .LTD_Info_Div,
+  .LTD_Control_Div,
+  .LTD_Select_Box{
+    font-size: 0.7rem;
+  }
+
+  .LTD_Graph_Div {
+    padding: 0%;
+    margin-top: 0;
+    height: 100%;
+    justify-content: left;
+    max-height: fit-content;
+  }
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .LTD_Control_Upper_Div {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .LTD_Select_Title_Span {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .LTD_Race {
+    margin-left: 0;
+  }
+
+  .LTD_Select_Box {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .LTD_Graph_Container {
+    width: 95%;
+  }
+
+  .LTD_Combined_Div {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .LTD_Control_Div {
+    max-width: 60%;
+    content: fit-content;
+    
+    left: 10%;
+    position: relative;
+
+    font-size: 0.7rem;
+  }
+
+}
+
+
+

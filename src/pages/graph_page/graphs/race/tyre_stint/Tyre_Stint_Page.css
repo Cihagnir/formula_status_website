@@ -168,6 +168,19 @@
   margin-bottom: 8px;
 }
 
+.TS_ToolTip_Title_Div{
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+.TS_ToolTip_Row_Div{
+  padding-top: 6px;
+  text-align: justify;
+}
+
+
+
+
 .isPassive{
   visibility: hidden;
 }

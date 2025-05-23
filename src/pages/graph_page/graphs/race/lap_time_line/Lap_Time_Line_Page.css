@@ -343,11 +343,16 @@
 
 .LTL_Tooltip_Div{
 
-  font-size: 0.6rem;
-  font-weight: 300;
+  font-size: 0.8rem;
+  font-weight: 400;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
+
+}
+
+.LTL_Tooltip_Tittle{
+  font-size: 0.9rem;
 
 }
 
@@ -357,9 +362,13 @@
   flex-direction: row;
 }
 
+.LTL_Tooltip_Column_Div{
+  padding: 6px;
+}
+
 .LTL_Tooltip_Item_Div{
 
-  padding: 2px;
+  padding-top: 8px;
 }
 
 

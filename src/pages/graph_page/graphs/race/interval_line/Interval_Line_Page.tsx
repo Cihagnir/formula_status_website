@@ -1,19 +1,26 @@
-// Import 
+
+// Library Imports 
 import axios from 'axios';
 import React, {useState, useEffect } from 'react';
 
-// Hand Made Import 
+// Project Imports 
 import {Interval_Line_Graph }from './Graph_Obj';
-import {BASE_URL, interval_graph_input_interface} from '../../Commen_Utils';
+import {BASE_URL, interval_graph_input_interface} from '../../../Commen_Utils';
 
 // CSS Import 
 import './Interval_Line_Page.css' ;
 import home_page_backgraound from '../../../../img/home_page_back.jpg';
 
 
+// Const Defines 
+const LOCAL_DEBUG = false ;
+
+
 // Page Export Funciton 
 function Interavl_Line_Page (){
 
+
+// ======== UseState Section ========
 
   // Graph State Area 
   const [selected_race_state, set_selected_race_state] = useState('');
@@ -28,44 +35,55 @@ function Interavl_Line_Page (){
   const [seassion_array_state, set_seassion_array_state] =useState( [] ) ;
   const [track_name_array_state, set_track_name_array_state] = useState( ['Select the Race'] ) ;
   
-  // Api Fetch Function
+
+
+// ======== Api Fetch Function ========
+
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
     
-    //console.log('Fetching Data from : ' + BASE_URL + sub_url) ;
+    if (LOCAL_DEBUG) console.log(BASE_URL + sub_url)
     const api_response = await axios.get(BASE_URL + sub_url);
     state_setter(api_response.data.api_response) ;
-    //console.log(api_response.data.api_response);
+    if (LOCAL_DEBUG) console.log(api_response.data.api_response);
   }
 
-  // Fetch the Track Name Data 
-  useEffect(() => {
-   
-    if (! (selected_year_state === '') ) {
 
-      let backend_input_string  = `/ui/year/${selected_year_state}/Race/`
-      api_fetch_func(backend_input_string, set_track_name_array_state); 
-    }
-  }, [selected_year_state ] )
+
+// ======== UseEffect Section ========
 
   // Fetch the Seassion Year Data
   useEffect( () => {
-    
-    let backend_input_string = '/ui/year/' 
+
+    let backend_input_string = '/ui/' 
     api_fetch_func(backend_input_string, set_seassion_array_state); 
   }, [])
 
+
+  // Fetch the Track Name Data 
+  useEffect(() => {
+    
+    if (! (selected_year_state === '') ) {
+
+      let backend_input_string  = `/ui?year=${selected_year_state}&session_type=${'Race'}`
+      api_fetch_func(backend_input_string, set_track_name_array_state);       
+    }
+  }, [selected_year_state ] )
+
+
   // Fetch the Graph Data 
   useEffect( () => {
-
+    
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Race/Driver_Interval/${selected_year_state}/${selected_race_state.split("   ")[0]}/${selected_race_state.split("   ")[1]}/1/` ;
-      //console.log(backend_input_string) ;
-      api_fetch_func(backend_input_string, set_graph_data_state);
-    }
-  },
-  [selected_race_state, selected_race_state, selected_year_state] )
 
+      let backend_input_string : string = `/graph/race_interval/?year=${selected_year_state}&race_name=${selected_race_state.split("  ")[0]}&session_name=${selected_race_state.split("  ")[1]}` ;
+      api_fetch_func(backend_input_string, set_graph_data_state)      
+    }
+  }, [selected_year_state, selected_race_state] )
   
+
+
+// ======== Return Section ========
+
   return (
 
     <div className='IL_Main_Div'>
@@ -116,7 +134,7 @@ function Interavl_Line_Page (){
                 )}
               </select>   
 
-              <div 
+              {/* <div 
                 className='IL_Toggle_Container'
                 onClick={() => set_interval_type(prev => prev === 1 ? 0 : 1)}
               >
@@ -137,7 +155,7 @@ function Interavl_Line_Page (){
                 
                 </div>
 
-              </div>
+              </div> */}
 
             </div>
           </div>
@@ -145,7 +163,7 @@ function Interavl_Line_Page (){
 
 
         {
-          (graph_data_state !== null) ? (<Interval_Line_Graph graph_type={interval_type} graph_data={graph_data_state.graph_data} graph_style={graph_data_state.graph_style} lap_max_interval_json={graph_data_state.lap_max_interval_json}   />) : (null)
+          (graph_data_state !== null) ? (<Interval_Line_Graph graph_type={interval_type} graph_data={graph_data_state.graph_data} color_map={graph_data_state.color_map} lap_max_interval_json={graph_data_state.lap_max_interval_json}   />) : (null)
         }
     
       </div>

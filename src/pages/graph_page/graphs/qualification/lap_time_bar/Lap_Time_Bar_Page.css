@@ -77,7 +77,7 @@
 
 .LTQ_Combined_Upper_Div {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
 
   font-size: 1rem;
   font-weight: 300;
@@ -167,6 +167,10 @@
   transition: transform 0.3s ease;
 }
 
+.Graph_Type{
+  width: 50% ;
+}
+
 .LTQ_Toggle_Options_Div {
 
   z-index: 1;
@@ -235,18 +239,29 @@ background-color: transparent;
   font-family: "Electrolize", serif;
 }
 
-.LTQ_Bar_Text{
-  fill : #4C00B0 ; 
-  
-  text-anchor: middle ;
-  dominant-baseline : middle ;
 
-  font-size : 0.7rem ; 
-  font-family : "Electrolize";
+.LTQ_Bars{
+
+  opacity: 0.8;
+  rx: 4;
+}
+
+.LTQ_Bars_Diff{
+  fill: purple;
 
 }
 
 
+.LTQ_Bars_Text{
+  
+  text-anchor: middle ;
+  dominant-baseline : middle ;
+
+  font-weight: bold;
+  font-size : 0.8rem ;
+  letter-spacing: 2px;
+  font-family : "Electrolize";
+}
 
 
 .isPassive{

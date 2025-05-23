@@ -4,16 +4,20 @@ import React, {useState, useEffect } from 'react';
 
 // Hand Made Import 
 import {Position_Line_Graph }from './Graph_Obj';
-import {BASE_URL, position_graph_input_interface} from '../../Commen_Utils';
+import {BASE_URL, position_graph_input_interface} from '../../../Commen_Utils';
 
 // CSS Import 
 import './Position_Line_Page.css' ;
 import home_page_backgraound from '../../../../img/home_page_back.jpg';
 
 
+const LOCAL_DEBUG = false ; 
+
+
 // Page Export Funciton 
 function Position_Line_Page (){
 
+// =========== UseState Section ===========
 
   // Graph State Area 
   const [selected_race_state, set_selected_race_state] = useState('');
@@ -30,38 +34,45 @@ function Position_Line_Page (){
   // Api Fetch Function
   const api_fetch_func = async(sub_url: string , state_setter : React.Dispatch<React.SetStateAction<any>> ) => {
     
+    if ( LOCAL_DEBUG )  console.log(BASE_URL + sub_url) ; 
     const api_response = await axios.get(BASE_URL + sub_url);
     state_setter(api_response.data.api_response) ;
+    if ( LOCAL_DEBUG ) console.log(api_response.data.api_response);
   }
+
+
+// =========== UseEffect Section ===========
+  // Fetch the Seassion Year Data
+  useEffect( () => {
+
+    let backend_input_string = '/ui/' 
+    api_fetch_func(backend_input_string, set_seassion_array_state); 
+  }, [])
 
   // Fetch the Track Name Data 
   useEffect(() => {
-   
+    
     if (! (selected_year_state === '') ) {
 
-      let backend_input_string  = `/ui/year/${selected_year_state}/Race/`
+      let backend_input_string  = `/ui?year=${selected_year_state}&session_type=${'Race'}`
       api_fetch_func(backend_input_string, set_track_name_array_state); 
+      
     }
-  }, [selected_year_state ] )
-
-  // Fetch the Seassion Year Data
-  useEffect( () => {
     
-    let backend_input_string = '/ui/year/' 
-    api_fetch_func(backend_input_string, set_seassion_array_state); 
-  }, [])
+  }, [selected_year_state ] )
 
   // Fetch the Graph Data 
   useEffect( () => {
 
     if (! (selected_race_state === '') ) {
-      let backend_input_string  = `/graph/Race/Driver_Position/${selected_year_state}/${selected_race_state.split("   ")[0]}/${selected_race_state.split("   ")[1]}` ;
+      let backend_input_string = `/graph/race_position/?year=${selected_year_state}&race_name=${selected_race_state.split("  ")[0]}&session_name=${selected_race_state.split("  ")[1]}` 
       api_fetch_func(backend_input_string, set_graph_data_state);
     }
   },
   [selected_race_state, selected_year_state] )
 
-  
+
+// =========== Return Section ===========
   return (
     <div className='PL_Main_Div'>
 
@@ -75,13 +86,15 @@ function Position_Line_Page (){
           <div className='PL_Info_Div'>
 
             <h3 className='PL_Info_Title'>
-              Driver PostiTion 
+              Driver Postition 
 
             </h3>
 
             <span className='PL_Info_Text'>
-              That graphs show the driver position for the each lap. 
-              With that we can track the how the each driver move through the laps.  
+            This graph displays each driver's position on every lap, letting you follow 
+            their progress through the race. You can also highlight a specific driver 
+            using the legend on the right.   <i>-- Just hover it -- </i>
+
             </span>
 
           </div>
@@ -121,7 +134,7 @@ function Position_Line_Page (){
         </div>
 
         {
-        (graph_data_state !== null) ? (<Position_Line_Graph graph_data={graph_data_state.graph_data} graph_style={graph_data_state.graph_style}    />) : (null)
+        (graph_data_state !== null) ? (<Position_Line_Graph graph_data={graph_data_state.graph_data} color_map={graph_data_state.color_map}    />) : (null)
         }
 
       </div>
