@@ -69,6 +69,8 @@ function Graph_Page() {
           
             <div className="GP_Accordion_Content">
               <a href="/graph/qualification/lap_time">Lap Time</a>
+              <a href="/graph/qualification/lap_compr">Lap Comperation</a>
+
             </div>
           
           </div>

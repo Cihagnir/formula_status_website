@@ -42,7 +42,6 @@ const accesser = {
  thirdQuartile : (data: lap_dstrb_graph_data_interface) => data.box_plot.third_quart ,
 }
 
-
 // Page Export Funciton 
 export function  Lap_Time_Graph( { 
   graph_data,
@@ -127,7 +126,7 @@ export function  Lap_Time_Graph( {
     violin_plot : {
       violin_color : '#F5F5F5',
       pattern_line_color : '#F5F5F5', 
-      opacity : 0.6 ,
+      opacity : 0.7 ,
     },
     box_plot : {
       fill_color : '#F5F5F5', 
@@ -193,7 +192,8 @@ export function  Lap_Time_Graph( {
                 width = {limited_width}
                 fill  = {data.box_plot.color}
                 valueScale = {y_axis_scale}
-                stroke = {data.box_plot.color}
+                stroke = {data.box_plot.color }
+                strokeWidth={2}
                 opacity={graph_cosmatic.violin_plot.opacity}
               />
               

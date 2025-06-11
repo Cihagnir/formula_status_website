@@ -7,7 +7,7 @@
 
 
 // Base Url for backend 
-export var BASE_URL =   "https://formulatics.backend.ssoli.app" ; // "http://56.228.2.184" ;  // "http://192.168.1.148" ;
+export var BASE_URL = "https://backend.formulatics.com" ;  // "http://192.168.1.148" ; //"http://127.0.0.1:8080" ; 
 
 
 // ===== Data Interfaces   =====
@@ -127,6 +127,30 @@ export interface quali_grpah_input_interface {
 };
 
 
+// Qualification Lap Compare Interfaces 
+
+export interface lap_compare_data_point_interface {
+  x : number,
+  y : number
+}
+
+export interface lap_compare_graph_data_interface { 
+  driver : string,
+  team_color : string,
+  data : Array<lap_compare_data_point_interface>
+};
+
+export interface lap_compare_graph_info_interface { 
+  x_axis : { max_val : number, min_val : number},
+  y_axis : { max_val : number, min_val : number},
+};
+
+export interface quali_lap_compre_graph_input_interface { 
+  graph_data : Array<lap_compare_graph_data_interface>,
+  graph_info : lap_compare_graph_info_interface
+};
+
+
 // ==== Utils Functions ====
 
 
@@ -152,12 +176,6 @@ export const axis_cosmatics = ( window_width : number ) : {[key:string ] : any} 
     },
   }
 };
-
-
-
-
-
-
 
 
 export function Null_Values_Interpolation(data: interval_data_interface[], lap_max_gap_json: { [key : number] : number }) {

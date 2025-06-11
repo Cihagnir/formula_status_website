@@ -1,32 +1,8 @@
 
 
-> Version 0.0.4
+> Version 0.0.4.1
 
   . Backend connection changed 
 
-  . All Graphs : 
-    _ Interface defines move to 'Common_Utils.tsx' file | Also some other constant . 
-    _ Console log ' Debug Controls ' added 
-    _ Tooltip CSS updated 
-
-  . Qualification Bar Graph 
-    _ Change into regular ' Bar ' Objects 
-    _ Section data swap transfer into frontend 
-    _ Pole Time Diff Added into graph 
-
-  . Postion Line Graph 
-    _ Graph re-written with <LinePath> Objects [ XYX Module dependicy removed]
-    _ Hover legend added into graph
-
-  . Tyre Stint 
-    _ Legnd changed into dynamic version [ Just show the tyre in the graph not all ] -> Credits for fastapi
-
-  . Interval Time 
-    _ Start legend added 
-    _ Legend animation fix
-    _ Legend & graph opacity interaction added 
-    _ Tooltip leader interval problem solved [ When you do conditional rendering ALWAYS check if tha data is null or not. NOT data itself ]
-    _ Proportional is REMOVED for now. -> It shoul be added or changed with more usefull version 
-
-  . Lap Time Distrub
-    _ Mobile view problem solved.
+  . Lap Time Comperation 
+    _ Graph added in that version 

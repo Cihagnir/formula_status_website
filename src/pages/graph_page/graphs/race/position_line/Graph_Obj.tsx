@@ -157,7 +157,7 @@ const opacity_state_controler = (input : any) => {
 }
 
 
-const is_rect_rendered = (positions : Array<position_data_interface>) => (positions.length >= ( longest_lap_info - 1 )) ? (true) : (false)
+const is_rect_rendered = (positions : Array<position_data_interface>) => (positions.length >= ( longest_lap_info - 2 )) ? (true) : (false)
 
 
 

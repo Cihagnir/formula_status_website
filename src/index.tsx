@@ -16,6 +16,7 @@ import Graph_Page from './pages/graph_page/Graph_Page';
 
 // Qualification Pages 
 import Lap_Time_Bar_Page from "./pages/graph_page/graphs/qualification/lap_time_bar/Lap_Time_Bar_Page";
+import Lap_Compr_Page from "./pages/graph_page/graphs/qualification/lap_compr/Lap_Time_Comp_Page";
 
 
 // Race Pages 
@@ -46,6 +47,8 @@ root.render(
         <Route path="/graph/race/lap_time_line" element={<Lap_Time_Line_Page />} />
         <Route path="/graph/race/lap_time_distr" element={<Lap_Time_Distr_Page />} />
         <Route path="/graph/qualification/lap_time" element={<Lap_Time_Bar_Page />} />
+        <Route path="/graph/qualification/lap_compr" element={<Lap_Compr_Page />} />
+
           
         
       <Route path="/about" element={<About_Page />} />
