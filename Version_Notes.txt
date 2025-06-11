@@ -1,19 +1,11 @@
 
 
 
-> Version 0.0.5
-
-  ! IMPORTANT ! 
-  Backend completely changed in order to use 'FastF1' data source. 
+> Version 0.0.5.1
   
-  _ All the backend rewritten in python. 
-  _ FastApi used to handle the HTTP Requests. 
-  _ Data souce changed from OpenF1 to FastF1.
-  _ Requests parameter input style changed into 'Query Parameter' style. 
-
-  _ UI requests starts to handle by single endpoint [for now] .
-  _ Graphs endpoints also changed .
-  _ 'Uvicorn' starty to use as an webserver handler [ Proxy servers still held by Caddy ]. 
+  _ Driver cordinants data table created 
+  _ Lap Comperation backend and endpoint added
+  _ UI endpoint extended to 'pos_data_quali' sub-endpoint
 
 
 

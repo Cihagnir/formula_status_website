@@ -34,7 +34,9 @@
 # Library Imports 
 import orjson
 import configparser
-from pandas import Timedelta
+from pandas import Timedelta, DataFrame
+from numpy import column_stack, stack, array, cos, sin, matmul
+from numpy.linalg import norm
 
 from fastapi.responses import JSONResponse
 
@@ -44,7 +46,7 @@ from fastapi.responses import JSONResponse
 from defines import Types
 
 
-LOCAL_DEBUG = True
+LOCAL_DEBUG = False
 
 
 # General Utils Functions
@@ -114,6 +116,47 @@ class Utils :
     return round( (time_delta.seconds + time_delta.microseconds * 1e-6), ndigits=3  ) 
 
 
+# ==== Calculation Function Utils ====
+
+  def position_matcher(first_lap : DataFrame, second_lap : DataFrame) : 
+
+    lap_one = first_lap if len( first_lap ) < len( second_lap ) else second_lap
+    lap_two = second_lap if len( first_lap ) < len( second_lap ) else first_lap
+
+    lap_one_cords = column_stack( (lap_one.x.values, lap_one.y.values) )
+    lap_two_cords = column_stack( (lap_two.x.values, lap_two.y.values) )
+
+    lap_two_res_cord = []
+
+    search_window = (len(lap_two) - len(lap_one))
+
+    for index in range(len( lap_one_cords )) : 
+
+      lower_index = max( 0, index - 2)
+      upper_index = min( len( lap_two_cords ) -1, index + search_window )
+
+      sub_lap_two = lap_two_cords[ lower_index : upper_index, :]
+
+      lap_one_mat = stack([lap_one_cords[index, : ] for _ in range( sub_lap_two.shape[0] ) ])
+
+      comp_res = norm( lap_one_mat -  sub_lap_two, axis=1 ) 
+
+      res_index = comp_res.argmin()
+
+      real_index = res_index + lower_index
+
+      lap_two_res_cord.append(lap_two.iloc[real_index].values)
+
+    lap_two_df = DataFrame(data=lap_two_res_cord, columns= lap_one.columns)
+
+    return lap_one, lap_two_df
+
+  def position_rotater(xy, angle):
+      rot_mat = array([[cos(angle), sin(angle)],
+                          [-sin(angle), cos(angle)]])
+      return matmul(xy, rot_mat)
+  
+  
 # ==== Utils Classes ====
 
   class orjson_response(JSONResponse):

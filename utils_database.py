@@ -1,22 +1,25 @@
 
 # Library Impoert
 import time
-import fastf1
 from datetime import datetime
+from numpy import pi as np_pi
 from numpy import nan as np_nan
 from pandas import DataFrame, concat
 
-from fastf1.req import RateLimitExceededError
+# FastF1 Imports
+import fastf1
+import fastf1.plotting
 from fastf1.core import DataNotLoadedError
 from fastf1._api import SessionNotAvailableError
 
+fastf1.set_log_level("Warning")
+fastf1.logger.LoggingManager.debug = True
 
 
 # Type Imports 
 from mysql.connector import ProgrammingError
 from mysql.connector.pooling import PooledMySQLConnection
 from mysql.connector.abstracts import MySQLConnectionAbstract
-
 
 
 # Project Imoprts 
@@ -54,7 +57,9 @@ quali_session_cols_mapping    = {
   "Abbreviation" : "driver_name" , "DriverNumber" : "driver_number", 
 }
 
-
+quali_position_session_cols_mapping = {
+  'RPM' : 'rpm', 'Speed' : 'speed', 'nGear' : 'nth_gear', 'Throttle' : 'throttle_rate', 'Brake' : 'brake_rate', 'X' : 'x', 'Y' : 'y',
+}
 
 # Database Utils Class 
 class Database_Utils : 
@@ -85,15 +90,20 @@ class Database_Utils :
 
     querry_result = db_cursor.fetchall() 
 
-    result_df = DataFrame( querry_result, columns=[ 'round_number', 'year', 'country', 'race_name', 'session_type', 'is_session_done', 'session_name'] )
+    result_df = DataFrame( querry_result, columns=[ 'round_number', 'year', 'country', 'race_name', 'session_type', 'is_session_done', 'session_name', 'is_error_occur'] )
 
     if ( len( result_df ) > 0 ) : 
       
-      future_session_df = result_df[ ( result_df.is_sesion_done  == 0  ) & (result_df.is_error_occur == 0) ] .reset_index()
+      future_session_df = result_df[ ( result_df.is_session_done  == 0  ) & (result_df.is_error_occur != 1) ] .reset_index()
+
+      if ( LOCAL_DEBUG ) : print(f"DATABASE UPDATE : Length of the future sessions is -> { len(future_session_df) }")
+
 
       if ( len( future_session_df ) > 0 ) : 
 
         session_info = future_session_df.loc[0] 
+
+        if( LOCAL_DEBUG ) : print(f"DATABASE UPDATE : Next future session infos are  -> { session_info }")
 
         try :   
           datascrapper_result = Database_Utils.event_data_scraper(session_info, current_year)
@@ -251,16 +261,19 @@ class Database_Utils :
 
     lap_time_df = None
     tyre_stint_df = None
+    position_cord_df = None
     position_interval_df = None
     
     session_type = session_type_maping[ session_info.session_name ]
 
 
-    if session_info.EventFormat == "testing" : 
-      session_data = fastf1.get_testing_session(current_year, 1, session_info.session_name.split(" ")[1])
+    # if session_info.EventFormat == "testing" : 
+    #   session_data = fastf1.get_testing_session(current_year, 1, session_info.session_name.split(" ")[1])
 
-    else :     
-      session_data = fastf1.get_session(current_year, session_info.race_name, session_info.session_name)
+    # else :     
+    #   session_data = fastf1.get_session(current_year, session_info.race_name, session_info.session_name)
+    
+    session_data = fastf1.get_session(current_year, session_info.race_name, session_info.session_name)
       
 
     try : 
@@ -270,7 +283,7 @@ class Database_Utils :
       raise SessionNotAvailableError 
     
     except Exception as error : 
-      raise ApiFailError(error + f""" at {current_year} | {session_info.race_name} | {session_info.session_name}""")
+      raise ApiFailError(str(error) + f""" at {current_year} | {session_info.race_name} | {session_info.session_name}""")
 
 
     try : 
@@ -280,18 +293,24 @@ class Database_Utils :
       raise ApiFailError(f"Api Fail durign the driver color map extraction at {current_year} | {session_info.race_name} | {session_info.session_name}")
 
     except Exception as error : 
-      raise ApiFailError(error + f""" at {current_year} | {session_info.race_name} | {session_info.session_name}""")
+      raise ApiFailError(str(error) + f""" at {current_year} | {session_info.race_name} | {session_info.session_name}""")
 
 
     if ( "Qualifying" in session_type ) or ( "Shootout" in session_type ) : 
       
-      session_laps_df = session_data.results
+      # UPDATE START POINT 
+      session_laps_df = session_data.laps.copy()
+      session_result_df = session_data.results.copy()
       
-      session_laps_df.rename( columns= quali_session_cols_mapping, inplace= True)
+      session_result_df.rename( columns= quali_session_cols_mapping, inplace= True)
+
+      circuit_info = session_data.get_circuit_info()
+      circuit_angle = circuit_info.rotation / 180 * np_pi
+
 
       #### Lap Time Table Data Frame Prep Code  ####
 
-      lap_time_df = session_laps_df[quali_lap_time_table_cols_filter]
+      session_result_df = session_result_df[quali_lap_time_table_cols_filter]
 
       df_list = []
 
@@ -300,22 +319,58 @@ class Database_Utils :
 
       for session_col in session_cols : 
 
-        sesssion_df =lap_time_df[base_cols + [ session_col ] ]
+        sesssion_df = session_result_df[base_cols + [ session_col ] ]
 
         sesssion_df = sesssion_df.assign(session_name = session_col )  .rename( columns={ session_col : "lap_duration" })
         df_list.append(sesssion_df)
 
-      lap_time_df = concat(df_list, axis=0 ).dropna()
+      session_result_df = concat(df_list, axis=0 ).dropna()
+
+      laps = []
+
+      for quali_lap in session_result_df.itertuples() : 
+        lap = session_laps_df.loc[ (session_laps_df['Driver'] == quali_lap.driver_name) & (session_laps_df['DriverNumber'] == quali_lap.driver_number) & (session_laps_df['LapTime'] == quali_lap.lap_duration) ]
 
 
-      lap_time_df = lap_time_df.assign(
+        if not lap.empty : 
+          try : 
+            lap_telemetry = lap.telemetry[quali_position_session_cols_mapping.keys()]
+
+          except ValueError : 
+            continue
+
+          positions = lap_telemetry.loc[ : , ('X', 'Y')].to_numpy()
+          
+          rotated_positions = Utils.position_rotater(positions, circuit_angle)
+
+          lap_telemetry = lap_telemetry.assign(
+            X = rotated_positions[:, 0],
+            Y = rotated_positions[:, 1],
+            driver_name   = quali_lap.driver_name,
+            session_name  = quali_lap.session_name,
+            session_type          = session_type, 
+            year                  = current_year, 
+            country               = session_info.Country, 
+            race_name             = session_info.Location, 
+            team_color            = driver_color_map[quali_lap.driver_name],
+            Brake                 = lap_telemetry.Brake.astype(int)
+          )
+
+          laps.append( lap_telemetry )
+
+
+      position_cord_df = concat(laps, axis=0 ).dropna()
+      position_cord_df.rename(columns= quali_position_session_cols_mapping, inplace=True)
+
+
+      session_result_df = session_result_df.assign(
         session_type          = session_type, 
         year                  = current_year, 
         country               = session_info.country, 
         race_name             = session_info.race_name, 
         tyre_is_fresh         = 'NULL',
-        team_color            = lap_time_df.driver_name.map(driver_color_map),
-        lap_duration          = lap_time_df.lap_duration.map(lambda val : Utils.Time_Delto_To_Seconds(val) ),
+        team_color            = session_result_df.driver_name.map(driver_color_map),
+        lap_duration          = session_result_df.lap_duration.map(lambda val : Utils.Time_Delto_To_Seconds(val) ),
         sector_one_duration   = 'NULL',
         sector_two_duration   = 'NULL',
         sector_three_duration = 'NULL',
@@ -422,7 +477,7 @@ class Database_Utils :
 
         ########
 
-    return {  "is_session_done" : 1, 'session_type' : session_type, "dfs" : {"lap_time_table" : lap_time_df, "tyre_stint_table" : tyre_stint_df, "position_interval_table" : position_interval_df} }
+    return {  "is_session_done" : 1, 'session_type' : session_type, "dfs" : {"lap_time_table" : lap_time_df, "tyre_stint_table" : tyre_stint_df, "position_interval_table" : position_interval_df}, "position_cord_table" : position_cord_df }
 
 
   ### Insert the scraped session data into sql database 

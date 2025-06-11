@@ -4,8 +4,9 @@
 # Library Import
 import uvicorn
 import numpy as np 
-import pandas as pd
+from json import dumps, loads
 from mysql import connector
+from pandas import DataFrame, concat
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +18,7 @@ from utils_database import Database_Utils
 from apscheduler.schedulers.background import BackgroundScheduler 
 
 
-LOCAL_DEBUG = True
+LOCAL_DEBUG = False
 
 
 ### Confs Section
@@ -37,13 +38,12 @@ db_connection = connector.connect(
 # CORS Endpoints
 allowed_origins = [
   "http://localhost:3000",
-  "https://formulatics.ssoli.app",
+  "https://formulatics.com",
 ]
 
 
 # Api Confs
 formulatics_app = FastAPI( default_response_class= Utils.orjson_response)
-
 
 
 formulatics_app.add_middleware(
@@ -55,16 +55,10 @@ formulatics_app.add_middleware(
 )
 
 
-
-
 #******** Scheduler Functions  ********
 def database_updater() : 
   
-  # -- Will be tried at local first
-  # Database_Utils.update_database(db_connection)
-  #
-
-  pass
+  Database_Utils.update_database(db_connection)
 
 
 #******** STATUS TEST PAGES ********
@@ -94,7 +88,7 @@ async def ui_data_fetcher( year : int | None = None, session_type : str | None =
     
     sql_string : str = "SELECT DISTINCT year FROM session_data_table WHERE ( is_session_done = 1 )"
     
-    if LOCAL_DEBUG : print(sql_string)
+    if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
     db_cursor.execute(sql_string)
 
@@ -107,7 +101,7 @@ async def ui_data_fetcher( year : int | None = None, session_type : str | None =
         
     sql_string : str = f"""SELECT DISTINCT race_name, session_name FROM session_data_table WHERE ( is_session_done = 1  AND year = {year} AND session_type = "{session_type}")"""
     
-    if LOCAL_DEBUG : print(sql_string)
+    if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
     db_cursor.execute(sql_string)
 
@@ -120,6 +114,34 @@ async def ui_data_fetcher( year : int | None = None, session_type : str | None =
 
   return { "api_response" : api_response }
 
+
+@formulatics_app.get("/ui/pos_data_quali/")
+async def ui_sub_data_fetcher( year : int , race_name : str ) :
+  
+  api_response = {}
+
+  sql_string = f""" SELECT session_name, driver_name FROM position_cord_table WHERE ( year = {year} AND race_name = '{race_name}' )  """
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
+
+  db_cursor = db_connection.cursor()
+
+  db_cursor.execute(sql_string)
+
+  querry_result = db_cursor.fetchall()
+
+  for value in querry_result : 
+
+    driver = value[ 1 ]
+    session = value [ 0 ]
+
+    if session not in api_response.keys() : 
+      api_response[session] = []
+    
+    if driver not in api_response[session] : 
+      api_response[session].append(driver)
+
+  return { 'api_response' : api_response }
+  
 
 
 # ********  GRAPH DRAWER BACKEND FUNCTION  ********* #
@@ -135,13 +157,13 @@ async def race_lap_time( year : int, race_name : str, session_name : str, user_u
 
   sql_string = f"""  SELECT driver_name, lap_duration, lap_number, team_color, lap_accurcy FROM lap_time_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_name = "{session_name}" ) ; """
 
-  if LOCAL_DEBUG : print(sql_string)
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
   db_cursor.execute(sql_string)
 
   querry_result = db_cursor.fetchall()
 
-  laps_df = pd.DataFrame(data= querry_result, columns=[ 'driver_name', 'lap_duration', 'lap_number', 'team_color', 'lap_accurcy' ] )
+  laps_df =  DataFrame(data= querry_result, columns=[ 'driver_name', 'lap_duration', 'lap_number', 'team_color', 'lap_accurcy' ] )
 
   if is_filter : 
     lower_quant, upper_quant = laps_df.lap_duration.quantile([0.25,0.75])
@@ -184,7 +206,7 @@ async def tyre_stint( year : int, race_name : str, session_name : str  ) :
 
   sql_string = f""" SELECT driver_name, tyre_compound, stint_number, stint_duration, tyre_is_fresh, tyre_color  FROM tyre_stint_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_name = "{session_name}" ) ; """
 
-  if LOCAL_DEBUG : print(sql_string)
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
   db_cursor = db_connection.cursor()
 
@@ -192,7 +214,7 @@ async def tyre_stint( year : int, race_name : str, session_name : str  ) :
 
   querry_result = db_cursor.fetchall()
 
-  tyre_df = pd.DataFrame( data= querry_result, columns=['driver_name', 'tyre_compound', 'stint_number', 'stint_duration', 'tyre_is_fresh', 'tyre_color'] ) 
+  tyre_df =  DataFrame( data= querry_result, columns=['driver_name', 'tyre_compound', 'stint_number', 'stint_duration', 'tyre_is_fresh', 'tyre_color'] ) 
 
   tyre_df = tyre_df.assign( stint_name = tyre_df.tyre_compound + '_' + tyre_df.stint_number.astype(str) ) .set_index( tyre_df.driver_name.values ) .drop( [ 'stint_number', 'driver_name' ], axis=1 )
 
@@ -232,7 +254,7 @@ async def interval( year : int, race_name : str, session_name : str  ) :
 
   sql_string = f""" SELECT driver_name, lap_number, interval_leader, team_color FROM position_interval_table WHERE ( year = {year} AND race_name = '{race_name}' AND session_name = '{session_name}' ) ;"""
 
-  if LOCAL_DEBUG : print(sql_string) 
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}") 
 
   db_cursor = db_connection.cursor()
 
@@ -240,7 +262,7 @@ async def interval( year : int, race_name : str, session_name : str  ) :
 
   querry_result = db_cursor.fetchall()
 
-  interval_df = pd.DataFrame(data= querry_result, columns= [ 'driver_name', 'lap_number', 'interval_leader', 'team_color' ] )
+  interval_df =  DataFrame(data= querry_result, columns= [ 'driver_name', 'lap_number', 'interval_leader', 'team_color' ] )
 
   for index_, data_point in interval_df.iterrows() : 
 
@@ -280,14 +302,21 @@ async def race_lap_time_dstrb( year : int, race_name : str, session_name : str )
 
   sql_string = f""" SELECT driver_name, lap_duration, team_color FROM lap_time_table WHERE ( year = {year} AND race_name = '{race_name}' AND session_name = '{session_name}' ) """
   
-  if LOCAL_DEBUG : print(sql_string) 
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}") 
 
   db_cursor = db_connection.cursor() 
   db_cursor.execute(sql_string)
 
   querry_result = db_cursor.fetchall()
 
-  laps_df = pd.DataFrame( data= querry_result, columns=[ 'driver_name', 'lap_duration', 'team_color' ] )
+  laps_df =  DataFrame( data= querry_result, columns=[ 'driver_name', 'lap_duration', 'team_color' ] )
+
+  lap_duration_std = laps_df.lap_duration.std()
+  lap_duration_mean = laps_df.lap_duration.mean()
+
+  z_score = ( laps_df.lap_duration - lap_duration_mean ) / lap_duration_std
+
+  laps_df = laps_df[ (-1 < z_score)  & (z_score < 4.5)  ]
 
   laps_df = laps_df.set_index( laps_df.driver_name ) .dropna( axis= 0 )
 
@@ -295,7 +324,7 @@ async def race_lap_time_dstrb( year : int, race_name : str, session_name : str )
 
     driver_data = laps_df.loc[ driver_name ]
       
-    if type(driver_data) == pd.DataFrame :
+    if type(driver_data) ==  DataFrame :
 
       laps = driver_data.lap_duration.astype(float)
       
@@ -350,13 +379,13 @@ async def race_position( year : int, race_name : str, session_name : str ) :
 
   sql_string = f""" SELECT driver_name, lap_number, driver_pos, team_color FROM position_interval_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_name = "{session_name}" )  ; """
 
-  if LOCAL_DEBUG : print(sql_string)
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
   db_cursor.execute(sql_string)
 
   querry_result = db_cursor.fetchall()
 
-  pos_df = pd.DataFrame( data=querry_result, columns=[ 'driver_name', 'lap_number', 'driver_pos', 'team_color' ] )
+  pos_df =  DataFrame( data=querry_result, columns=[ 'driver_name', 'lap_number', 'driver_pos', 'team_color' ] )
 
   for index, data_point in pos_df.iterrows() : 
 
@@ -377,7 +406,7 @@ async def race_position( year : int, race_name : str, session_name : str ) :
 
 
 # Qualifiying Lap Duration
-@formulatics_app.get("/graph/qualifying_laps_bar")
+@formulatics_app.get("/graph/qualifying_laps_bar/")
 async def quali_lap_time( year : int, race_name : str, session_type : str ) : 
 
   color_map = {}
@@ -385,14 +414,14 @@ async def quali_lap_time( year : int, race_name : str, session_type : str ) :
 
   sql_string = f"""  SELECT driver_name, session_name, lap_duration, team_color  FROM lap_time_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_type = "{session_type}" ) ; """
 
-  if LOCAL_DEBUG : print(sql_string)
+  if LOCAL_DEBUG : print(f"MAIN : {sql_string}")
 
   db_cursor = db_connection.cursor()
   db_cursor.execute(sql_string)
 
   querry_result = db_cursor.fetchall()
 
-  laps_df = pd.DataFrame(data= querry_result, columns=[ 'driver_name', 'session_name', 'lap_duration', 'team_color' ] )
+  laps_df =  DataFrame(data= querry_result, columns=[ 'driver_name', 'session_name', 'lap_duration', 'team_color' ] )
 
   laps_df = laps_df.set_index(laps_df.session_name.values) .sort_values(by='lap_duration')
 
@@ -408,16 +437,111 @@ async def quali_lap_time( year : int, race_name : str, session_type : str ) :
   return { 'api_response' : { 'graph_data' : graph_data, 'color_map' : color_map} }
 
 
+@formulatics_app.get("/graph/qualifying_laps_compr/")
+async def quali_lap_compr( year : int,  race_name : str, lap_one_session_name : str, lap_one_driver : str, lap_two_session_name : str, lap_two_driver : str ):
+  
+  graph_data = []
+  graph_info = {}
+
+  lap_one_sql_string = f""" SELECT speed, x, y, team_color, driver_name, session_name FROM position_cord_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_name = "{lap_one_session_name}" AND driver_name = "{lap_one_driver}" ) ; """
+
+  lap_two_sql_string = f""" SELECT speed, x, y, team_color, driver_name, session_name FROM position_cord_table WHERE ( year = {year} AND race_name = "{race_name}" AND session_name = "{lap_two_session_name}" AND driver_name = "{lap_two_driver}" ) ; """
+
+  if LOCAL_DEBUG : print(lap_one_sql_string)
+  if LOCAL_DEBUG : print('=============================')
+  if LOCAL_DEBUG : print(lap_two_sql_string)
 
 
+  db_cursor = db_connection.cursor()
 
-#******** Scheduler Settıngs  ********
+  # Retrive the lap one data from the db
+  db_cursor.execute( lap_one_sql_string )
+  lap_one_querry = db_cursor.fetchall()
 
-#  
+  db_cursor.execute( lap_two_sql_string )
+  lap_two_querry = db_cursor.fetchall()
+
+  lap_one_df = DataFrame( data= lap_one_querry, columns=['speed', 'x', 'y', 'team_color', 'driver_name', 'session_name'] )
+  lap_two_df = DataFrame( data= lap_two_querry, columns=['speed', 'x', 'y', 'team_color', 'driver_name', 'session_name'] )
+
+  lap_one_res_cords, lap_two_res_cords = Utils.position_matcher( lap_one_df, lap_two_df)
+
+  lap_one_filter_df = lap_one_res_cords[ lap_one_res_cords.speed >= lap_two_res_cords.speed ]
+  lap_two_filter_df = lap_two_res_cords[ lap_two_res_cords.speed > lap_one_res_cords.speed ]
+
+
+  total_df = concat( [lap_one_filter_df, lap_two_filter_df] ) .sort_index() 
+
+  graph_info['x_axis'] = {
+    'max_val' : float(total_df.x.max()),
+    'min_val' : float(total_df.x.min())
+  } 
+
+  graph_info['y_axis'] = {
+    'max_val' : float(total_df.y.max()),
+    'min_val' : float(total_df.y.min())
+  } 
+
+  graph_info['circuit'] = {
+    'start' : float(total_df.x.values[0])
+  }
+
+
+  total_df = total_df.assign(
+    filter_col = total_df.driver_name + '_' + total_df.session_name
+  )
+
+  filter_series = total_df.filter_col.shift( periods=1 ) != total_df.filter_col
+
+  segmentatin_info = list( filter_series.index[ filter_series.values  ] ) + [ len( total_df ) -1 ] 
+
+
+  for index in range(1, len(segmentatin_info) ) : 
+
+    end_index = segmentatin_info[ index ] +1
+    start_index = segmentatin_info[ index - 1 ] 
+
+    data = total_df[ start_index : end_index ]
+
+    driver = data.filter_col.values[0]
+    team_color = data.team_color.values[0]
+    data_json = loads(data[['x', 'y']] .to_json( orient= 'records' ))
+
+    if (end_index - start_index) <= 3 : 
+      
+      try : 
+        graph_data[-1]['data'] =  graph_data[-1]['data'] + data_json
+
+      except IndexError : 
+
+        graph_data.append({
+          'team_color' : team_color,
+          'driver' : driver,
+          'data' : data_json
+        })
+
+    
+    else : 
+
+      graph_data.append({
+        'team_color' : team_color,
+        'driver' : driver,
+        'data' : data_json
+      })
+
+  return { 'api_response' : { 'graph_data' : graph_data, 'graph_info' : graph_info} }
+
 
 
 if __name__ == "__main__" : 
 
-  uvicorn.run("main:formulatics_app", host="127.0.0.1", port=8080, workers=4, use_colors=True)
+#  ******** Scheduler Settıngs  ********
+  database_scheduler = BackgroundScheduler()
+  database_job = database_scheduler.add_job( database_updater, 'interval', minutes=5 )
+  database_scheduler.start()
+
+  
+
+  uvicorn.run("main:formulatics_app", host="127.0.0.1", port=8080, workers=2, use_colors=True)
 
 
