@@ -59,6 +59,7 @@ formulatics_app.add_middleware(
 def database_updater() : 
   
   Database_Utils.update_database(db_connection)
+  print(f"Data Base Updated")
 
 
 #******** STATUS TEST PAGES ********
@@ -537,7 +538,7 @@ if __name__ == "__main__" :
 
 #  ******** Scheduler Settıngs  ********
   database_scheduler = BackgroundScheduler()
-  database_job = database_scheduler.add_job( database_updater, 'interval', minutes=5 )
+  database_job = database_scheduler.add_job( database_updater, 'interval', minutes=2 )
   database_scheduler.start()
 
   

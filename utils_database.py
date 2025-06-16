@@ -350,8 +350,8 @@ class Database_Utils :
             session_name  = quali_lap.session_name,
             session_type          = session_type, 
             year                  = current_year, 
-            country               = session_info.Country, 
-            race_name             = session_info.Location, 
+            country               = session_info.country, 
+            race_name             = session_info.race_name, 
             team_color            = driver_color_map[quali_lap.driver_name],
             Brake                 = lap_telemetry.Brake.astype(int)
           )
@@ -363,7 +363,7 @@ class Database_Utils :
       position_cord_df.rename(columns= quali_position_session_cols_mapping, inplace=True)
 
 
-      session_result_df = session_result_df.assign(
+      lap_time_df = session_result_df.assign(
         session_type          = session_type, 
         year                  = current_year, 
         country               = session_info.country, 
@@ -477,7 +477,7 @@ class Database_Utils :
 
         ########
 
-    return {  "is_session_done" : 1, 'session_type' : session_type, "dfs" : {"lap_time_table" : lap_time_df, "tyre_stint_table" : tyre_stint_df, "position_interval_table" : position_interval_df}, "position_cord_table" : position_cord_df }
+    return {  "is_session_done" : 1, 'session_type' : session_type, "dfs" : {"lap_time_table" : lap_time_df, "tyre_stint_table" : tyre_stint_df, "position_interval_table" : position_interval_df, "position_cord_table" : position_cord_df} }
 
 
   ### Insert the scraped session data into sql database 

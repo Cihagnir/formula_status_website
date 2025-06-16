@@ -47,7 +47,7 @@ from defines import Types
 
 
 LOCAL_DEBUG = False
-
+CONFIG_FILE_PATH = '/home/cihangir/home/cihangir/Desktop/Software_Project/Formula_One_Info_Website/backend/config.ini'
 
 # General Utils Functions
 class Utils : 
@@ -57,7 +57,7 @@ class Utils :
   def general_config_reader():
 
     config_parser = configparser.ConfigParser()
-    config_parser.read('config.ini')
+    config_parser.read(CONFIG_FILE_PATH)
 
     Types.general_config.global_debug = config_parser.getboolean('General', 'global_debug')
     Types.general_config.database_setting = config_parser.get('General', 'database_setting')
@@ -70,7 +70,7 @@ class Utils :
   def database_config_reader(database_setting : str) : 
 
     config_parser = configparser.ConfigParser()
-    config_parser.read('config.ini')
+    config_parser.read(CONFIG_FILE_PATH)
 
     if 'local' in database_setting : 
       

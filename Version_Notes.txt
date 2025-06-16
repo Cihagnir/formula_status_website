@@ -1,12 +1,9 @@
 
 
 
-> Version 0.0.5.1
+> Version 0.0.5.2
   
-  _ Driver cordinants data table created 
-  _ Lap Comperation backend and endpoint added
-  _ UI endpoint extended to 'pos_data_quali' sub-endpoint
-
+  _ Bug Fix
 
 
 
