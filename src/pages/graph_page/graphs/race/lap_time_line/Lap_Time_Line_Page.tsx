@@ -162,7 +162,7 @@ function Lap_Time_Line_Page (){
               </div>
 
               <div className='LTL_Slider_Group'>
-                <label>Lower Bound: {lower_bound_state.toFixed(2)}</label>
+                <label>Lower Bound : {lower_bound_state.toFixed(2)}</label>
                 <input 
                   type="range" 
                   min="0" 
@@ -176,7 +176,7 @@ function Lap_Time_Line_Page (){
               </div>
               
               <div className='LTL_Slider_Group'>
-                <label>Upper Bound: {upper_bound_state.toFixed(2)}</label>
+                <label>Upper Bound : {upper_bound_state.toFixed(2)}</label>
                 <input 
                   type="range" 
                   min="0" 

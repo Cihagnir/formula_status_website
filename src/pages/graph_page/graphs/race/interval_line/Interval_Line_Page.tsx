@@ -146,7 +146,7 @@ function Interavl_Line_Page (){
                 <div className='IL_Toggle_Labels'>
                 
                   <span className={`IL_Toggle_Label ${interval_type === 1 ? 'active' : ''}`}>
-                    Interval
+                    Interval;
                   </span>
                   
                   <span className={`IL_Toggle_Label ${interval_type === 0 ? 'active' : ''}`}>

@@ -29,3 +29,10 @@ Transparant -> Inner Divs' background colors for graph pages .
 # Text color 
 
 > Geniuanly black or white. Could be change depending on the background
+
+
+# Page text Size Rules : 
+
+  Title : 2vh
+  Text : 1.4vh
+

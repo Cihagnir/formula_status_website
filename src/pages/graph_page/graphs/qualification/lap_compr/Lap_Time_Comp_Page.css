@@ -79,14 +79,20 @@
 
 
 .LTC_Combined_Upper_Div {
-  width: 100%;
-  max-width: 600px;
+  width: 40vw;
   margin-bottom: 25px;
 
-  font-size: 1rem;
   font-weight: 300;
   font-variant: normal;
   font-family: "Electrolize", serif;
+}
+
+.LTC_Info_Title{
+  font-size: 2vh;
+}
+
+.LTC_Info_Title{
+  font-size: 1.4vh;
 }
 
 .LTC_Divider {
@@ -108,7 +114,7 @@
 
 .LTC_Combined_Middle_Div {
   
-  gap: 15px;
+  gap: 1vw;
   width: 100%;
   margin-bottom: 15px;
 
@@ -116,14 +122,16 @@
   align-items: center;
   justify-content: center;
 
-  font-size: 1rem;
+  font-size: 1.4vh;
   font-family: "Electrolize", serif;
 }
 
 .LTC_Select_Box {
   padding: 8px;
-  height: 40px;
-  width: fit-content;
+  width: 12vw;
+  min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
 
   border-width: 2px;
   border-radius: 8px;
@@ -132,7 +140,7 @@
   border-color: rgba(245, 245, 245, 0.8);
 
   color: #F5F5F5;
-  font-size: 0.9rem;
+  font-size: 1.4vh;
   text-align: center;
   text-align-last: center;
   font-family: "Electrolize", serif;
@@ -142,18 +150,13 @@
 }
 
 .LTC_Select_Box:hover {
+  font-size: 1.4vh;
   color: #F5F5F5;
   background-color: #000000;
   border-color: rgba(245, 245, 245, 0.2);
 }
 
-.LTC_Race_Box {
-  min-width: 200px;
-}
 
-.LTC_Select_Bottom{
-  width: 20%;
-}
 
 .LTC_Combined_Bottom_Div {
   gap: 20px;
@@ -167,6 +170,8 @@
 
 .LTC_Combined_Bottom_First_Lap_Div,
 .LTC_Combined_Bottom_Second_Lap_Div{
+
+  font-size: 1.4vh;
 
   gap: 50px;
   width: 90%;

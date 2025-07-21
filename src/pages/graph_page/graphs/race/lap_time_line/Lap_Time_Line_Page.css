@@ -55,6 +55,7 @@
   border-color: rgba(245, 245, 245, 0.5);
 
   background-color: rgba(0, 0, 0, 0.7);
+
 }
 
 
@@ -68,19 +69,27 @@
 
 .LTL_Info_Div{
 
-  margin: 20px;
+  margin-top: 1vh;
+  margin-left: 2vw;
   padding: 15px;
-  width: 500px;
+  width: 25vw;
 
   background-color: transparent;
   
   color: #F5F5F5;
-  font-size: 1rem;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
 
+}
+
+.LTL_Info_Title{
+  font-size: 2vh;
+}
+
+.LTL_Info_Text{
+  font-size: 1.4vh;
 }
 
 /* Combo Box CSS Area  */
@@ -90,8 +99,10 @@
   gap: 15px;
   padding: 20px;
   margin: 30px;
-  margin-left: 200px;
-  min-width: 600px;
+  margin-left: auto;
+
+  min-width: 20vw;
+  width: fit-content;
   height: fit-content;
 
   display: flex;
@@ -100,7 +111,6 @@
   background-color: transparent;
   
   color: #F5F5F5;
-  font-size: 1rem;
   font-family: "Electrolize", serif;
 }
 
@@ -124,6 +134,7 @@
 
 .LTL_Select_Title_Span {
   margin-left: 3%;
+  font-size: 1.4vh ;
   white-space: nowrap;
   min-width: fit-content;
 }
@@ -133,9 +144,9 @@
 }
 
 .LTL_Select_Box {
-  padding: 8px;
-  min-width: 120px;
-  height: 40px;
+  min-width: 12vw;
+  width: 20vw;
+  height: 4vh;
 
   border-width: 2px;
   border-radius: 8px;
@@ -143,7 +154,7 @@
   background-color: transparent;
   
   color: #F5F5F5;
-  font-size: 0.9rem;
+  font-size: 1vh;
   font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
@@ -154,6 +165,7 @@
 
 .LTL_Select_Box:hover {
   color: #F5F5F5;
+  font-size: 1vh;
   background-color: #000000;
   border-color: rgba(245, 245, 245, 0.2);
 }
@@ -177,8 +189,11 @@
 
 .LTL_Filter_Button {
 
-  top: 25%;
-  left: 40%;
+  width: 10vw;
+  min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
+
   position: static;
   margin-left: 15px;
   padding: 10px 20px;
@@ -189,7 +204,7 @@
   background-color:rgba(245, 245, 245, 2);  ;
   
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.2vh;
   font-family: "Electrolize", serif;
   transition: all 0.2s ease;
 }
@@ -202,19 +217,19 @@
 
 .LTL_Slider_Group {
   
-  gap: 5px;
+  gap: 2vh;
   margin-left: 15px;
 
   display: flex;
   flex-direction: column;
   
-  font-size: 0.9rem;
+  font-size: 1.3vh;
   font-family: "Electrolize", serif;
 }
 
 .LTL_Range_Slider {
   height: 5px;
-  width: 150px;
+  width: 15vw;
   
   outline: none;
   -webkit-appearance: none;
@@ -250,8 +265,10 @@
 }
 
 .LTL_Info_Icon {
-  width: 24px;
-  height: 24px;
+  width: 1.8vh;
+  min-width: fit-content;
+  height: 1.8vh;
+  min-height: fit-content;
   padding: 2px;
   cursor: help;
   
@@ -285,7 +302,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   color: #333;
-  font-size: 0.85rem;
+  font-size: 1vh;
   line-height: 1.4;
   text-align: center;
   white-space: normal;
@@ -343,7 +360,7 @@
 
 .LTL_Tooltip_Div{
 
-  font-size: 0.8rem;
+  font-size: 1vh;
   font-weight: 400;
   text-align: justify;
   font-variant: normal;
@@ -352,7 +369,7 @@
 }
 
 .LTL_Tooltip_Tittle{
-  font-size: 0.9rem;
+  font-size: 1.3vh;
 
 }
 
@@ -392,7 +409,7 @@
 
 .LTL_Legend_Item {
   overflow: hidden;
-  font-size: 0.75rem;
+  font-size: 0.9vh;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 10px 6px 10px 6px;
@@ -409,7 +426,7 @@
 .LTL_Legend_Driver_Name {
   min-width: fit-content;
   color: #F5F5F5;
-  font-size: 0.8rem;
+  font-size: 1.2vh;
 }
 
 
@@ -425,27 +442,26 @@
 
 @media screen and (max-width: 1200px) {
 
+  .LTL_Window_Div{
+    overflow-y: scroll;
+  }
+
   .LTL_Main_Div {
     height: auto;
     min-height: 100vh;
   }
 
-  .LTL_Info_Div {
-
-    margin-top: 10vh;
-    margin-bottom: 20px;
-
-    font-size: 0.7rem;
+  .LTL_Control_Area_Div{
+    flex-direction: column;
   }
 
-  .LTL_Control_Div {
-    max-width: 60%;
-    content: fit-content;
-    
-    left: 4%;
-    position: relative;
+  .LTL_Info_Div{
+    width: fit-content;
+  }
 
-    font-size: 0.7rem;
+  .LTL_Control_Div{
+    margin-left: 3vw;
+    justify-content: center;
   }
 
   .LTL_ComboBox_Bottom {
@@ -464,92 +480,19 @@
     left: 2%;
     width: 95%;
 
-    margin-top: 4vh;
+    margin-top: 1vh;
     position: relative;
     margin-bottom: 30px;
-    font-size: 0.7rem;
-  
   }
-
-  .LTL_Select_Box,
-  .LTL_Slider_Group,
-  .LTL_Filter_Button{
-    font-size: 0.7rem;
-  }
-
 
   .Legend_Item{
     padding: 0px;
     margin-top: 8px;
-    font-size: 0.6rem;
   }
 
   .Graph_Legend{
     padding: 0px;
   }
 
-  .LTL_Graph_Container{
-    height: 50%;
-  }
-
 }
 
-@media screen and (max-width: 768px) {
-  .LTL_ComboBox_Upper {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .LTL_Select_Title_Span {
-    margin-left: 0;
-    text-align: center;
-  }
-
-  .LTL_Race {
-    margin-left: 0;
-  }
-
-  .LTL_Select_Box {
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  .LTL_Graph_Container {
-    width: 95%;
-  }
-
-  .Graph_Legend {
-    flex-direction: row;
-    width: 100%;
-    max-height: none;
-    padding: 10px;
-  }
-
-  .Legend_Item {
-    font-size: 0.6rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .LTL_Info_Div {
-    padding: 15px;
-    font-size: 0.9rem;
-  }
-
-
-
-  .LTL_Slider_Group {
-    margin-left: 0;
-    width: 100%;
-    align-items: center;
-  }
-
-  .LTL_Range_Slider {
-    width: 200px;
-  }
-
-  .Graph_Legend {
-    overflow-x: auto;
-  }
-}

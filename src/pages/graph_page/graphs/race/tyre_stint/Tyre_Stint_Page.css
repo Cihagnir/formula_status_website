@@ -56,12 +56,19 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+.TS_Info_Title{
+  font-size: 2vh;
+}
+
+.TS_Info_Text{
+  font-size: 1.4vh;
+}
+
 .TS_Combined_Div {
 
-  width: 90%;
   margin: 30px;
   padding: 20px;
-  max-width: min(580px, 90vw);
+  max-width: 40vw;
 
   background-color: transparent;
 
@@ -70,6 +77,7 @@
 }
 
 .TS_ComboBox_Section {
+  gap: 0.5vw;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -95,6 +103,7 @@
 }
 
 .TS_Select_Title_Span {
+  font-size: 1.4vh;
   margin-left: 0;
   white-space: nowrap;
   min-width: fit-content;
@@ -106,9 +115,11 @@
 
 .TS_Select_Box {
   padding: 8px;
-  min-width: 120px;
-  height: 40px;
-
+  width: 12vw;
+  min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
+  
   color: #F5F5F5;
 
   border-width: 2px;
@@ -118,7 +129,7 @@
   
   background-color: transparent;
 
-  font-size: 0.9rem;
+  font-size: 1.4vh;
   text-align: center;
   text-align-last: center;
   font-family: "Electrolize", serif;
@@ -143,7 +154,6 @@
 
   width: 50%;
   max-width: 90vw;
-  margin-left: 30px;
 
   padding-top: 25px;
   padding-right: 30px;
@@ -213,13 +223,6 @@
     position: relative;
   }
 
-  .TS_Info_Title,
-  .TS_Info_Text,
-  .TS_Select_Box,
-  .TS_Select_Title_Span{
-    font-size: 0.7rem;
-  }
-
 
   .TS_Graph_Legend_Div{
     font-size: 0.6rem;
@@ -234,34 +237,5 @@
     width: 95%;
     max-height: fit-content;
     padding: 10px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .TS_Main_Div {
-    padding: 5px;
-  }
-
-  .TS_Combined_Div {
-    width: 98%;
-    max-width: 98%;
-    margin: 5px auto;
-    padding: 10px;
-  }
-
-  .TS_Graph_Div {
-    width: 98%;
-    max-width: 98%;
-    margin: 5px auto;
-    padding: 10px;
-  }
-
-  .TS_ComboBox_Section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .TS_Select_Group {
-    justify-content: space-between;
   }
 }

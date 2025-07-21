@@ -75,15 +75,15 @@ export function Tyre_Stint_Graph( {
 // ==== General Defines ==== 
 
   // Update window size calculation
-  let window_width = Math.min(document.documentElement.clientWidth, 1200); // Cap max width
-  let window_height = Math.min(document.documentElement.clientHeight, 800); // Cap max height
+  let window_width = document.documentElement.clientWidth; 
+  let window_height = document.documentElement.clientHeight;
 
   // Adjust graph dimensions based on screen size
-  let graph_width = window_width < 1024 ? window_width * 0.9 : window_width * 0.70;
-  let graph_height = window_height < 1024 ? window_height * 0.80 : window_height * 0.80;
+  let graph_width = window_width < 1024 ? window_width * 0.80 : window_width * 0.50 ;
+  let graph_height = window_height < 1024 ? window_height * 0.70 : window_height * 0.850;
   
   // Adjust spacing for smaller screens
-  let element_space_width = window_width < 1024 ? window_width * 0.1 : window_width * 0.08;
+  let element_space_width = window_width < 1024 ? window_width * 0.1 : window_width * 0.05;
   let element_space_height = window_height < 1024 ? window_height * 0.15 : window_height * 0.1;
 
   let x_axis_max = graph_width - element_space_width ; 
@@ -270,7 +270,7 @@ export function Tyre_Stint_Graph( {
             padding: '0.5rem',
 
             color: '#F5F5F5',
-            fontSize: '14px',
+            fontSize: '1.4vh',
             fontFamily: 'Electrolize',
             backdropFilter: 'blur(80px)',
             background: 'rgb(0 0 0/24%)',

@@ -18,7 +18,7 @@ function App() {
           <img src={git_hub_img} alt="GitHub" className="Nav_Bar_Item_Img" />
         </a>
 
-        <a className='Nav_Bar_Img_Item' href='https://github.com/Cihagnir/Formulatics'>
+        <a className='Nav_Bar_Img_Item' href='https://x.com/formulatics'>
           <img src={x_img} alt="GitHub" className="Nav_Bar_Item_Img" />
         </a>
 

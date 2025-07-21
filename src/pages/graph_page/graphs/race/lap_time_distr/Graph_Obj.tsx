@@ -273,7 +273,7 @@ export function  Lap_Time_Graph( {
             padding: '0.5rem',
 
             color: '#F5F5F5',
-            fontSize: '14px',
+            fontSize: '1.4vh',
             fontFamily: 'Electrolize',
             backdropFilter: 'blur(40px)',
             background: 'transparent',  // 'rgb(0 0 0/56%)',

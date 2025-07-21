@@ -74,12 +74,21 @@
 }
 
 .PL_Info_Div{
-  font-size: 1rem;
+
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
 }
+
+.PL_Info_Title{
+  font-size: max(2vh, 18px);
+}
+
+.PL_Info_Text{
+  font-size: max(1.4vh, 12px)  ;
+}
+
 
 /* Combo Box CSS Area  */
 
@@ -92,7 +101,7 @@
   display: flex;
   flex-direction: column;
 
-  font-size: 1rem;
+  font-size: 1.3vh;
   font-family: "Electrolize", serif;
 }
 
@@ -110,6 +119,7 @@
 }
 
 .PL_Select_Title_Span {
+  font-size: 1.4vh;
   margin-left: 3%;
   white-space: nowrap;
   min-width: fit-content;
@@ -121,9 +131,11 @@
 
 .PL_Select_Box {
   padding: 8px;
-  min-width: 120px;
-  height: 40px;
-
+  width: 12vw;
+  min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
+  
   border-width: 2px;
   border-radius: 8px;
   border-style: solid;
@@ -131,7 +143,7 @@
   background-color: transparent;
 
   color: #F5F5F5;
-  font-size: 0.9rem;
+  font-size: 1.2vh;
   font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
@@ -188,7 +200,7 @@
 .PL_Legend_Rect_Text{
 
   fill: #F5F5F5;
-  font-size : 0.75rem ;
+  font-size : 0.8vh ;
   font-family : "Electrolize";
 }
 
@@ -224,11 +236,6 @@
     position: relative;
   }
 
-  .PL_Info_Div,
-  .PL_Control_Div,
-  .PL_Select_Box{
-    font-size: 0.7rem;
-  }
 
   .PL_Graph_Div {
     padding: 0%;
@@ -236,11 +243,6 @@
     justify-content: left;
     max-height: fit-content;
   }
-
-  .PL_Legend_Rect_Text{
-    font-size: 0.6rem;
-  }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -282,7 +284,6 @@
     left: 10%;
     position: relative;
 
-    font-size: 0.7rem;
   }
 
 }

@@ -46,17 +46,16 @@
   -webkit-mask-composite: xor; 
   -webgit-mask-composite: exclude;
   
+  font-size: 15vh;
   text-align: right;
   font-weight: 1000;
   font-variant: normal;
   font-family: "Audiowide", serif;
-  font-size: clamp(4rem, 8vw, 10rem);
 }
 
 .HP_Righ_Div{
   width: 70%;
   height: 100%;
-
 
   display: flex;
   flex-direction: column;
@@ -68,7 +67,7 @@
 
 
   color: #fff;
-  font-size: clamp(4rem, 8vw, 10rem);
+  font-size: 15vh;
   font-weight: 1000;
   font-variant: normal;
   font-family: "Audiowide", serif;

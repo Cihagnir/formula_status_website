@@ -7,7 +7,7 @@
 
 
 // Base Url for backend 
-export var BASE_URL = "https://backend.formulatics.com" ;  // "http://192.168.1.148" ; //"http://127.0.0.1:8080" ; 
+export var BASE_URL = "https://backend.formulatics.com" ; // "http://127.0.0.2:8080" ;   // "http://192.168.1.148" ;  
 
 
 // ===== Data Interfaces   =====
@@ -160,13 +160,13 @@ export const axis_cosmatics = ( window_width : number ) : {[key:string ] : any} 
       line_color: '#F5F5F5',
       label_props: {
         fill: '#F5F5F5',
-        fontSize: window_width < 1024 ? 12 : 18,
+        fontSize: window_width * 0.008,
         fontFamily: 'Electrolize',
       },
       tick_props : {
         fill :'#F5F5F5',
         color : '#F5F5F5',
-        fontSize : window_width < 1024 ? 9 : 13,
+        fontSize :  window_width * 0.008,
       },
     },
 

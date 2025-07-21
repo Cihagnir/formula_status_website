@@ -110,7 +110,7 @@ function Tyre_Stint_Page(){
         
             <div className='TS_Select_Group'>
         
-              <p className='TS_Select_Title_Span'>Season:</p>
+              <p className='TS_Select_Title_Span'>Season : </p>
               <select className='TS_Select_Box' id='Season_Select_Box'
                 onChange={() => { set_selected_year_state((document.getElementById("Season_Select_Box") as HTMLInputElement).value) }}>
                 <option value={''} > {'Select the Seassion'} </option> ;
@@ -127,7 +127,7 @@ function Tyre_Stint_Page(){
 
             <div className='TS_Select_Group'>
 
-              <p className='TS_Select_Title_Span'>Races:</p>
+              <p className='TS_Select_Title_Span'>Races : </p>
               <select className='TS_Select_Box TS_Race_Box' id='Race_Select_Box'
                 onChange={() => { set_selected_race_state((document.getElementById("Race_Select_Box") as HTMLInputElement).value) }}>
                 <option value={''} > {'Select the Seassion'} </option> ;

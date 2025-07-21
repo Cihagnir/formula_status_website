@@ -63,9 +63,9 @@
   padding: 20px;
   margin : 15px;
   
-  top: 10%;
-  left: 4%;
-  width: 50%;
+  width: 45vw;
+  max-width: fit-content;
+  height: fit-content;
   
   display: flex;
   flex-direction: column;
@@ -76,11 +76,18 @@
 
 .IL_Info_Div{
 
-  font-size: 1rem;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
+}
+
+.IL_Info_Title{
+  font-size: max(2vh, 18px);
+}
+
+.IL_Info_Text{
+  font-size: max(1.4vh, 12px)  ;
 }
 
 /* Combo Box CSS Area  */
@@ -96,7 +103,7 @@
 
   color: #F5F5F5;
 
-  font-size: 1rem;
+  font-size: 1.4vh;
   font-family: "Electrolize", serif;
 }
 
@@ -125,10 +132,13 @@
 }
 
 .IL_Select_Box{
-  padding: 8px;
-  min-width: 120px;
-  height: 40px;
 
+  padding: 8px;
+  width: 12vw;
+  min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
+  
   border-width: 2px;
   border-radius: 8px;
   border-style: solid;
@@ -136,7 +146,7 @@
   border-color: rgba(245, 245, 245, 0.8);
   
   color: #F5F5F5;
-  font-size: 0.9rem;
+  font-size: 1.4vh;
   font-family: "Electrolize", serif;
   text-align: center;
   text-align-last: center;
@@ -200,7 +210,7 @@
   align-items: center;
 
   color: white;
-  font-size: 0.9rem;
+  font-size: 1.2vh;
   justify-content: center;
   font-family: "Electrolize", serif;
   transition: color 0.3s ease;
@@ -235,7 +245,7 @@
 
 .IL_Tooltip_Div{
 
-  font-size: 0.8rem;
+  font-size: 1.2vh;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
@@ -244,7 +254,7 @@
 }
 
 .IL_Tooltip_Tittle{
-  font-size: 0.9rem;
+  font-size: 1.4vh;
 
 }
 .IL_Tooltip_SubDiv{
@@ -299,7 +309,7 @@
 
 .IL_Graph_Legend_Control_Text{
   color: #F5F5F5;
-  font-size: 0.8rem;
+  font-size: 1.1vh;
   letter-spacing: 1px;
   font-family: "Electrolize", serif;
 }
@@ -341,13 +351,13 @@
   
   color: #F5F5F5;
   overflow: hidden;
-  max-width: fit-content;
+  min-width: fit-content;
   visibility : visible;
 
-  font-size: 0.75rem;
+  font-size: 1.4vh;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 10px 6px 10px 6px;
+  padding: 1vh 0.8vw 1vh 0.8vw;
   
   transition-delay: 0.2s;
   transition-duration: 0.3s;
@@ -371,7 +381,7 @@
 }
 
 .IL_Legend_Driver_Name{
-  font-size: 0.8rem;
+  font-size: 1.2vh;
   max-width: fit-content;
 }
 
@@ -405,7 +415,6 @@
 
   .IL_Info_Div{
     max-width: 100%;
-    font-size: 0.7rem;
   }
 
   .IL_Control_Div{
@@ -413,7 +422,6 @@
     max-width: 100%;
 
     color: #F5F5F5;
-    font-size: 0.7rem;
   }
 
   .IL_Control_Bottom_Div{
@@ -422,10 +430,6 @@
     align-items: stretch;
   }
 
-  .IL_Toggle_Label{
-    font-size: 0.7rem;
-  
-    }
 
   .IL_Graph_Div{
     left: 0%;
@@ -436,12 +440,6 @@
     position: relative;
     margin-bottom: 30px;
     margin-left: 0;
-    font-size: 0.7rem;
-  
-  }
-
-  .IL_Select_Box{
-    font-size: 0.7rem;
   }
 
   .IL_Graph_Container_Div{
@@ -460,7 +458,6 @@
 
   .IL_Legend_Item{
     padding: 8px 4px 8px 4px;
-    font-size: 0.6rem;
   }
 }
 
@@ -503,18 +500,10 @@
     padding: 10px;
   }
 
-  .IL_Legend_Item{
-    font-size: 0.6rem;
-  }
-
   .IL_Combined_Div{
     left: 5%;
     width: 80%;
   }
 
-  .IL_Toggle_Label{
-  font-size: 0.7rem;
-
-  }
 
 }

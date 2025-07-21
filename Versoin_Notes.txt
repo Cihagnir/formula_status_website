@@ -1,8 +1,11 @@
 
 
-> Version 0.0.4.1
+> Version 0.0.4.2
 
-  . Backend connection changed 
+  . Dynamic scaling add the UI elemnt ( Hope so ) 
 
-  . Lap Time Comperation 
-    _ Graph added in that version 
+  
+  _ Home Page 
+    . X link added to page 
+  
+  

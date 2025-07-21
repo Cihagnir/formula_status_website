@@ -92,11 +92,18 @@
 
 .LTD_Info_Div {
 
-  font-size: 1rem;
   font-weight: 300;
   text-align: justify;
   font-variant: normal;
   font-family: "Electrolize", serif;
+}
+
+.LTD_Info_Title{
+  font-size: max(2vh, 18px);
+}
+
+.LTD_Info_Text{
+  font-size: max(1.4vh, 12px)  ;
 }
 
 .LTD_Divider {
@@ -113,6 +120,7 @@
 
 .LTD_ComboBox_Div {
 
+  gap: 0.4vw;
   margin: 0;
   padding: 10px 0;
   
@@ -131,6 +139,7 @@
 
 .LTD_Select_Title_Span {
 
+  font-size: 1.4vh;
   margin-left: 3%;;
   min-width: fit-content;
 
@@ -143,9 +152,10 @@
 .LTD_Select_Box {
 
   padding: 8px;
-  height: 40px;
-  margin-left: 15px;
+  width: 12vw;
   min-width: fit-content;
+  height: 3vh;
+  min-height: fit-content;
 
   background-color:transparent;
   
@@ -155,7 +165,7 @@
   border-color: #F5F5F5;
   
   color: #F5F5F5;
-  font-size: 0.9rem;
+  font-size: 1.4vh;
   text-align: center;
   text-align-last: center;
   font-family: "Electrolize", serif;
@@ -221,12 +231,6 @@
     position: relative;
   }
 
-  .LTD_Info_Div,
-  .LTD_Control_Div,
-  .LTD_Select_Box{
-    font-size: 0.7rem;
-  }
-
   .LTD_Graph_Div {
     padding: 0%;
     margin-top: 0;
@@ -276,7 +280,6 @@
     left: 10%;
     position: relative;
 
-    font-size: 0.7rem;
   }
 
 }

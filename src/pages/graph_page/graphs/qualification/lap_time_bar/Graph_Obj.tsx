@@ -124,6 +124,7 @@ function Quali_Lap_Time_Graph(
             <AxisBottom
               label="Drivers"
               labelProps={graph_cosmatic.axis.label_props}
+              labelOffset={window_height * 0.02}
               
               top={y_axis_max}
               left={graph_cosmatic.margin.left}
@@ -138,7 +139,7 @@ function Quali_Lap_Time_Graph(
 
             <AxisLeft
               label={ (graph_type) ? ("Pole Gap ( as Sec )") : ("Lap Times ( as Sec )")}
-              labelOffset={32}
+              labelOffset={window_width * 0.025}
               labelProps={graph_cosmatic.axis.label_props}
               
               scale={y_axis_scale}

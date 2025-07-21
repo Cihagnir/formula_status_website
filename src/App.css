@@ -22,7 +22,7 @@
 
   color: #212529;
 
-  font-size: 1.2rem;
+  font-size: 2vh;
   font-style: normal;
   font-weight: 500;
   font-family: "Funnel Display", serif;
@@ -38,7 +38,7 @@
 }
 
 .Nav_Bar_Img_Item{
-  width: 3%;
+  width: 5%;
   padding-left: 2%;
   opacity: 0.6;
 
@@ -52,7 +52,6 @@
 @media screen and (max-width: 1024px) {
 
   .Nav_Bar_Item {
-    font-size: 1rem;
     padding-left: 1.5vw;
     padding-right: 1.5vw;
   }
@@ -64,7 +63,6 @@
 
 @media screen and (max-width: 780px) {
   .Nav_Bar_Item {
-    font-size: 0.8rem;
     padding-left: 1vw;
     padding-right: 1vw;
   }

@@ -57,7 +57,7 @@
 .AP_Info_Tittle{
   margin-bottom: 1%;
 
-  font-size: 2rem;
+  font-size: 4vh;
   font-variant: normal;
   font-family: "Audiowide", serif;
 }
@@ -65,7 +65,7 @@
 .AP_Info_Text{
     
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 2vh;
   font-variant: normal;
   font-weight: 500;
   font-family: "Audiowide", serif;
