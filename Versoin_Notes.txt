@@ -1,11 +1,6 @@
 
 
-> Version 0.0.4.2
+> Version 0.0.4.3
 
-  . Dynamic scaling add the UI elemnt ( Hope so ) 
-
-  
-  _ Home Page 
-    . X link added to page 
-  
-  
+  . Fast swap glitch fixed.
+  . Requirement frontend change made to keep compatibility with the new backend.
