@@ -2,7 +2,8 @@
 # Ignoring folder list for the git - I hope to don't forget add any key in there -
 
 venv
-__pycache__
-formulaWebpageKeyPair.pem
-formulatics.pem
 log.txt
+__pycache__
+pyproject.toml
+formulatics.pem
+formulaWebpageKeyPair.pem

@@ -1,10 +1,8 @@
 
 
 
-> Version 0.0.5.2
-  
-  _ Bug Fix
+> Version 0.0.5.3
 
-
-
-
+  _ Backend updated due to data base improvment
+    . Database structure changed and a primary key system was implemented. [Will be explained in more detail in the next update notes]
+    . The database update system was also modified according to the new database structure.
