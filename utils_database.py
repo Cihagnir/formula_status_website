@@ -1,17 +1,17 @@
 # Library Impoert
 import time
 from datetime import datetime
-from numpy import pi as np_pi
-from numpy import nan as np_nan
-from fastf1.events import EventSchedule
-from pandas import DataFrame, concat, Series
+from typing import Any
 
 # FastF1 Imports
 import fastf1
 import fastf1.plotting
-from typing import Any
-from fastf1.core import CircuitInfo, DataNotLoadedError, SessionResults
 from fastf1._api import SessionNotAvailableError
+from fastf1.core import CircuitInfo, DataNotLoadedError, SessionResults
+from fastf1.events import EventSchedule
+from numpy import nan as np_nan
+from numpy import pi as np_pi
+from pandas import DataFrame, Series, concat
 
 fastf1.logger.LoggingManager.debug = True
 fastf1.set_log_level("Warning")
@@ -19,19 +19,18 @@ fastf1.set_log_level("Warning")
 
 # Type Imports
 from mysql.connector import ProgrammingError
-from mysql.connector.pooling import PooledMySQLConnection
 from mysql.connector.abstracts import MySQLConnectionAbstract
+from mysql.connector.pooling import PooledMySQLConnection
 
+from defines import ANSI_Code, ApiFailError
 
 # Project Imoprts
 from utils import Utils
-from defines import ANSI_Code, ApiFailError
-
 
 # ==== Global Defines ====
 
 # Const Variables
-LOCAL_DEBUG = True
+LOCAL_DEBUG = False
 MAX_TRY_LIMIT = 5
 
 # Filter & Mapping Defines
@@ -140,9 +139,21 @@ class Database_Utils:
 
         current_year = datetime.now().year
 
-        sql_string = (
-            f""" SELECT * FROM session_data_table WHERE ( year = {current_year} ) """
-        )
+        sql_string = f""" SELECT * FROM session_data_table WHERE year = {current_year} ORDER BY round_number,
+              CASE CONCAT(session_type, '-', session_name)
+                WHEN 'Practice-Practice 1' THEN 1
+                WHEN 'Practice-Practice 2' THEN 2
+                WHEN 'Practice-Practice 3' THEN 3
+                WHEN 'Sprint Qualifying-Q1' THEN 4
+                WHEN 'Sprint Qualifying-Q2' THEN 5
+                WHEN 'Sprint Qualifying-Q3' THEN 6
+                WHEN 'Race-Sprint' THEN 7
+                WHEN 'Qualifying-Q1' THEN 8
+                WHEN 'Qualifying-Q2' THEN 9
+                WHEN 'Qualifying-Q3' THEN 10
+                WHEN 'Race-Race' THEN 11
+                ELSE 99
+              END; """
 
         if LOCAL_DEBUG:
             print(f"DATABASE UPDATA : SQL string >   {sql_string}")
@@ -374,6 +385,8 @@ class Database_Utils:
             {  "is_session_done" : 1, 'session_type' : session_type, "dfs" : {"lap_time_table" : lap_time_df, "tyre_stint_table" : tyre_stint_df, "position_interval_table" : position_interval_df } | None }
         """
 
+        print(f"FAST F1 DATA SCRAPING IS STARTED ")
+
         lap_time_df = None
         tyre_stint_df = None
         position_cord_df = None
@@ -387,9 +400,21 @@ class Database_Utils:
         # else :
         #   session_data = fastf1.get_session(current_year, session_info.race_name, session_info.session_name)
 
-        session_data = fastf1.get_session(
-            current_year, session_info.race_name, session_info.session_name
-        )
+        if session_info.session_name in ["Q1", "Q2", "Q3"]:
+            try:
+                session_data = fastf1.get_session(
+                    session_info.year, session_info.race_name, session_info.session_type
+                )
+
+            except ValueError as error:
+                session_data = fastf1.get_session(
+                    session_info.year, session_info.race_name, "Sprint Shootout"
+                )
+
+        else:
+            session_data = fastf1.get_session(
+                session_info.year, session_info.race_name, session_info.session_name
+            )
 
         try:
             session_data.load()
@@ -437,22 +462,11 @@ class Database_Utils:
                 quali_lap_time_table_cols_filter
             ]
 
-            # df_list = list()
-
             base_cols = quali_lap_time_table_cols_filter[:2]
-            # session_cols = quali_lap_time_table_cols_filter[2:]
-
-            # for session_col in session_cols:
-            #     session_df = session_result_df[base_cols + [session_col]]
-
-            #     session_df.rename(columns={session_col: "lap_duration"}, inplace=True)
-            #     df_list.append(session_df)
-
-            # session_result_df = concat(df_list, axis=0).dropna()
 
             session_result_df = session_result_df[
                 base_cols + [session_info.session_name]
-            ]
+            ].dropna()
 
             session_result_df.rename(
                 columns={session_info.session_name: "lap_duration"}, inplace=True
@@ -514,6 +528,8 @@ class Database_Utils:
         ######## Qualifying Section Ends
 
         else:
+            if LOCAL_DEBUG:
+                print(f"SESSION is not Qualifying")
             try:
                 session_laps_df = session_data.laps
 
@@ -673,6 +689,8 @@ class Database_Utils:
 
         if database_data["is_session_done"]:
             for table_name, df in database_data["dfs"].items():
+                if LOCAL_DEBUG:
+                    print(f"DATABASE UPDATE :: Updated table is {table_name}")
                 if df is not None:
                     for index, data_point in df.iterrows():
                         sql_string = Sql_String_Converter(data_point, table_name)
@@ -694,7 +712,8 @@ class Database_Utils:
 
                             Utils.log_writer(log_msg)
 
-        sql_string = f""" UPDATE session_data_table set is_session_done = 1 where ( year = {current_year} and race_name = '{session_info.race_name}' and session_name = '{session_info.session_name}' ) ; """
+        # sql_string = f""" UPDATE session_data_table set is_session_done = 1 where ( year = {current_year} and race_name = '{session_info.race_name}' and session_type = '{session_info.session_type}' and session_name = '{session_info.session_name}' ) ; """
+        sql_string = f""" UPDATE session_data_table set is_session_done = 1 where ( session_id = {session_info.session_id} and race_name = '{session_info.race_name}' and session_type = '{session_info.session_type}' and session_name = '{session_info.session_name}' ) ; """
 
         print(f"SQL string for the update  :::: {sql_string}")
 

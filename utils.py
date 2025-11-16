@@ -28,21 +28,18 @@
 
 # Library Imports
 
-import orjson
 import configparser
-from pandas import Timedelta, DataFrame
-from numpy import column_stack, stack, array, cos, sin, matmul
-from numpy.linalg import norm
 
+import orjson
 from fastapi.responses import JSONResponse
-
+from numpy import array, column_stack, cos, matmul, sin, stack
+from numpy.linalg import norm
+from pandas import DataFrame, Timedelta
 
 # Project Imports
-
 from defines import Types
 
-
-LOCAL_DEBUG = True
+LOCAL_DEBUG = False
 CONFIG_FILE_PATH = "/home/cihangir/desktop/Software_Project/Formula_One_Info_Website/backend/config.ini"
 
 

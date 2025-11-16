@@ -2,21 +2,21 @@
 
 # Library Import
 
-import uvicorn
-import numpy as np
 from json import loads
+
+import numpy as np
+import uvicorn
+from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
-from mysql import connector
-from pandas import DataFrame, concat, Series
 from fastapi.middleware.cors import CORSMiddleware
+from mysql import connector
+from pandas import DataFrame, Series, concat
 
 # Project Import
 from utils import Utils
 from utils_database import Database_Utils
 
-from apscheduler.schedulers.background import BackgroundScheduler
-
-LOCAL_DEBUG = True
+LOCAL_DEBUG = False
 
 
 ### Confs Section
@@ -721,7 +721,7 @@ async def quali_lap_compr(
 if __name__ == "__main__":
     #  ******** Scheduler Settıngs  ********
     database_scheduler = BackgroundScheduler()
-    database_job = database_scheduler.add_job(database_updater, "interval", minutes=5)
+    database_job = database_scheduler.add_job(database_updater, "interval", seconds=30)
     database_scheduler.start()
 
     uvicorn.run(

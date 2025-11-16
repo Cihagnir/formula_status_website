@@ -1,8 +1,8 @@
 
 
 
-> Version 0.0.5.3
+> Version 0.0.5.4
 
   _ Backend updated due to data base improvment
-    . Database structure changed and a primary key system was implemented. [Will be explained in more detail in the next update notes]
-    . The database update system was also modified according to the new database structure.
+    . Sprint Qualifying Bugs are fixed.
+    . Database querry modified for more accurate results
